@@ -15,6 +15,16 @@ export async function getStrategies() {
   });
 }
 
+export async function getTotalStrategyCount() {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) return 0;
+
+  // Counts ALL strategies ever created including deleted ones
+  return prisma.strategy.count({
+    where: { userId: session.user.id },
+  });
+}
+
 export async function getStrategy(id: string) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return null;

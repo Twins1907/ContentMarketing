@@ -41,8 +41,9 @@ export async function POST(req: NextRequest) {
       select: { plan: true },
     });
     const plan = user?.plan || "free";
+    // Count ALL strategies ever created (including deleted) — deleting doesn't reset the limit
     const existingCount = await prisma.strategy.count({
-      where: { userId: session.user.id, deletedAt: null },
+      where: { userId: session.user.id },
     });
     if (!canCreateStrategy(plan, existingCount)) {
       return NextResponse.json(

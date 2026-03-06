@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { getStrategies, updateProjectColor } from "@/actions/strategy";
+import { getStrategies, updateProjectColor, getTotalStrategyCount } from "@/actions/strategy";
 import { canCreateStrategy } from "@/lib/access";
 import {
   Loader2,
@@ -193,6 +193,7 @@ export default function DashboardPage() {
   const { data: session } = useSession();
   const router = useRouter();
   const [strategies, setStrategies] = useState<StrategyWithBusiness[]>([]);
+  const [totalStrategyCount, setTotalStrategyCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const plan = (session?.user as { plan?: string })?.plan || "free";
 
@@ -203,8 +204,9 @@ export default function DashboardPage() {
     }
 
     async function load() {
-      const data = await getStrategies();
+      const [data, count] = await Promise.all([getStrategies(), getTotalStrategyCount()]);
       setStrategies(data as StrategyWithBusiness[]);
+      setTotalStrategyCount(count);
       setLoading(false);
     }
     load();
@@ -285,7 +287,7 @@ export default function DashboardPage() {
             ))}
 
             {/* New Project Card */}
-            {canCreateStrategy(plan, activeStrategies.length) ? (
+            {canCreateStrategy(plan, totalStrategyCount) ? (
               <StaggeredItem>
                 <Link href="/onboarding" className="block group">
                   <Card className="h-full border-dashed hover:border-solid hover:shadow-[4px_4px_0px_#000000] transition-all flex items-center justify-center min-h-[240px]">
