@@ -33,6 +33,7 @@ export default function AccountPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [loadingPortal, setLoadingPortal] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -71,6 +72,23 @@ export default function AccountPage() {
     });
     setIsEditingProfile(false);
     window.location.reload();
+  }
+
+  async function handleManageSubscription() {
+    setLoadingPortal(true);
+    try {
+      const res = await fetch("/api/stripe/portal", { method: "POST" });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Unable to open subscription management. Please try again.");
+        setLoadingPortal(false);
+      }
+    } catch {
+      alert("Something went wrong.");
+      setLoadingPortal(false);
+    }
   }
 
   async function handleDeleteAccount() {
@@ -182,7 +200,7 @@ export default function AccountPage() {
               </div>
             </div>
           </div>
-          {plan === "free" && (
+          {plan === "free" ? (
             <Link
               href="/pricing"
               className="bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000] rounded-lg px-6 py-3 font-bold flex items-center gap-1 hover:shadow-[2px_2px_0px_#000] transition-all ml-4"
@@ -190,6 +208,19 @@ export default function AccountPage() {
               Upgrade
               <ArrowRight className="w-4 h-4" />
             </Link>
+          ) : (
+            <button
+              onClick={handleManageSubscription}
+              disabled={loadingPortal}
+              className="bg-white text-black border-2 border-black shadow-[4px_4px_0px_#000] rounded-lg px-6 py-3 font-bold flex items-center gap-1 hover:shadow-[2px_2px_0px_#000] transition-all ml-4 disabled:opacity-50"
+            >
+              {loadingPortal ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <CreditCard className="w-4 h-4" />
+              )}
+              {loadingPortal ? "Loading..." : "Manage Subscription"}
+            </button>
           )}
         </div>
       </div>
