@@ -113,6 +113,7 @@ export default function MarketingLayout({
                 <Link href="/blog" className="hover:text-black transition-colors">Blog</Link>
                 <Link href="/privacy" className="hover:text-black transition-colors">Privacy</Link>
                 <Link href="/terms" className="hover:text-black transition-colors">Terms</Link>
+                <a href="mailto:hello@e2partners.co" className="hover:text-black transition-colors">Contact</a>
               </div>
             </div>
             <p className="text-sm text-[#999]">
