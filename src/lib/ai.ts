@@ -20,8 +20,8 @@ export interface BusinessInput {
   plannedStartDate?: string;
 }
 
-const MODEL_FAST = "claude-3-5-haiku-20241022";  // Fast analysis steps
-const MODEL_QUALITY = "claude-sonnet-4-20250514"; // Quality content generation
+const MODEL_FAST = "claude-3-haiku-20240307";      // Fast analysis steps
+const MODEL_QUALITY = "claude-3-5-sonnet-20241022"; // Quality content generation
 
 async function callClaude(label: string, systemPrompt: string, userPrompt: string, maxTokens = 4096, model = MODEL_QUALITY): Promise<string> {
   const start = Date.now();
