@@ -1,3 +1,14 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions",
+  description:
+    "Read the terms and conditions for using Orbyt, the AI-powered content strategy platform by E2 Partners LLC.",
+  alternates: {
+    canonical: "https://getorbyt.io/terms",
+  },
+};
+
 export default function TermsPage() {
   return (
     <div className="bg-[#FFF8F0] py-16">

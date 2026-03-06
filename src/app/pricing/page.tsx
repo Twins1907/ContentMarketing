@@ -137,9 +137,29 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   );
 }
 
+function PricingJsonLd() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+    />
+  );
+}
+
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-[#FFF8F0]">
+      <PricingJsonLd />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#FFF8F0] border-b-2 border-black">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -154,7 +174,7 @@ export default function PricingPage() {
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto px-4 py-16">
+      <main className="max-w-5xl mx-auto px-4 py-16">
         {/* Heading */}
         <div className="text-center mb-16">
           <h1 className="font-display text-5xl md:text-6xl">
@@ -263,7 +283,7 @@ export default function PricingPage() {
             </button>
           </Link>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

@@ -16,7 +16,7 @@ export default function MarketingLayout({
   return (
     <div className="min-h-screen flex flex-col">
       {/* Nav */}
-      <nav className="sticky top-0 z-50 bg-[#FFF8F0] border-b-2 border-black">
+      <nav aria-label="Main navigation" className="sticky top-0 z-50 bg-[#FFF8F0] border-b-2 border-black">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="font-display text-3xl tracking-tight text-black">
             ORBYT
@@ -96,6 +96,7 @@ export default function MarketingLayout({
               <div className="space-y-2">
                 <Link href="/#how-it-works" className="block text-sm text-[#666] hover:text-black transition-colors">How It Works</Link>
                 <Link href="/pricing" className="block text-sm text-[#666] hover:text-black transition-colors">Pricing</Link>
+                <Link href="/blog" className="block text-sm text-[#666] hover:text-black transition-colors">Blog</Link>
                 <Link href="/pricing#faq" className="block text-sm text-[#666] hover:text-black transition-colors">FAQ</Link>
               </div>
             </div>

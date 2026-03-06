@@ -1,3 +1,14 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Learn how Orbyt by E2 Partners LLC collects, uses, and protects your personal and business information.",
+  alternates: {
+    canonical: "https://getorbyt.io/privacy",
+  },
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="bg-[#FFF8F0] py-16">
