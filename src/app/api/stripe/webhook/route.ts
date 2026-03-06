@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripeWebhookEvent } from "@/lib/stripe";
 import { prisma } from "@/lib/db";
 import type Stripe from "stripe";
 
@@ -10,11 +10,7 @@ export async function POST(req: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET || ""
-    );
+    event = getStripeWebhookEvent(body, sig);
   } catch (err) {
     console.error("Webhook signature verification failed:", err);
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
@@ -26,21 +22,14 @@ export async function POST(req: NextRequest) {
       const userId = session.metadata?.userId;
       if (!userId) break;
 
-      if (session.mode === "payment") {
-        // One-time Starter purchase
+      // Both starter and pro are now subscriptions
+      if (session.mode === "subscription") {
+        const priceId = session.metadata?.priceId;
+        const plan = priceId === process.env.STRIPE_PRO_PRICE_ID ? "pro" : "starter";
         await prisma.user.update({
           where: { id: userId },
           data: {
-            plan: "starter",
-            stripeCustomerId: session.customer as string,
-          },
-        });
-      } else if (session.mode === "subscription") {
-        // Pro subscription
-        await prisma.user.update({
-          where: { id: userId },
-          data: {
-            plan: "pro",
+            plan,
             stripeCustomerId: session.customer as string,
             stripeSubId: session.subscription as string,
           },

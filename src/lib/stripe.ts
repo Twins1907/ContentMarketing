@@ -1,8 +1,10 @@
 import Stripe from "stripe";
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2026-02-25.clover",
-});
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("STRIPE_SECRET_KEY is not set");
+  return new Stripe(key, { apiVersion: "2026-02-25.clover" });
+}
 
 export async function createCheckoutSession({
   priceId,
@@ -15,6 +17,7 @@ export async function createCheckoutSession({
   customerEmail: string;
   mode: "payment" | "subscription";
 }) {
+  const stripe = getStripe();
   const session = await stripe.checkout.sessions.create({
     mode,
     payment_method_types: ["card"],
@@ -29,10 +32,20 @@ export async function createCheckoutSession({
 }
 
 export async function createPortalSession(customerId: string) {
+  const stripe = getStripe();
   const session = await stripe.billingPortal.sessions.create({
     customer: customerId,
     return_url: `${process.env.NEXT_PUBLIC_APP_URL}/account`,
   });
 
   return session;
+}
+
+export function getStripeWebhookEvent(body: string, sig: string) {
+  const stripe = getStripe();
+  return stripe.webhooks.constructEvent(
+    body,
+    sig,
+    process.env.STRIPE_WEBHOOK_SECRET || ""
+  );
 }
