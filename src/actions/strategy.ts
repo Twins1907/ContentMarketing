@@ -72,13 +72,13 @@ export async function getStrategyStatus(id: string) {
 
   if (!strategy) return null;
 
-  // Auto-recover: if all 6 steps completed but status is "failed", fix it
-  if (strategy.status === "failed" && strategy.generationStep >= 6 && strategy._count.briefs > 0) {
+  // Auto-recover: if calendar was generated (step >= 5) but status is "failed", recover it
+  if (strategy.status === "failed" && strategy.generationStep >= 5) {
     await prisma.strategy.update({
       where: { id },
-      data: { status: "ready" },
+      data: { status: "ready", generationStep: 6 },
     });
-    return { id: strategy.id, status: "ready", generationStep: strategy.generationStep };
+    return { id: strategy.id, status: "ready", generationStep: 6 };
   }
 
   return { id: strategy.id, status: strategy.status, generationStep: strategy.generationStep };

@@ -141,27 +141,30 @@ Rotate platforms and pillars strategically.`,
     );
     const calendar = parseJSON(calendarRaw);
 
+    // Save calendar — step 5 still (briefs not done yet)
     await prisma.strategy.update({
       where: { id: strategyId },
-      data: { calendar: calendar as object, generationStep: 6 },
+      data: { calendar: calendar as object },
     });
 
-    // Step 6: Content briefs — parallel batches of 10
+    // Step 6: Content briefs — sequential batches for reliability
     const calendarDays = calendar as Array<{ day: number; platform: string; pillar: string; briefHook: string }>;
-    const batchSize = 10;
+    const batchSize = 7; // smaller batches = more reliable JSON from Claude
     const batches: Array<{ day: number; platform: string; pillar: string; briefHook: string }>[] = [];
     for (let i = 0; i < calendarDays.length; i += batchSize) {
       batches.push(calendarDays.slice(i, i + batchSize));
     }
 
-    console.log(`[AI] Generating briefs in ${batches.length} parallel batches`);
+    console.log(`[AI] Generating briefs in ${batches.length} batches (sequential)`);
+    let briefsWritten = 0;
 
-    const briefResults = await Promise.all(
-      batches.map((batchDays, i) =>
-        callClaude(
+    for (let i = 0; i < batches.length; i++) {
+      const batchDays = batches[i];
+      try {
+        const briefsRaw = await callClaude(
           `briefs-batch-${i + 1}`,
           systemPrompt,
-          `Create detailed content briefs for these days. Return JSON array:
+          `Create detailed content briefs for these ${batchDays.length} days. Return a JSON array with exactly ${batchDays.length} objects:
 [{"dayNumber":1,"platform":"...","pillar":"...","goal":"...","hook":"...","script":"...","visualDirection":"...","caption":"...","hashtags":["..."],"cta":"...","postingTime":"...","strategicReasoning":"..."}]
 
 ${bizContext}
@@ -169,49 +172,55 @@ ${bizContext}
 Days to create briefs for:
 ${JSON.stringify(batchDays)}`,
           8192
-        )
-      )
-    );
+        );
 
-    for (const briefsRaw of briefResults) {
-      const briefs = parseJSON(briefsRaw) as Array<{
-        dayNumber: number;
-        platform: string;
-        pillar: string;
-        goal: string;
-        hook: string;
-        script: string;
-        visualDirection: string;
-        caption: string;
-        hashtags: string[];
-        cta: string;
-        postingTime: string;
-        strategicReasoning: string;
-      }>;
+        const briefs = parseJSON(briefsRaw) as Array<{
+          dayNumber: number;
+          platform: string;
+          pillar: string;
+          goal: string;
+          hook: string;
+          script: string;
+          visualDirection: string;
+          caption: string;
+          hashtags: string[];
+          cta: string;
+          postingTime: string;
+          strategicReasoning: string;
+        }>;
 
-      await prisma.contentBrief.createMany({
-        data: briefs.map((b) => ({
-          strategyId,
-          dayNumber: b.dayNumber,
-          platform: b.platform,
-          pillar: b.pillar,
-          goal: b.goal,
-          hook: b.hook,
-          script: b.script,
-          visualDirection: b.visualDirection,
-          caption: b.caption,
-          hashtags: b.hashtags,
-          cta: b.cta,
-          postingTime: b.postingTime,
-          strategicReasoning: b.strategicReasoning,
-        })),
-      });
+        await prisma.contentBrief.createMany({
+          data: briefs.map((b) => ({
+            strategyId,
+            dayNumber: b.dayNumber ?? batchDays[briefs.indexOf(b)]?.day,
+            platform: b.platform ?? batchDays[briefs.indexOf(b)]?.platform ?? "unknown",
+            pillar: b.pillar ?? "",
+            goal: b.goal ?? "",
+            hook: b.hook ?? "",
+            script: b.script ?? "",
+            visualDirection: b.visualDirection ?? "",
+            caption: b.caption ?? "",
+            hashtags: Array.isArray(b.hashtags) ? b.hashtags : [],
+            cta: b.cta ?? "",
+            postingTime: b.postingTime ?? "",
+            strategicReasoning: b.strategicReasoning ?? "",
+          })),
+          skipDuplicates: true,
+        });
+
+        briefsWritten += briefs.length;
+        console.log(`[AI] Briefs batch ${i + 1}/${batches.length} saved (${briefsWritten} total)`);
+      } catch (batchErr) {
+        // Log but don't fail entire strategy — partial briefs are better than nothing
+        console.error(`[AI] Brief batch ${i + 1} failed, skipping:`, batchErr);
+      }
     }
 
-    console.log(`[AI] Strategy ${strategyId} completed successfully`);
+    console.log(`[AI] Strategy ${strategyId} completed. Briefs written: ${briefsWritten}/${calendarDays.length}`);
+    // Mark ready regardless — calendar + strategy data is still valuable even if some briefs failed
     await prisma.strategy.update({
       where: { id: strategyId },
-      data: { status: "ready" },
+      data: { status: "ready", generationStep: 6 },
     });
   } catch (error) {
     console.error(`[AI] Strategy ${strategyId} FAILED:`, error);
