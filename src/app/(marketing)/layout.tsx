@@ -82,7 +82,7 @@ export default function MarketingLayout({
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Brand */}
             <div>
-              <Link href="/" className="font-display text-2xl text-black">
+              <Link href="/" className="font-display text-3xl tracking-tight text-black">
                 ORBYT
               </Link>
               <p className="text-sm text-[#666] mt-2">

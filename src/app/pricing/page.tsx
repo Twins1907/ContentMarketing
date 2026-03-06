@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, ArrowRight, Rocket, ChevronDown } from "lucide-react";
+import { Check, ArrowRight, ChevronDown } from "lucide-react";
 import { PLAN_TIERS } from "@/lib/constants";
 
 type PlanKey = "free" | "starter" | "pro";
@@ -143,11 +143,8 @@ export default function PricingPage() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#FFF8F0] border-b-2 border-black">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#A8A6FF] border-2 border-black rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#000000]">
-              <Rocket className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-display text-2xl">ORBYT</span>
+          <Link href="/" className="font-display text-3xl tracking-tight text-black">
+            ORBYT
           </Link>
           <Link href="/auth">
             <button className="bg-[#918EFA] text-white font-semibold text-sm px-5 py-2 border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all">

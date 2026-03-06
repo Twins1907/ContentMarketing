@@ -17,7 +17,7 @@ export function AppTopbar() {
   return (
     <header className="sticky top-0 z-50 bg-[#FFF8F0] border-b-2 border-black">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/dashboard" className="font-display text-2xl text-black">
+        <Link href="/dashboard" className="font-display text-3xl tracking-tight text-black">
           ORBYT
         </Link>
 
