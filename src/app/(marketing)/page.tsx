@@ -37,7 +37,7 @@ function Hero() {
                 AI-Powered Content Strategy
               </span>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-black leading-[0.95] mb-6">
-                YOUR $3,000 CONTENT STRATEGIST — FOR FREE.
+                YOUR $30,000 CONTENT STRATEGIST — FOR FREE.
               </h1>
             </AnimatedSection>
 
@@ -374,7 +374,7 @@ function Features() {
 /* ------------------------------------------------------------------ */
 function ValueStats() {
   const stats = [
-    { value: "$3,000+", label: "What agencies charge for this" },
+    { value: "$30,000+", label: "What agencies charge for this" },
     { value: "2 MIN", label: "To generate your strategy" },
     { value: "30 DAYS", label: "Of content, fully scripted" },
   ];

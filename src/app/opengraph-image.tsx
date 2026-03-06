@@ -108,7 +108,7 @@ export default async function Image() {
               lineHeight: 1.4,
             }}
           >
-            Your $3,000 Content Strategist — For Free
+            Your $30,000 Content Strategist — For Free
           </div>
         </div>
 
