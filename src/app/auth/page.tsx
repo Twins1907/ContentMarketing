@@ -4,24 +4,27 @@ import { useState, Suspense } from "react";
 import { signIn, getProviders } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Play, Mail, Loader2, CheckCircle, ArrowRight } from "lucide-react";
+import { Play, Loader2, CheckCircle, ArrowRight, Eye, EyeOff } from "lucide-react";
 
 function AuthContent() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const error = searchParams.get("error");
 
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
-  const [emailSent, setEmailSent] = useState(false);
-  const [providers, setProviders] = useState<Record<string, { id: string; name: string }> | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
+  const [providers, setProviders] = useState<Record<string, { id: string; name: string }> | null>(null);
   if (!providers && typeof window !== "undefined") {
     getProviders().then(setProviders);
   }
-
   const showGoogle = providers?.google;
-  const showEmail = providers?.email;
 
   const handleDemo = async () => {
     setLoading("demo");
@@ -33,39 +36,89 @@ function AuthContent() {
     await signIn("google", { callbackUrl });
   };
 
-  const handleEmail = async (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-    setLoading("email");
-    const result = await signIn("email", { email, callbackUrl, redirect: false });
+    if (!email || !password) return;
+    setFormError(null);
+    setLoading("credentials");
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      callbackUrl,
+      redirect: false,
+    });
+
     setLoading(null);
-    if (result?.ok) setEmailSent(true);
+
+    if (result?.error) {
+      setFormError("Invalid email or password. Please try again.");
+    } else if (result?.url) {
+      window.location.href = result.url;
+    }
   };
 
-  if (emailSent) {
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) return;
+    setFormError(null);
+    setLoading("signup");
+
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setLoading(null);
+      setFormError(data.error || "Something went wrong.");
+      return;
+    }
+
+    // Auto sign in after signup
+    const result = await signIn("credentials", {
+      email,
+      password,
+      callbackUrl: "/onboarding",
+      redirect: false,
+    });
+
+    setLoading(null);
+
+    if (result?.url) {
+      window.location.href = result.url;
+    } else {
+      setSuccess(true);
+    }
+  };
+
+  if (success) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FFF8F0] px-4">
         <div className="w-full max-w-md text-center">
           <div className="w-16 h-16 bg-[#B8FF9F] border-2 border-black rounded-xl shadow-[4px_4px_0px_#000000] flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-8 h-8 text-black" />
           </div>
-          <h2 className="font-display text-3xl text-black mb-2">CHECK YOUR EMAIL</h2>
-          <p className="text-[#333] mb-6">
-            We sent a magic link to <strong>{email}</strong>. Click the link to sign in.
-          </p>
-          <button
-            onClick={() => setEmailSent(false)}
-            className="w-full bg-white text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-6 py-3 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all"
-          >
-            Use a different email
-          </button>
+          <h2 className="font-display text-3xl text-black mb-2">ACCOUNT CREATED!</h2>
+          <p className="text-[#333] mb-6">Redirecting you to your dashboard...</p>
         </div>
       </div>
     );
   }
 
+  const authError = error
+    ? error === "OAuthAccountNotLinked"
+      ? "This email is already linked to another sign-in method."
+      : error === "CredentialsSignin"
+      ? "Invalid email or password."
+      : "Something went wrong. Please try again."
+    : null;
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FFF8F0] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#FFF8F0] px-4 py-12">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
@@ -74,39 +127,122 @@ function AuthContent() {
           </Link>
         </div>
 
-        {error && (
+        {(authError || formError) && (
           <div className="mb-4 bg-[#FF9F9F] border-2 border-black rounded-xl shadow-[2px_2px_0px_#000000] p-3 text-sm text-black text-center font-medium">
-            {error === "OAuthAccountNotLinked"
-              ? "This email is already linked to another sign-in method."
-              : error === "EmailSignin"
-              ? "Could not send the magic link. Please try again."
-              : "Something went wrong. Please try again."}
+            {authError || formError}
           </div>
         )}
 
         <div className="bg-white border-2 border-black shadow-[4px_4px_0px_#000000] rounded-xl p-6 md:p-8">
-          <div className="text-center mb-6">
-            <h1 className="font-display text-2xl text-black mb-1">GET YOUR FREE STRATEGY</h1>
-            <p className="text-sm text-[#666]">Create your AI-powered content strategy</p>
+          {/* Mode toggle */}
+          <div className="flex bg-[#FFF8F0] border-2 border-black rounded-lg p-1 mb-6">
+            <button
+              onClick={() => { setMode("signin"); setFormError(null); }}
+              className={`flex-1 py-2 text-sm font-bold rounded-md transition-all ${
+                mode === "signin"
+                  ? "bg-black text-white shadow-[2px_2px_0px_#666]"
+                  : "text-[#666] hover:text-black"
+              }`}
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => { setMode("signup"); setFormError(null); }}
+              className={`flex-1 py-2 text-sm font-bold rounded-md transition-all ${
+                mode === "signup"
+                  ? "bg-black text-white shadow-[2px_2px_0px_#666]"
+                  : "text-[#666] hover:text-black"
+              }`}
+            >
+              Sign Up
+            </button>
           </div>
 
           <div className="space-y-4">
-            {/* Demo */}
-            <button
-              onClick={handleDemo}
-              disabled={!!loading}
-              className="w-full flex items-center justify-center gap-2 bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-6 py-3.5 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all disabled:opacity-50"
-            >
-              {loading === "demo" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-              Try Demo Account
-            </button>
+            {/* Email + Password form */}
+            <form onSubmit={mode === "signin" ? handleSignIn : handleSignUp} className="space-y-3">
+              {mode === "signup" && (
+                <div>
+                  <label htmlFor="name" className="block text-sm font-bold text-black mb-1">
+                    Your name <span className="text-[#999] font-normal">(optional)</span>
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    placeholder="Jane Smith"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full border-2 border-black rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#918EFA] shadow-[2px_2px_0px_#000000]"
+                  />
+                </div>
+              )}
 
-            {(showGoogle || showEmail) && (
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center"><div className="w-full border-t-2 border-black/10" /></div>
-                <div className="relative flex justify-center"><span className="bg-white px-3 text-xs text-[#999] font-medium">or continue with</span></div>
+              <div>
+                <label htmlFor="email" className="block text-sm font-bold text-black mb-1">
+                  Email address
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full border-2 border-black rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#918EFA] shadow-[2px_2px_0px_#000000]"
+                />
               </div>
-            )}
+
+              <div>
+                <label htmlFor="password" className="block text-sm font-bold text-black mb-1">
+                  Password
+                  {mode === "signup" && (
+                    <span className="text-[#999] font-normal ml-1">(min. 8 characters)</span>
+                  )}
+                </label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder={mode === "signup" ? "Create a password" : "Enter your password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={mode === "signup" ? 8 : undefined}
+                    className="w-full border-2 border-black rounded-lg px-4 py-3 pr-12 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#918EFA] shadow-[2px_2px_0px_#000000]"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666] hover:text-black transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={!!loading}
+                className="w-full flex items-center justify-center gap-2 bg-[#918EFA] text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-6 py-3.5 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all disabled:opacity-50"
+              >
+                {loading === "credentials" || loading === "signup" ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <ArrowRight className="w-4 h-4" />
+                )}
+                {mode === "signin" ? "Sign In" : "Create Account"}
+              </button>
+            </form>
+
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t-2 border-black/10" />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-white px-3 text-xs text-[#999] font-medium">or</span>
+              </div>
+            </div>
 
             {/* Google */}
             {showGoogle && (
@@ -129,39 +265,15 @@ function AuthContent() {
               </button>
             )}
 
-            {/* Email */}
-            {showEmail && (
-              <>
-                {showGoogle && (
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center"><div className="w-full border-t-2 border-black/10" /></div>
-                    <div className="relative flex justify-center"><span className="bg-white px-3 text-xs text-[#999] font-medium">or</span></div>
-                  </div>
-                )}
-                <form onSubmit={handleEmail} className="space-y-3">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-bold text-black mb-1">Email address</label>
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder="you@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      className="w-full border-2 border-black rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#918EFA] shadow-[2px_2px_0px_#000000]"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={!!loading}
-                    className="w-full flex items-center justify-center gap-2 bg-white text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-6 py-3.5 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all disabled:opacity-50"
-                  >
-                    {loading === "email" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
-                    Continue with Email
-                  </button>
-                </form>
-              </>
-            )}
+            {/* Demo */}
+            <button
+              onClick={handleDemo}
+              disabled={!!loading}
+              className="w-full flex items-center justify-center gap-2 bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-6 py-3.5 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all disabled:opacity-50"
+            >
+              {loading === "demo" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
+              Try Demo Account
+            </button>
           </div>
 
           <p className="text-xs text-center text-[#999] mt-6">
