@@ -16,9 +16,20 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "Orbyt - AI-Powered Content Strategy",
+  title: "Orbyt — AI Content Strategy Generator | Social Media Content Plans in Minutes",
   description:
-    "Get a complete, customized content strategy with per-post briefs in minutes. AI-powered content strategy platform for any business.",
+    "Generate a complete social media content strategy with AI. Get audience personas, content calendars, and production-ready briefs for every post. Free to start.",
+  openGraph: {
+    title: "Orbyt — Your $3,000 Content Strategist, for Free",
+    description:
+      "AI-generated content strategies with production-ready briefs for every post. Free to start.",
+    url: "https://getorbyt.io",
+    siteName: "Orbyt",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://getorbyt.io",
+  },
 };
 
 export default function RootLayout({

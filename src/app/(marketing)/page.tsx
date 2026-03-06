@@ -1,304 +1,602 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
 import {
-  Rocket,
-  Sparkles,
+  Clock,
+  Shuffle,
+  Wallet,
   Calendar,
   FileText,
-  ArrowRight,
-  Zap,
-  Target,
   Users,
-  BarChart3,
+  ArrowRight,
 } from "lucide-react";
 import {
   AnimatedSection,
   StaggeredContainer,
   StaggeredItem,
   AnimatedCounter,
-  FloatingElement,
-  FloatingShape,
-  GradientOrb,
-  SparkleField,
-  WordReveal,
-  PulseRing,
 } from "@/components/ui/animated-section";
+
+/* ------------------------------------------------------------------ */
+/*  Section: Hero                                                      */
+/* ------------------------------------------------------------------ */
+function Hero() {
+  return (
+    <section className="bg-[#FFF8F0] py-20 md:py-28">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Left — copy */}
+          <div>
+            <AnimatedSection>
+              <span className="inline-block bg-[#A8A6FF] text-black border-2 border-black shadow-[2px_2px_0px_#000000] rounded-full px-4 py-1 text-sm font-medium mb-6">
+                AI-Powered Content Strategy
+              </span>
+            </AnimatedSection>
+
+            <AnimatedSection delay={0.1}>
+              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-black leading-[0.95] mb-6">
+                YOUR $3,000 CONTENT STRATEGIST — FOR FREE.
+              </h1>
+            </AnimatedSection>
+
+            <AnimatedSection delay={0.2}>
+              <p className="text-lg md:text-xl text-[#333] max-w-xl mb-8 leading-relaxed">
+                Tell us about your business. In 2 minutes, Orbyt builds a complete
+                content plan — every post scripted, captioned, and ready to execute.
+              </p>
+            </AnimatedSection>
+
+            <AnimatedSection delay={0.3}>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/auth"
+                  className="inline-flex items-center justify-center bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-8 py-4 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+                >
+                  Build My Strategy — Free
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
+                <Link
+                  href="#preview"
+                  className="inline-flex items-center justify-center bg-white text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-8 py-4 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+                >
+                  See a Sample Strategy
+                </Link>
+              </div>
+              <p className="text-sm text-[#999] mt-4">
+                No credit card needed. Takes 2 minutes.
+              </p>
+            </AnimatedSection>
+          </div>
+
+          {/* Right — product mockup */}
+          <AnimatedSection delay={0.4}>
+            <div className="border-2 border-black shadow-[8px_8px_0px_#000000] rounded-xl overflow-hidden bg-white">
+              <div className="bg-black px-4 py-2 flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#F76363]" />
+                <div className="w-3 h-3 rounded-full bg-[#FFE500]" />
+                <div className="w-3 h-3 rounded-full bg-[#7DF752]" />
+                <span className="ml-2 text-xs text-white/60 font-mono">getorbyt.io/dashboard</span>
+              </div>
+              <div className="p-6 space-y-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-[#A8A6FF] border-2 border-black rounded-lg shadow-[2px_2px_0px_#000000]" />
+                  <div>
+                    <div className="font-bold text-sm">30-Day Content Calendar</div>
+                    <div className="text-xs text-[#666]">Fitness coaching business</div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-7 gap-1">
+                  {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+                    <div key={i} className="text-center text-[10px] font-bold text-[#999] pb-1">{d}</div>
+                  ))}
+                  {Array.from({ length: 14 }, (_, i) => {
+                    const colors = ["#A6FAFF", "#FFA6F6", "#FFF066", "#B8FF9F", "#A8A6FF", "#FFC29F"];
+                    return (
+                      <div
+                        key={i}
+                        className="aspect-square rounded-md border border-black/20 flex items-center justify-center text-[10px] font-bold"
+                        style={{ backgroundColor: colors[i % colors.length] }}
+                      >
+                        {i + 1}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="space-y-2 pt-2">
+                  {[
+                    { platform: "TikTok", hook: "Stop doing cardio wrong...", color: "#A6FAFF" },
+                    { platform: "Instagram", hook: "3 meals I prep every Sunday", color: "#FFA6F6" },
+                    { platform: "YouTube", hook: "Full morning routine revealed", color: "#FFF066" },
+                  ].map((item) => (
+                    <div key={item.platform} className="flex items-center gap-2 text-xs">
+                      <span
+                        className="px-2 py-0.5 rounded border border-black/20 font-bold"
+                        style={{ backgroundColor: item.color }}
+                      >
+                        {item.platform}
+                      </span>
+                      <span className="text-[#333] truncate">{item.hook}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section: Pain Points                                               */
+/* ------------------------------------------------------------------ */
+function PainPoints() {
+  const cards = [
+    {
+      icon: Clock,
+      bg: "#A6FAFF",
+      title: "I'LL POST TOMORROW...",
+      body: "You open Instagram, stare at the blank screen for 10 minutes, and close the app. Repeat daily.",
+    },
+    {
+      icon: Shuffle,
+      bg: "#FFA6F6",
+      title: "WHAT'S EVEN WORKING?",
+      body: "You're posting, but it feels random. No strategy, no pillars, no reason behind any of it.",
+    },
+    {
+      icon: Wallet,
+      bg: "#FFF066",
+      title: "I CAN'T AFFORD A STRATEGIST",
+      body: "Agencies charge $2K–5K/month. Freelancers ghost you. ChatGPT gives you generic lists.",
+    },
+  ];
+
+  return (
+    <section className="bg-[#FFF8F0] py-20 md:py-28">
+      <div className="max-w-6xl mx-auto px-4">
+        <AnimatedSection className="text-center mb-16">
+          <h2 className="font-display text-4xl md:text-5xl text-black">
+            YOU KNOW YOU NEED TO POST. YOU JUST DON&apos;T KNOW WHAT.
+          </h2>
+        </AnimatedSection>
+
+        <StaggeredContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {cards.map((card) => (
+            <StaggeredItem key={card.title}>
+              <div
+                className="rounded-xl border-2 border-black shadow-[4px_4px_0px_#000000] p-8 h-full"
+                style={{ backgroundColor: card.bg }}
+              >
+                <card.icon className="w-8 h-8 text-black mb-4" />
+                <h3 className="font-display text-xl text-black mb-3">{card.title}</h3>
+                <p className="text-[#333] text-sm leading-relaxed">{card.body}</p>
+              </div>
+            </StaggeredItem>
+          ))}
+        </StaggeredContainer>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section: How It Works                                              */
+/* ------------------------------------------------------------------ */
+function HowItWorks() {
+  const steps = [
+    {
+      num: "01",
+      bg: "#FFF066",
+      title: "ANSWER 5 QUICK QUESTIONS",
+      body: "Your business, your audience, your goals. No intake calls, no onboarding decks — just 2 minutes.",
+    },
+    {
+      num: "02",
+      bg: "#A8A6FF",
+      title: "AI BUILDS YOUR COMPLETE STRATEGY",
+      body: "Audience persona. Content pillars. Platform tactics. A full calendar with every post mapped out — the same deliverable agencies charge thousands for.",
+    },
+    {
+      num: "03",
+      bg: "#B8FF9F",
+      title: "OPEN ANY DAY. START CREATING.",
+      body: "Every post comes with a hook, script, caption, hashtags, visual direction, and CTA. Copy, paste, post.",
+    },
+  ];
+
+  return (
+    <section id="how-it-works" className="bg-[#FFF8F0] py-20 md:py-28">
+      <div className="max-w-6xl mx-auto px-4">
+        <AnimatedSection className="text-center mb-16">
+          <h2 className="font-display text-4xl md:text-5xl text-black max-w-4xl mx-auto">
+            FROM &ldquo;I DON&apos;T KNOW WHAT TO POST&rdquo; TO A FULL CONTENT PLAN. IN 2 MINUTES.
+          </h2>
+        </AnimatedSection>
+
+        <StaggeredContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {steps.map((step) => (
+            <StaggeredItem key={step.num}>
+              <div
+                className="rounded-xl border-2 border-black shadow-[4px_4px_0px_#000000] p-8 h-full"
+                style={{ backgroundColor: step.bg }}
+              >
+                <span className="font-display text-6xl text-black leading-none">{step.num}</span>
+                <h3 className="font-display text-xl text-black mt-4 mb-3">{step.title}</h3>
+                <p className="text-[#333] text-sm leading-relaxed">{step.body}</p>
+              </div>
+            </StaggeredItem>
+          ))}
+        </StaggeredContainer>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section: Features                                                  */
+/* ------------------------------------------------------------------ */
+function Features() {
+  const topCards = [
+    {
+      icon: Calendar,
+      bg: "#A6FAFF",
+      title: "30-DAY CONTENT CALENDAR",
+      body: "Every day mapped out with platform, format, pillar, and posting time — all decided for you.",
+    },
+    {
+      icon: FileText,
+      bg: "#FFA6F6",
+      title: "PRODUCTION-READY BRIEFS",
+      body: "Hook. Script. Caption. Hashtags. Visual direction. CTA. For every single post.",
+    },
+    {
+      icon: Users,
+      bg: "#FFF066",
+      title: "AUDIENCE PERSONA",
+      body: "Know exactly who you're talking to — their pain points, behavior, and what makes them buy.",
+    },
+  ];
+
+  const pills = [
+    "Content Pillars & Weighting",
+    "Platform-Specific Tactics",
+    "Strategic Reasoning per Post",
+    "AI Media Prompts",
+  ];
+
+  return (
+    <section id="features" className="bg-[#FFF8F0] py-20 md:py-28">
+      <div className="max-w-6xl mx-auto px-4">
+        <AnimatedSection className="text-center mb-16">
+          <h2 className="font-display text-4xl md:text-5xl text-black">
+            HERE&apos;S WHAT YOU GET. SERIOUSLY, ALL OF THIS.
+          </h2>
+        </AnimatedSection>
+
+        <StaggeredContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {topCards.map((card) => (
+            <StaggeredItem key={card.title}>
+              <div
+                className="rounded-xl border-2 border-black shadow-[4px_4px_0px_#000000] p-8 h-full"
+                style={{ backgroundColor: card.bg }}
+              >
+                <card.icon className="w-8 h-8 text-black mb-4" />
+                <h3 className="font-display text-xl text-black mb-3">{card.title}</h3>
+                <p className="text-[#333] text-sm leading-relaxed">{card.body}</p>
+              </div>
+            </StaggeredItem>
+          ))}
+        </StaggeredContainer>
+
+        <StaggeredContainer className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {pills.map((pill) => (
+            <StaggeredItem key={pill}>
+              <div className="bg-white rounded-xl border-2 border-black shadow-[2px_2px_0px_#000000] p-4 text-center text-sm font-medium text-black">
+                {pill}
+              </div>
+            </StaggeredItem>
+          ))}
+        </StaggeredContainer>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section: Value Stats                                               */
+/* ------------------------------------------------------------------ */
+function ValueStats() {
+  const stats = [
+    { value: "$3,000+", label: "What agencies charge for this" },
+    { value: "2 MIN", label: "To generate your strategy" },
+    { value: "30 DAYS", label: "Of content, fully scripted" },
+  ];
+
+  return (
+    <section className="bg-[#FFF8F0] py-16 md:py-20">
+      <div className="max-w-5xl mx-auto px-4">
+        <AnimatedSection>
+          <div className="grid grid-cols-1 md:grid-cols-3">
+            {stats.map((stat, i) => (
+              <div
+                key={stat.label}
+                className={`text-center py-8 md:py-0 ${
+                  i < 2 ? "md:border-r-2 md:border-black" : ""
+                } ${i > 0 ? "border-t-2 md:border-t-0 border-black" : ""}`}
+              >
+                <p className="font-display text-5xl md:text-5xl text-black">{stat.value}</p>
+                <p className="text-sm text-[#666] mt-2">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </AnimatedSection>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section: Sample Output Preview                                     */
+/* ------------------------------------------------------------------ */
+function SamplePreview() {
+  return (
+    <section id="preview" className="bg-[#FFF8F0] py-20 md:py-28">
+      <div className="max-w-4xl mx-auto px-4">
+        <AnimatedSection className="text-center mb-12">
+          <h2 className="font-display text-4xl md:text-5xl text-black mb-4">
+            SEE WHAT ORBYT CREATES.
+          </h2>
+          <p className="text-lg text-[#333]">
+            Here&apos;s a sample strategy generated for a fitness coaching business.
+          </p>
+        </AnimatedSection>
+
+        <AnimatedSection delay={0.2}>
+          <PreviewTabs />
+        </AnimatedSection>
+      </div>
+    </section>
+  );
+}
+
+function PreviewTabs() {
+  const tabs = ["Audience Persona", "Content Calendar", "Content Brief"] as const;
+  const [active, setActive] = useState<(typeof tabs)[number]>("Audience Persona");
+
+  return (
+    <div>
+      {/* Tab buttons */}
+      <div className="flex flex-wrap gap-2 mb-6 justify-center">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActive(tab)}
+            className={`border-2 border-black rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+              active === tab
+                ? "bg-[#918EFA] shadow-[2px_2px_0px_#000000]"
+                : "bg-white hover:bg-gray-50"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      {/* Tab content */}
+      <div className="bg-white border-2 border-black shadow-[4px_4px_0px_#000000] rounded-xl p-6 md:p-8">
+        {active === "Audience Persona" && <PersonaTab />}
+        {active === "Content Calendar" && <CalendarTab />}
+        {active === "Content Brief" && <BriefTab />}
+      </div>
+
+      {/* CTA below */}
+      <div className="text-center mt-8">
+        <Link
+          href="/auth"
+          className="inline-flex items-center justify-center bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-8 py-4 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+        >
+          Generate Your Own — Free
+          <ArrowRight className="ml-2 w-5 h-5" />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function PersonaTab() {
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-4 mb-4">
+        <div className="w-14 h-14 bg-[#FFA6F6] border-2 border-black rounded-xl shadow-[2px_2px_0px_#000000] flex items-center justify-center font-display text-2xl">
+          DD
+        </div>
+        <div>
+          <h3 className="font-display text-xl text-black">DRIVEN DANA</h3>
+          <p className="text-sm text-[#666]">Age 28–35 · Busy Professional</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Field label="Pain Points" items={["No time to plan meals", "Starts programs but can't stay consistent", "Overwhelmed by conflicting fitness advice"]} />
+        <Field label="Content Preferences" items={["Quick actionable tips (<60s)", "Before/after transformations", "Meal prep walkthroughs"]} />
+        <Field label="Platforms" items={["Instagram Reels", "TikTok", "YouTube Shorts"]} />
+        <Field label="Buying Behavior" items={["Tries free content first", "Values social proof", "Decides within 1 week of discovery"]} />
+      </div>
+    </div>
+  );
+}
+
+function Field({ label, items }: { label: string; items: string[] }) {
+  return (
+    <div className="bg-[#FFF8F0] border border-black/10 rounded-lg p-4">
+      <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">{label}</h4>
+      <ul className="space-y-1">
+        {items.map((item) => (
+          <li key={item} className="text-sm text-[#333]">• {item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function CalendarTab() {
+  const days = [
+    { day: "Mon", platform: "TikTok", title: "Stop doing cardio wrong", pillar: "Education", color: "#A6FAFF" },
+    { day: "Tue", platform: "Instagram", title: "3 meals I prep every Sunday", pillar: "Behind the Scenes", color: "#FFA6F6" },
+    { day: "Wed", platform: "YouTube", title: "Full morning routine", pillar: "Social Proof", color: "#FFF066" },
+    { day: "Thu", platform: "TikTok", title: "This protein myth needs to die", pillar: "Education", color: "#A6FAFF" },
+    { day: "Fri", platform: "Instagram", title: "Client went from 0 to 5K", pillar: "Social Proof", color: "#B8FF9F" },
+    { day: "Sat", platform: "TikTok", title: "Reacting to fitness trends", pillar: "Trends", color: "#FFC29F" },
+    { day: "Sun", platform: "Instagram", title: "Weekly Q&A: your questions", pillar: "Community", color: "#A8A6FF" },
+  ];
+
+  return (
+    <div className="space-y-3">
+      <p className="text-xs font-bold text-[#999] uppercase tracking-wide mb-4">Week 1 of 4</p>
+      {days.map((d) => (
+        <div key={d.day} className="flex items-center gap-3 py-2 border-b border-black/5 last:border-0">
+          <span className="w-10 text-xs font-bold text-black">{d.day}</span>
+          <span
+            className="text-xs font-bold px-2 py-0.5 rounded border border-black/20"
+            style={{ backgroundColor: d.color }}
+          >
+            {d.platform}
+          </span>
+          <span className="text-sm text-[#333] flex-1 truncate">{d.title}</span>
+          <span className="hidden sm:inline text-[10px] font-medium px-2 py-0.5 bg-white border border-black/10 rounded-full text-[#666]">
+            {d.pillar}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function BriefTab() {
+  return (
+    <div className="space-y-5">
+      <div>
+        <p className="text-xs font-bold text-[#999] uppercase tracking-wide mb-1">Day 1 · TikTok · Education</p>
+        <h3 className="font-display text-lg text-black">STOP DOING CARDIO WRONG — HERE&apos;S WHY YOU&apos;RE NOT LOSING FAT</h3>
+      </div>
+
+      <div>
+        <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">Script</h4>
+        <div className="bg-[#FFF8F0] border border-black/10 rounded-lg p-4 text-sm text-[#333] space-y-2">
+          <p><strong>Hook (0–3s):</strong> &ldquo;If you&apos;re doing 45 min of cardio and not losing weight, stop. Here&apos;s why.&rdquo;</p>
+          <p><strong>Body (3–25s):</strong> Explain the science of EPOC and why strength training burns more calories over 24 hours. Use a split-screen comparison showing cardio vs. weights calorie burn timeline.</p>
+          <p><strong>Close (25–35s):</strong> &ldquo;Swap 2 cardio sessions for strength this week. Follow for more fat-loss science.&rdquo;</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">Caption</h4>
+          <p className="text-sm text-[#333]">Cardio isn&apos;t the enemy — but it&apos;s not the whole answer either. Here&apos;s the science your gym bro won&apos;t tell you.</p>
+        </div>
+        <div>
+          <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">Visual Direction</h4>
+          <p className="text-sm text-[#333]">Talking head in gym setting, split-screen calorie comparison graphic, text overlay for key stats.</p>
+        </div>
+      </div>
+
+      <div>
+        <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">Hashtags</h4>
+        <div className="flex flex-wrap gap-2">
+          {["#FatLoss", "#FitnessScience", "#StrengthTraining", "#CardioMyths", "#FitTok"].map((tag) => (
+            <span key={tag} className="bg-[#FFF8F0] border border-black/10 rounded-full px-3 py-1 text-xs font-medium text-[#333]">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">CTA</h4>
+        <p className="text-sm text-[#333]">Follow for more fat-loss science that actually works.</p>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section: Final CTA                                                 */
+/* ------------------------------------------------------------------ */
+function FinalCTA() {
+  return (
+    <section className="bg-[#A8A6FF] py-20 md:py-28">
+      <div className="max-w-3xl mx-auto px-4 text-center">
+        <AnimatedSection>
+          <h2 className="font-display text-4xl md:text-5xl text-black mb-6">
+            YOUR FIRST STRATEGY IS FREE. YOUR FIRST POST COULD GO LIVE TONIGHT.
+          </h2>
+        </AnimatedSection>
+        <AnimatedSection delay={0.1}>
+          <p className="text-lg text-[#333] max-w-xl mx-auto mb-8">
+            No credit card. No catch. A complete content plan built for your business in 2 minutes.
+          </p>
+        </AnimatedSection>
+        <AnimatedSection delay={0.2}>
+          <Link
+            href="/auth"
+            className="inline-flex items-center justify-center bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-10 py-5 text-lg font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+          >
+            Build My Free Strategy
+            <ArrowRight className="ml-2 w-5 h-5" />
+          </Link>
+        </AnimatedSection>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  JSON-LD Structured Data                                            */
+/* ------------------------------------------------------------------ */
+function JsonLd() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Orbyt",
+    url: "https://getorbyt.io",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    description:
+      "AI-powered social media content strategy generator. Get audience personas, content calendars, and production-ready briefs for every post.",
+    offers: [
+      { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Free" },
+      { "@type": "Offer", price: "19", priceCurrency: "USD", name: "Starter" },
+      { "@type": "Offer", price: "39", priceCurrency: "USD", name: "Pro" },
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
+
+import { useState } from "react";
 
 export default function LandingPage() {
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden border-b-2 border-foreground bg-hero-animated min-h-[85vh] flex items-center">
-        {/* Animated gradient orbs */}
-        <GradientOrb colors={["#C9A7EB", "#A78BFA"]} size={400} className="top-[-10%] left-[-5%]" duration={10} />
-        <GradientOrb colors={["#89CFF0", "#60A5FA"]} size={350} className="bottom-[-5%] right-[-5%]" duration={12} delay={2} />
-        <GradientOrb colors={["#F5C542", "#FBBF24"]} size={250} className="top-[20%] right-[10%]" duration={9} delay={4} />
-        <GradientOrb colors={["#C9A7EB", "#89CFF0"]} size={200} className="bottom-[15%] left-[15%]" duration={11} delay={1} />
-
-        {/* Floating geometric shapes */}
-        <FloatingShape shape="ring" color="rgba(255,255,255,0.25)" size={60} className="top-[12%] left-[8%]" delay={0} duration={7} amplitude={20} rotate={180} />
-        <FloatingShape shape="square" color="rgba(255,255,255,0.15)" size={24} className="top-[20%] right-[12%]" delay={1} duration={8} amplitude={25} rotate={90} />
-        <FloatingShape shape="circle" color="rgba(245,197,66,0.3)" size={16} className="top-[35%] left-[5%]" delay={0.5} duration={6} amplitude={18} rotate={0} />
-        <FloatingShape shape="diamond" color="rgba(255,255,255,0.2)" size={32} className="bottom-[25%] right-[8%]" delay={2} duration={9} amplitude={22} rotate={180} />
-        <FloatingShape shape="ring" color="rgba(137,207,240,0.3)" size={44} className="bottom-[15%] left-[12%]" delay={1.5} duration={7} amplitude={16} rotate={-180} />
-        <FloatingShape shape="dot" color="rgba(255,255,255,0.4)" size={8} className="top-[15%] left-[35%]" delay={0.8} duration={5} amplitude={12} rotate={0} />
-        <FloatingShape shape="square" color="rgba(201,167,235,0.25)" size={18} className="top-[60%] right-[18%]" delay={3} duration={8} amplitude={20} rotate={-90} />
-        <FloatingShape shape="triangle" color="rgba(255,255,255,0.15)" size={20} className="top-[45%] left-[20%]" delay={2.5} duration={10} amplitude={15} rotate={60} />
-        <FloatingShape shape="dot" color="rgba(245,197,66,0.35)" size={6} className="bottom-[30%] right-[30%]" delay={1.2} duration={4} amplitude={10} rotate={0} />
-        <FloatingShape shape="ring" color="rgba(255,255,255,0.18)" size={28} className="top-[70%] left-[40%]" delay={3.5} duration={7} amplitude={14} rotate={270} />
-
-        {/* Sparkle field */}
-        <SparkleField count={18} colors={["#FFFFFF", "#F5C542", "#FFFFFF", "#89CFF0"]} />
-
-        <div className="max-w-6xl mx-auto px-4 py-20 md:py-28 text-center relative z-10">
-          <AnimatedSection>
-            <Badge className="mb-6 text-sm px-4 py-1.5 bg-white/90 backdrop-blur-sm text-foreground border-foreground shadow-[2px_2px_0px_#272727]">
-              <Sparkles className="w-3.5 h-3.5 mr-1.5 text-[#C9A7EB]" />
-              AI-Powered Strategy
-            </Badge>
-          </AnimatedSection>
-
-          <div className="mb-6">
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
-              <WordReveal text="Your Custom Content" delay={0.2} staggerDelay={0.1} />
-              <br />
-              <WordReveal text="Strategy in Minutes" delay={0.7} staggerDelay={0.1} />
-            </h1>
-          </div>
-
-          <AnimatedSection delay={0.9}>
-            <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 text-white/90 leading-relaxed">
-              Stop guessing what to post. Orbyt uses AI to create a tailored
-              content strategy with detailed briefs — for any timeline, any platform,
-              any business.
-            </p>
-          </AnimatedSection>
-
-          <AnimatedSection delay={1.1}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <PulseRing color="rgba(255,255,255,0.4)">
-                <Link href="/auth">
-                  <Button size="lg" className="text-lg px-8 py-6 bg-white text-foreground border-2 border-foreground shadow-[4px_4px_0px_#272727] hover:shadow-[2px_2px_0px_#272727] hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
-                    Get Your Strategy
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-              </PulseRing>
-              <Link href="/pricing">
-                <Button variant="outline" size="lg" className="text-lg px-8 py-6 bg-white/10 backdrop-blur-sm text-white border-white/50 hover:bg-white/20 hover:border-white transition-all">
-                  View Pricing
-                </Button>
-              </Link>
-            </div>
-          </AnimatedSection>
-
-          <AnimatedSection delay={1.3}>
-            <p className="text-sm text-white/70 mt-5">
-              No credit card required. Your strategy in under 5 minutes.
-            </p>
-          </AnimatedSection>
-
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-20 bg-background">
-        <div className="max-w-6xl mx-auto px-4">
-          <AnimatedSection className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
-              Agency-Level Strategy,
-              <br />
-              Without the Agency
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              You don&apos;t need a full marketing team to launch a winning content strategy.
-              Get a complete, strategic roadmap in three simple steps.
-            </p>
-          </AnimatedSection>
-
-          <StaggeredContainer className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                step: 1,
-                icon: Target,
-                title: "Define Your Goals",
-                description:
-                  "Tell us about your business, audience, and what you want to achieve. No intake call needed — just 2 minutes of your time.",
-                color: "#C9A7EB",
-              },
-              {
-                step: 2,
-                icon: Sparkles,
-                title: "AI Builds Your Strategy",
-                description:
-                  "Our AI generates a complete content strategy — audience insights, content pillars, platform tactics, and a full posting calendar that would cost thousands from a traditional agency.",
-                color: "#89CFF0",
-              },
-              {
-                step: 3,
-                icon: FileText,
-                title: "Execute With Detailed Briefs",
-                description:
-                  "Every post comes with production-ready briefs your team can execute immediately — hook, script, visual direction, caption, hashtags, and strategic reasoning.",
-                color: "#E8614D",
-              },
-            ].map(({ step, icon: Icon, title, description, color }) => (
-              <StaggeredItem key={step}>
-                <Card className="relative overflow-hidden h-full">
-                  <div
-                    className="h-2 w-full"
-                    style={{ backgroundColor: color }}
-                  />
-                  <CardContent className="pt-8 pb-6">
-                    <div
-                      className="w-12 h-12 rounded-full border-2 border-foreground flex items-center justify-center mb-4 shadow-[3px_3px_0px_#272727]"
-                      style={{ backgroundColor: color }}
-                    >
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="font-display text-2xl font-bold mb-2">
-                      Step {step}: {title}
-                    </h3>
-                    <p className="text-muted-foreground">{description}</p>
-                  </CardContent>
-                </Card>
-              </StaggeredItem>
-            ))}
-          </StaggeredContainer>
-        </div>
-      </section>
-
-      {/* What You Get */}
-      <section className="py-20 bg-white border-y-2 border-foreground">
-        <div className="max-w-6xl mx-auto px-4">
-          <AnimatedSection className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
-              Everything You Need to
-              <br />
-              Post With Purpose
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-              Not just ideas — a complete, strategic content plan you can act on immediately
-            </p>
-          </AnimatedSection>
-
-          <StaggeredContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: Calendar,
-                title: "Custom Content Calendar",
-                description:
-                  "A strategic posting schedule tailored to your timeline — whether it's 2 weeks or 6 months",
-                color: "#89CFF0",
-              },
-              {
-                icon: FileText,
-                title: "Per-Post Briefs",
-                description:
-                  "Hook, script, visuals, caption, hashtags, CTA, and optimal posting time for every single post",
-                color: "#C9A7EB",
-              },
-              {
-                icon: Users,
-                title: "Audience Persona",
-                description:
-                  "A detailed profile of your ideal customer — their pain points, preferences, and behavior",
-                color: "#F97316",
-              },
-              {
-                icon: Zap,
-                title: "Content Pillars",
-                description:
-                  "Strategic content themes with percentage splits and example topics aligned to your goals",
-                color: "#F5C542",
-              },
-              {
-                icon: BarChart3,
-                title: "Platform Strategy",
-                description:
-                  "Tailored tactics, posting frequency, best times, and content formats for each platform",
-                color: "#34D399",
-              },
-              {
-                icon: Target,
-                title: "Strategic Reasoning",
-                description:
-                  "Every content decision explained — understand the 'why' behind each post",
-                color: "#E8614D",
-              },
-            ].map(({ icon: Icon, title, description, color }) => (
-              <StaggeredItem key={title}>
-                <Card className="h-full">
-                  <CardContent className="pt-6 pb-6">
-                    <div
-                      className="w-10 h-10 rounded-lg border-2 border-foreground flex items-center justify-center mb-3 shadow-[2px_2px_0px_#272727]"
-                      style={{ backgroundColor: color }}
-                    >
-                      <Icon className="w-5 h-5 text-white" />
-                    </div>
-                    <h3 className="font-bold text-lg mb-1">{title}</h3>
-                    <p className="text-sm text-muted-foreground">{description}</p>
-                  </CardContent>
-                </Card>
-              </StaggeredItem>
-            ))}
-          </StaggeredContainer>
-        </div>
-      </section>
-
-      {/* Social Proof / Stats */}
-      <section className="py-16 bg-gradient-to-r from-[#C9A7EB] via-[#89CFF0] to-[#F5C542] border-y-2 border-foreground">
-        <div className="max-w-5xl mx-auto px-4">
-          <AnimatedSection>
-            <div className="grid grid-cols-3 gap-6">
-              {[
-                { target: 10, suffix: "K+", label: "Strategies Generated" },
-                { target: 300, suffix: "K+", label: "Content Briefs Created" },
-                { target: 50, suffix: "+", label: "Industries Covered" },
-              ].map(({ target, suffix, label }) => (
-                <div key={label} className="text-center">
-                  <p className="font-display text-4xl md:text-6xl font-bold text-white">
-                    <AnimatedCounter target={target} suffix={suffix} />
-                  </p>
-                  <p className="text-white/80 text-sm md:text-base mt-1 uppercase tracking-wide font-bold">
-                    {label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="py-20 bg-background">
-        <AnimatedSection className="max-w-3xl mx-auto px-4 text-center">
-          <FloatingElement amplitude={6} duration={3}>
-            <div className="w-16 h-16 bg-[#89CFF0] border-2 border-foreground rounded-2xl flex items-center justify-center shadow-[4px_4px_0px_#272727] mx-auto mb-6">
-              <Rocket className="w-8 h-8 text-white" />
-            </div>
-          </FloatingElement>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
-            Ready to Launch Your
-            <br />
-            Content Strategy?
-          </h2>
-          <p className="text-muted-foreground text-lg mb-8">
-            Join thousands of businesses using Orbyt to create strategic,
-            consistent content — on any platform, for any timeline.
-          </p>
-          <Link href="/auth">
-            <Button size="lg" className="text-lg px-10 py-6">
-              Get Started Free
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
-        </AnimatedSection>
-      </section>
+      <JsonLd />
+      <Hero />
+      <PainPoints />
+      <HowItWorks />
+      <Features />
+      <ValueStats />
+      <SamplePreview />
+      <FinalCTA />
     </div>
   );
 }
