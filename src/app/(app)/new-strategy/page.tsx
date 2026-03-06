@@ -16,7 +16,7 @@ export default function NewStrategyPage() {
   return (
     <div className="max-w-xl mx-auto mt-8">
       <div className="text-center mb-8">
-        <div className="w-14 h-14 bg-[#E8614D] border-2 border-foreground rounded-2xl flex items-center justify-center shadow-[4px_4px_0px_#272727] mx-auto mb-4">
+        <div className="w-14 h-14 bg-[#FFE500] border-2 border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0px_#000000] mx-auto mb-4">
           <Sparkles className="w-7 h-7" />
         </div>
         <h1 className="font-display text-3xl font-bold mb-2">
@@ -34,7 +34,7 @@ export default function NewStrategyPage() {
               As a Pro member, you can generate unlimited strategies.
             </p>
             <Link href="/onboarding">
-              <Button size="lg" className="bg-[#E8614D] text-foreground border-2 border-foreground">
+              <Button size="lg" className="bg-[#FFE500] text-black border-2 border-black">
                 <Sparkles className="w-4 h-4 mr-2" />
                 Generate New Strategy
               </Button>
@@ -44,7 +44,7 @@ export default function NewStrategyPage() {
       ) : (
         <Card className="border-[#E8614D]">
           <CardHeader className="text-center">
-            <div className="w-12 h-12 bg-muted border-2 border-foreground rounded-xl flex items-center justify-center mx-auto mb-2">
+            <div className="w-12 h-12 bg-muted border-2 border-black rounded-xl flex items-center justify-center mx-auto mb-2">
               <Lock className="w-6 h-6 text-muted-foreground" />
             </div>
             <CardTitle className="font-display text-xl">
@@ -58,7 +58,7 @@ export default function NewStrategyPage() {
                 : "Starter accounts include 1 strategy. Upgrade to Pro for unlimited."}
             </p>
 
-            <Card className="bg-[#E8614D]/10">
+            <Card className="bg-[#FFE500]/10">
               <CardContent className="pt-4 pb-4">
                 <div className="flex items-center justify-between mb-3">
                   <div>
@@ -70,7 +70,7 @@ export default function NewStrategyPage() {
                       </span>
                     </p>
                   </div>
-                  <Badge className="bg-[#E8614D] text-foreground border-foreground">
+                  <Badge className="bg-[#FFE500] text-black border-black">
                     Recommended
                   </Badge>
                 </div>

@@ -58,9 +58,9 @@ export default function AccountPage() {
           </CardTitle>
         </CardHeader>
         <CardContent className="flex items-center gap-4">
-          <Avatar className="h-16 w-16 border-2 border-foreground">
+          <Avatar className="h-16 w-16 border-2 border-black">
             <AvatarImage src={session?.user?.image || ""} />
-            <AvatarFallback className="text-lg bg-[#89CFF0]">
+            <AvatarFallback className="text-lg bg-[#A8A6FF]">
               {initials}
             </AvatarFallback>
           </Avatar>
@@ -89,9 +89,9 @@ export default function AccountPage() {
                 <Badge
                   className={
                     plan === "pro"
-                      ? "bg-[#E8614D] text-foreground border-foreground"
+                      ? "bg-[#FFE500] text-black border-black"
                       : plan === "starter"
-                      ? "bg-[#89CFF0] text-foreground border-foreground"
+                      ? "bg-[#A8A6FF] text-black border-black"
                       : ""
                   }
                 >
@@ -134,7 +134,7 @@ export default function AccountPage() {
               {businesses.map((biz) => (
                 <div
                   key={biz.id}
-                  className="p-3 rounded-xl border-2 border-foreground bg-background"
+                  className="p-3 rounded-xl border-2 border-black bg-background"
                 >
                   <p className="font-bold">{biz.businessName}</p>
                   <p className="text-xs text-muted-foreground">{biz.industry}</p>
@@ -169,7 +169,7 @@ export default function AccountPage() {
                 <Link
                   key={s.id}
                   href={`/dashboard/project/${s.id}`}
-                  className="block p-3 rounded-xl border-2 border-foreground bg-background hover:shadow-[3px_3px_0px_#272727] transition-all"
+                  className="block p-3 rounded-xl border-2 border-black bg-background hover:shadow-[3px_3px_0px_#000000] transition-all"
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -182,7 +182,7 @@ export default function AccountPage() {
                     <Badge
                       className={
                         s.status === "ready"
-                          ? "bg-[#C9A7EB] text-foreground border-foreground"
+                          ? "bg-[#918EFA] text-black border-black"
                           : ""
                       }
                     >

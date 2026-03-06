@@ -128,7 +128,7 @@ export default function BriefDetailPage() {
   if (!isUnlocked) {
     return (
       <div className="max-w-lg mx-auto text-center mt-16">
-        <div className="w-16 h-16 bg-muted border-2 border-foreground rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-muted border-2 border-black rounded-2xl flex items-center justify-center mx-auto mb-4">
           <Lock className="w-8 h-8 text-muted-foreground" />
         </div>
         <h1 className="font-display text-2xl font-bold mb-2">Brief Locked</h1>
@@ -136,7 +136,7 @@ export default function BriefDetailPage() {
           Upgrade to unlock all content briefs.
         </p>
         <Link href="/pricing">
-          <Button className="bg-[#C9A7EB] text-foreground border-2 border-foreground shadow-[3px_3px_0px_#272727]">
+          <Button className="bg-[#918EFA] text-black border-2 border-black shadow-[3px_3px_0px_#000000]">
             Unlock All Briefs
           </Button>
         </Link>
@@ -149,7 +149,7 @@ export default function BriefDetailPage() {
       {/* Back button */}
       <button
         onClick={() => router.back()}
-        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-black transition-colors mb-6"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Calendar
@@ -164,7 +164,7 @@ export default function BriefDetailPage() {
           >
             {brief.platform}
           </Badge>
-          <Badge variant="outline" className="bg-[#89CFF0]/10 border-[#89CFF0] text-foreground font-semibold">
+          <Badge variant="outline" className="bg-[#A8A6FF]/10 border-[#89CFF0] text-black font-semibold">
             {getFormatIcon(brief.contentFormat)} {brief.contentFormat}
           </Badge>
           <Badge variant="outline">{brief.pillar}</Badge>
@@ -220,10 +220,10 @@ export default function BriefDetailPage() {
                 {((brief as Record<string, unknown>).carouselSlides as Array<{ slideNumber: number; textOverlay: string; visualDescription: string }>).map((slide) => (
                   <div
                     key={slide.slideNumber}
-                    className="p-3 rounded-lg border-2 border-foreground/10 bg-[#C9A7EB]/5"
+                    className="p-3 rounded-lg border-2 border-black/10 bg-[#918EFA]/5"
                   >
                     <div className="flex items-center gap-2 mb-1.5">
-                      <span className="w-6 h-6 rounded-full bg-[#C9A7EB] text-white text-xs font-bold flex items-center justify-center border border-foreground">
+                      <span className="w-6 h-6 rounded-full bg-[#918EFA] text-white text-xs font-bold flex items-center justify-center border border-black">
                         {slide.slideNumber}
                       </span>
                       <span className="text-xs font-bold text-muted-foreground uppercase">Slide {slide.slideNumber}</span>
@@ -246,11 +246,11 @@ export default function BriefDetailPage() {
           {typeof (brief as Record<string, unknown>).aiMediaPrompt === "string" && (
             <Section icon={Wand2} title="AI Media Prompt" color="#89CFF0">
               <div className="relative">
-                <div className="p-3 rounded-lg border-2 border-dashed border-[#89CFF0]/40 bg-[#89CFF0]/5">
+                <div className="p-3 rounded-lg border-2 border-dashed border-[#89CFF0]/40 bg-[#A8A6FF]/5">
                   <p className="text-[10px] text-muted-foreground uppercase font-bold mb-2">
                     Use this prompt to generate your {brief.contentFormat.toLowerCase().includes("video") || brief.contentFormat.toLowerCase().includes("reel") || brief.contentFormat.toLowerCase().includes("short") ? "video" : "image"} with AI tools (Midjourney, DALL·E, Runway, etc.)
                   </p>
-                  <p className="text-sm whitespace-pre-line font-mono text-foreground/80">
+                  <p className="text-sm whitespace-pre-line font-mono text-black/80">
                     {String((brief as Record<string, unknown>).aiMediaPrompt)}
                   </p>
                 </div>
@@ -280,7 +280,7 @@ export default function BriefDetailPage() {
         {/* Right column — CTA, time, feedback */}
         <div className="space-y-4">
           {/* CTA + Best Time — consistent height */}
-          <Card className="border-2 border-foreground shadow-[3px_3px_0px_#272727] bg-[#C9A7EB]/10">
+          <Card className="border-2 border-black shadow-[3px_3px_0px_#000000] bg-[#918EFA]/10">
             <CardContent className="pt-4 pb-4">
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-1.5 flex items-center gap-1">
                 <Target className="w-3 h-3" /> Call to Action
@@ -289,7 +289,7 @@ export default function BriefDetailPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-2 border-foreground shadow-[3px_3px_0px_#272727] bg-[#89CFF0]/10">
+          <Card className="border-2 border-black shadow-[3px_3px_0px_#000000] bg-[#A8A6FF]/10">
             <CardContent className="pt-4 pb-4">
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-1.5 flex items-center gap-1">
                 <Clock className="w-3 h-3" /> Best Time to Post
@@ -306,7 +306,7 @@ export default function BriefDetailPage() {
           {/* Feedback & Notes */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-md flex items-center justify-center bg-[#F5C542] border-2 border-foreground">
+              <div className="w-7 h-7 rounded-md flex items-center justify-center bg-[#FFF066] border-2 border-black">
                 <MessageCircle className="w-4 h-4 text-white" />
               </div>
               <h3 className="text-sm font-bold">Feedback & Notes</h3>
@@ -339,7 +339,7 @@ export default function BriefDetailPage() {
                   size="sm"
                   onClick={handleSuggestChanges}
                   disabled={suggesting}
-                  className="flex-1 bg-[#C9A7EB] text-foreground border-2 border-foreground hover:bg-[#C9A7EB]/80 shadow-[2px_2px_0px_#272727]"
+                  className="flex-1 bg-[#918EFA] text-black border-2 border-black hover:bg-[#918EFA]/80 shadow-[2px_2px_0px_#000000]"
                 >
                   {suggesting ? (
                     <Loader2 className="w-3 h-3 mr-1 animate-spin" />
@@ -358,7 +358,7 @@ export default function BriefDetailPage() {
                     key={fb.id}
                     className={`p-3 rounded-lg border text-sm ${
                       fb.type === "ai_suggestion"
-                        ? "bg-[#C9A7EB]/10 border-[#C9A7EB]"
+                        ? "bg-[#918EFA]/10 border-[#C9A7EB]"
                         : "bg-muted/50 border-muted"
                     }`}
                   >
@@ -410,7 +410,7 @@ function Section({
     <div>
       <div className="flex items-center gap-2 mb-2">
         <div
-          className="w-7 h-7 rounded-lg flex items-center justify-center border-2 border-foreground"
+          className="w-7 h-7 rounded-lg flex items-center justify-center border-2 border-black"
           style={{ backgroundColor: color }}
         >
           <Icon className="w-4 h-4 text-white" />

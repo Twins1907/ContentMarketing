@@ -57,7 +57,7 @@ export function AudienceTab({ persona }: { persona: AudiencePersona }) {
           <Label>Content Preferences</Label>
           <div className="flex flex-wrap gap-2 mt-1">
             {persona.contentPreferences.map((c) => (
-              <Badge key={c} className="bg-[#89CFF0] text-white border-foreground">
+              <Badge key={c} className="bg-[#A8A6FF] text-white border-black">
                 {c}
               </Badge>
             ))}
@@ -105,7 +105,7 @@ function FollowerInput({
           <p className="text-sm font-bold">{saved.toLocaleString()}</p>
           <button
             onClick={() => setEditing(true)}
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-black transition-colors"
           >
             <Pencil className="w-3 h-3" />
           </button>
@@ -130,7 +130,7 @@ function FollowerInput({
           />
           <Button
             size="sm"
-            className="h-7 px-2 bg-[#34D399] text-white border border-foreground hover:bg-[#34D399]/80"
+            className="h-7 px-2 bg-[#34D399] text-white border border-black hover:bg-[#34D399]/80"
             onClick={handleSave}
           >
             <Check className="w-3 h-3" />
@@ -197,7 +197,7 @@ export function PlatformsTab({
                 <Label>Content Formats</Label>
                 <div className="flex flex-wrap gap-2 mt-1">
                   {s.contentFormats.map((f) => (
-                    <Badge key={f} className="bg-[#C9A7EB] text-foreground border-foreground">
+                    <Badge key={f} className="bg-[#918EFA] text-black border-black">
                       {f}
                     </Badge>
                   ))}
@@ -224,7 +224,7 @@ export function PlatformsTab({
                         setFollowerCounts((prev) => ({ ...prev, [s.platform]: count }))
                       }
                     />
-                    <div className="p-2 rounded-lg bg-[#C9A7EB]/10 border border-[#C9A7EB]/30">
+                    <div className="p-2 rounded-lg bg-[#918EFA]/10 border border-[#C9A7EB]/30">
                       <p className="text-[10px] text-muted-foreground flex items-center gap-1">
                         <TrendingUp className="w-3 h-3" /> Follower Growth
                       </p>
@@ -233,19 +233,19 @@ export function PlatformsTab({
                         <p className="text-[10px] text-[#34D399] font-medium mt-0.5">{projectedGrowth}</p>
                       )}
                     </div>
-                    <div className="p-2 rounded-lg bg-[#89CFF0]/10 border border-[#89CFF0]/30">
+                    <div className="p-2 rounded-lg bg-[#A8A6FF]/10 border border-[#89CFF0]/30">
                       <p className="text-[10px] text-muted-foreground flex items-center gap-1">
                         <Eye className="w-3 h-3" /> Engagement Rate
                       </p>
                       <p className="text-sm font-bold">{s.kpiTargets.engagementRate}</p>
                     </div>
-                    <div className="p-2 rounded-lg bg-[#F5C542]/10 border border-[#F5C542]/30">
+                    <div className="p-2 rounded-lg bg-[#FFF066]/10 border border-[#F5C542]/30">
                       <p className="text-[10px] text-muted-foreground flex items-center gap-1">
                         <TrendingUp className="w-3 h-3" /> Reach Growth
                       </p>
                       <p className="text-sm font-bold">{s.kpiTargets.reachGrowth}</p>
                     </div>
-                    <div className="p-2 rounded-lg bg-[#E8614D]/10 border border-[#E8614D]/30">
+                    <div className="p-2 rounded-lg bg-[#FFE500]/10 border border-[#E8614D]/30">
                       <p className="text-[10px] text-muted-foreground flex items-center gap-1">
                         <Bookmark className="w-3 h-3" /> Saves / Bookmarks
                       </p>
@@ -271,7 +271,7 @@ export function PillarsTab({ pillars }: { pillars: ContentPillar[] }) {
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
                 <div
-                  className="w-4 h-4 rounded-full border-2 border-foreground"
+                  className="w-4 h-4 rounded-full border-2 border-black"
                   style={{ backgroundColor: pillarColors[i % pillarColors.length] }}
                 />
                 <h3 className="font-bold">{p.name}</h3>
@@ -313,7 +313,7 @@ function Label({ children }: { children: React.ReactNode }) {
 function PlatformDot({ platform }: { platform: string }) {
   return (
     <div
-      className="w-3 h-3 rounded-full border border-foreground"
+      className="w-3 h-3 rounded-full border border-black"
       style={{ backgroundColor: PLATFORM_COLORS[platform] || PLATFORM_COLORS[platform.toLowerCase()] || "#666" }}
     />
   );

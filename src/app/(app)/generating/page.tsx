@@ -106,7 +106,7 @@ function GeneratingContent() {
               : {}
           }
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-20 h-20 bg-[#C9A7EB] border-2 border-foreground rounded-2xl flex items-center justify-center shadow-[4px_4px_0px_#272727] mx-auto mb-5"
+          className="w-20 h-20 bg-[#918EFA] border-2 border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0px_#000000] mx-auto mb-5"
         >
           {status === "ready" ? (
             <Sparkles className="w-10 h-10 text-white" />
@@ -150,13 +150,13 @@ function GeneratingContent() {
             className="flex items-center gap-3 mt-4 justify-center"
           >
             <Link href="/dashboard">
-              <Button variant="outline" size="sm" className="border-2 border-foreground">
+              <Button variant="outline" size="sm" className="border-2 border-black">
                 <ArrowLeft className="w-4 h-4 mr-1.5" />
                 Dashboard
               </Button>
             </Link>
             <Link href="/onboarding">
-              <Button size="sm" className="bg-[#E8614D] text-white border-2 border-foreground shadow-[2px_2px_0px_#272727]">
+              <Button size="sm" className="bg-[#FFE500] text-white border-2 border-black shadow-[2px_2px_0px_#000000]">
                 <RotateCcw className="w-4 h-4 mr-1.5" />
                 Try Again
               </Button>
@@ -166,10 +166,10 @@ function GeneratingContent() {
       </div>
 
       {/* Progress Card */}
-      <Card className="border-2 border-foreground shadow-[4px_4px_0px_#272727] overflow-hidden">
+      <Card className="border-2 border-black shadow-[4px_4px_0px_#000000] overflow-hidden">
         <CardContent className="pt-6 pb-6">
           {/* Custom progress bar */}
-          <div className="h-3 bg-muted rounded-full overflow-hidden mb-6 border border-foreground/10">
+          <div className="h-3 bg-muted rounded-full overflow-hidden mb-6 border border-black/10">
             <motion.div
               className="h-full rounded-full bg-gradient-to-r from-[#C9A7EB] via-[#89CFF0] to-[#F5C542]"
               initial={{ width: "0%" }}
@@ -193,7 +193,7 @@ function GeneratingContent() {
                     transition={{ delay: step * 0.06, duration: 0.3 }}
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
                       isCurrent
-                        ? "bg-[#FFF8F0] border-2 border-foreground shadow-[2px_2px_0px_#272727]"
+                        ? "bg-[#FFF8F0] border-2 border-black shadow-[2px_2px_0px_#000000]"
                         : isComplete
                         ? "opacity-100"
                         : "opacity-30"
@@ -205,14 +205,14 @@ function GeneratingContent() {
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ type: "spring", bounce: 0.5 }}
-                          className="w-7 h-7 rounded-full flex items-center justify-center border-2 border-foreground"
+                          className="w-7 h-7 rounded-full flex items-center justify-center border-2 border-black"
                           style={{ backgroundColor: stepColor }}
                         >
                           <CheckCircle2 className="w-4 h-4 text-white" />
                         </motion.div>
                       ) : isCurrent ? (
                         <div
-                          className="w-7 h-7 rounded-full flex items-center justify-center border-2 border-foreground"
+                          className="w-7 h-7 rounded-full flex items-center justify-center border-2 border-black"
                           style={{ backgroundColor: stepColor }}
                         >
                           <Loader2 className="w-4 h-4 animate-spin text-white" />
@@ -222,7 +222,7 @@ function GeneratingContent() {
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className={`font-medium text-sm ${isCurrent ? "text-foreground" : ""}`}>
+                      <p className={`font-medium text-sm ${isCurrent ? "text-black" : ""}`}>
                         {label}
                       </p>
                       <p className="text-xs text-muted-foreground truncate">
@@ -238,7 +238,7 @@ function GeneratingContent() {
           {/* Step counter */}
           <div className="mt-4 pt-3 border-t border-muted text-center">
             <p className="text-xs text-muted-foreground">
-              Step <span className="font-bold text-foreground">{Math.min(currentStep + 1, 6)}</span> of <span className="font-bold text-foreground">6</span>
+              Step <span className="font-bold text-black">{Math.min(currentStep + 1, 6)}</span> of <span className="font-bold text-black">6</span>
             </p>
           </div>
         </CardContent>

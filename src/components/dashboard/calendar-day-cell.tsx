@@ -79,7 +79,7 @@ export function CalendarDayCell({
   if (isLocked) {
     return (
       <button
-        className="p-3 rounded-xl border-2 border-foreground/20 bg-muted/50 text-left h-full min-h-[120px] flex flex-col items-center justify-center gap-2 opacity-60 cursor-not-allowed"
+        className="p-3 rounded-xl border-2 border-black/20 bg-muted/50 text-left h-full min-h-[120px] flex flex-col items-center justify-center gap-2 opacity-60 cursor-not-allowed"
         disabled
       >
         <Lock className="w-4 h-4 text-muted-foreground" />
@@ -90,7 +90,7 @@ export function CalendarDayCell({
 
   return (
     <div
-      className={`p-3 rounded-xl border-2 border-foreground bg-background text-left h-full min-h-[120px] flex flex-col gap-2 hover:shadow-[3px_3px_0px_#272727] transition-all ${
+      className={`p-3 rounded-xl border-2 border-black bg-background text-left h-full min-h-[120px] flex flex-col gap-2 hover:shadow-[3px_3px_0px_#000000] transition-all ${
         postStatus === "completed" ? "bg-[#34D399]/5" : ""
       }`}
     >

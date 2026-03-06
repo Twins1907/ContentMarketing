@@ -40,10 +40,12 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
   /* Brand accent colors */
-  --color-coral-accent: #E8614D;
-  --color-sky-accent: #89CFF0;
-  --color-lavender-accent: #C9A7EB;
-  --color-golden-accent: #F5C542;
+  --color-violet-accent: #918EFA;
+  --color-cyan-accent: #A6FAFF;
+  --color-yellow-accent: #FFE500;
+  --color-lime-accent: #B8FF9F;
+  --color-pink-accent: #FFA6F6;
+  --color-orange-accent: #FFC29F;
   --color-cream: #FFF8F0;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -57,35 +59,35 @@
 :root {
   --radius: 1rem;
   --background: #FFF8F0;
-  --foreground: #272727;
+  --foreground: #000000;
   --card: #FFFFFF;
-  --card-foreground: #272727;
+  --card-foreground: #000000;
   --popover: #FFFFFF;
-  --popover-foreground: #272727;
-  --primary: #272727;
+  --popover-foreground: #000000;
+  --primary: #000000;
   --primary-foreground: #FFFFFF;
   --secondary: #FFF8F0;
-  --secondary-foreground: #272727;
+  --secondary-foreground: #000000;
   --muted: #EDE8E1;
-  --muted-foreground: #6B6B6B;
-  --accent: #E8614D;
-  --accent-foreground: #FFFFFF;
-  --destructive: #E8614D;
-  --border: #272727;
-  --input: #272727;
-  --ring: #89CFF0;
+  --muted-foreground: #666666;
+  --accent: #918EFA;
+  --accent-foreground: #000000;
+  --destructive: #F76363;
+  --border: #000000;
+  --input: #000000;
+  --ring: #918EFA;
   --chart-1: #E8614D;
   --chart-2: #89CFF0;
   --chart-3: #C9A7EB;
-  --chart-4: #272727;
+  --chart-4: #000000;
   --chart-5: #FFFFFF;
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #272727;
-  --sidebar-primary: #272727;
+  --sidebar-foreground: #000000;
+  --sidebar-primary: #000000;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #E8614D;
   --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #272727;
+  --sidebar-border: #000000;
   --sidebar-ring: #89CFF0;
 }
 
@@ -106,43 +108,43 @@
 /* Sketch design system utilities */
 @layer utilities {
   .shadow-sketch {
-    box-shadow: 4px 4px 0px #272727;
+    box-shadow: 4px 4px 0px #000000;
   }
   .shadow-sketch-sm {
-    box-shadow: 3px 3px 0px #272727;
+    box-shadow: 3px 3px 0px #000000;
   }
   .shadow-sketch-hover {
-    box-shadow: 1px 1px 0px #272727;
+    box-shadow: 1px 1px 0px #000000;
   }
   .shadow-sketch-none {
-    box-shadow: 0px 0px 0px #272727;
+    box-shadow: 0px 0px 0px #000000;
   }
   .border-sketch {
-    border: 2px solid #272727;
+    border: 2px solid #000000;
   }
   .font-display {
     font-family: var(--font-display), sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.02em;
   }
-  .bg-coral-accent {
-    background-color: #E8614D;
+  .bg-violet-accent {
+    background-color: #918EFA;
   }
-  .bg-sky-accent {
-    background-color: #89CFF0;
+  .bg-cyan-accent {
+    background-color: #A6FAFF;
   }
-  .bg-lavender-accent {
-    background-color: #C9A7EB;
+  .bg-yellow-accent {
+    background-color: #FFE500;
   }
-  .bg-golden-accent {
-    background-color: #F5C542;
+  .bg-lime-accent {
+    background-color: #B8FF9F;
   }
   .bg-cream {
     background-color: #FFF8F0;
   }
   /* Gradient utilities */
   .text-gradient-hero {
-    background: linear-gradient(135deg, #272727 0%, #E8614D 60%, #F5C542 100%);
+    background: linear-gradient(135deg, #000000 0%, #E8614D 60%, #F5C542 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

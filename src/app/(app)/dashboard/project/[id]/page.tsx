@@ -183,7 +183,7 @@ export default function ProjectDetailPage() {
       <div>
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-black transition-colors mb-4"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Projects
@@ -192,7 +192,7 @@ export default function ProjectDetailPage() {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div
-              className="w-3 h-11 rounded-lg border-2 border-foreground shadow-[2px_2px_0px_#272727] flex-shrink-0"
+              className="w-3 h-11 rounded-lg border-2 border-black shadow-[2px_2px_0px_#000000] flex-shrink-0"
               style={{ backgroundColor: strategy.projectColor || "#C9A7EB" }}
             />
             <div>
@@ -206,13 +206,13 @@ export default function ProjectDetailPage() {
           </div>
           <div className="flex items-center gap-2">
             {strategy.projectStatus === "paused" ? (
-              <Badge className="bg-[#F97316] text-white border-foreground h-8 px-3 text-xs flex items-center">Paused</Badge>
+              <Badge className="bg-[#F97316] text-white border-black h-8 px-3 text-xs flex items-center">Paused</Badge>
             ) : strategy.projectStatus === "archived" ? (
-              <Badge className="bg-[#89CFF0] text-white border-foreground h-8 px-3 text-xs flex items-center">Archived</Badge>
+              <Badge className="bg-[#A8A6FF] text-white border-black h-8 px-3 text-xs flex items-center">Archived</Badge>
             ) : strategy.status === "generating" ? (
-              <Badge className="bg-[#F5C542] text-foreground border-foreground h-8 px-3 text-xs flex items-center">Generating</Badge>
+              <Badge className="bg-[#FFF066] text-black border-black h-8 px-3 text-xs flex items-center">Generating</Badge>
             ) : (
-              <Badge className="bg-[#34D399] text-white border-foreground h-8 px-3 text-xs flex items-center">Active</Badge>
+              <Badge className="bg-[#34D399] text-white border-black h-8 px-3 text-xs flex items-center">Active</Badge>
             )}
 
             <DropdownMenu>
@@ -286,10 +286,10 @@ export default function ProjectDetailPage() {
           {/* Strategy Direction — full width */}
           <StaggeredContainer>
             <StaggeredItem>
-              <Card className="border-2 border-foreground shadow-[3px_3px_0px_#272727]">
+              <Card className="border-2 border-black shadow-[3px_3px_0px_#000000]">
                 <CardContent className="pt-5 pb-5">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-7 h-7 bg-[#89CFF0] rounded-lg flex items-center justify-center border-2 border-foreground">
+                    <div className="w-7 h-7 bg-[#A8A6FF] rounded-lg flex items-center justify-center border-2 border-black">
                       <Target className="w-3.5 h-3.5 text-white" />
                     </div>
                     <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">
@@ -314,7 +314,7 @@ export default function ProjectDetailPage() {
 
                   {/* Expanded sections in 2-col grid */}
                   {(overview as StrategyOverview & { strategyDirection?: StrategyDirection }).strategyDirection && (
-                    <div className="mt-4 pt-4 border-t border-foreground/10 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="mt-4 pt-4 border-t border-black/10 grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Growth Playbook */}
                       <div>
                         <div className="flex items-center gap-1.5 mb-1.5">
@@ -369,10 +369,10 @@ export default function ProjectDetailPage() {
           <StaggeredContainer className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Tone & Voice */}
             <StaggeredItem className="col-span-2">
-              <Card className="h-full border-2 border-foreground shadow-[3px_3px_0px_#272727]">
+              <Card className="h-full border-2 border-black shadow-[3px_3px_0px_#000000]">
                 <CardContent className="pt-5 pb-5">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-7 h-7 bg-[#C9A7EB] rounded-lg flex items-center justify-center border-2 border-foreground">
+                    <div className="w-7 h-7 bg-[#918EFA] rounded-lg flex items-center justify-center border-2 border-black">
                       <Megaphone className="w-3.5 h-3.5 text-white" />
                     </div>
                     <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">
@@ -386,10 +386,10 @@ export default function ProjectDetailPage() {
 
             {/* Platforms */}
             <StaggeredItem>
-              <Card className="h-full border-2 border-foreground shadow-[3px_3px_0px_#272727]">
+              <Card className="h-full border-2 border-black shadow-[3px_3px_0px_#000000]">
                 <CardContent className="pt-5 pb-5">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 bg-[#F5C542] rounded-md flex items-center justify-center border-2 border-foreground">
+                    <div className="w-6 h-6 bg-[#FFF066] rounded-md flex items-center justify-center border-2 border-black">
                       <MonitorSmartphone className="w-3 h-3 text-white" />
                     </div>
                     <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">
@@ -409,10 +409,10 @@ export default function ProjectDetailPage() {
 
             {/* Progress */}
             <StaggeredItem>
-              <Card className="h-full border-2 border-foreground shadow-[3px_3px_0px_#272727]">
+              <Card className="h-full border-2 border-black shadow-[3px_3px_0px_#000000]">
                 <CardContent className="pt-5 pb-5">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 bg-[#34D399] rounded-md flex items-center justify-center border-2 border-foreground">
+                    <div className="w-6 h-6 bg-[#34D399] rounded-md flex items-center justify-center border-2 border-black">
                       <BarChart3 className="w-3 h-3 text-white" />
                     </div>
                     <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">
@@ -430,10 +430,10 @@ export default function ProjectDetailPage() {
 
       {/* Content Pillars */}
       {pillars.length > 0 && (
-        <Card className="border-2 border-foreground shadow-[3px_3px_0px_#272727]">
+        <Card className="border-2 border-black shadow-[3px_3px_0px_#000000]">
           <CardContent className="pt-5 pb-5">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 bg-[#C9A7EB] rounded-lg flex items-center justify-center border-2 border-foreground">
+              <div className="w-7 h-7 bg-[#918EFA] rounded-lg flex items-center justify-center border-2 border-black">
                 <Layers className="w-3.5 h-3.5 text-white" />
               </div>
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">
@@ -445,10 +445,10 @@ export default function ProjectDetailPage() {
                 const pillarColors = ["#C9A7EB", "#89CFF0", "#E8614D", "#F5C542"];
                 const color = pillarColors[i % pillarColors.length];
                 return (
-                  <div key={p.name} className="p-3 rounded-xl border-2 border-foreground bg-white">
+                  <div key={p.name} className="p-3 rounded-xl border-2 border-black bg-white">
                     <div className="flex items-center gap-2 mb-1">
                       <div
-                        className="w-3 h-3 rounded-full border border-foreground flex-shrink-0"
+                        className="w-3 h-3 rounded-full border border-black flex-shrink-0"
                         style={{ backgroundColor: color }}
                       />
                       <span className="text-sm font-bold truncate">{p.name}</span>

@@ -105,7 +105,7 @@ export function BriefPanel({ brief, open, onClose, plan, briefIndex }: BriefPane
                 >
                   {brief.platform}
                 </Badge>
-                <Badge variant="outline" className="bg-[#89CFF0]/10 border-[#89CFF0] font-semibold">
+                <Badge variant="outline" className="bg-[#A8A6FF]/10 border-[#89CFF0] font-semibold">
                   {getFormatIcon(brief.contentFormat)} {brief.contentFormat}
                 </Badge>
                 <Badge variant="outline">{brief.pillar}</Badge>
@@ -152,13 +152,13 @@ export function BriefPanel({ brief, open, onClose, plan, briefIndex }: BriefPane
                 </Section>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-3 rounded-xl border-2 border-foreground bg-[#C9A7EB]/10">
+                  <div className="p-3 rounded-xl border-2 border-black bg-[#918EFA]/10">
                     <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1">
                       <Target className="w-3 h-3" /> CTA
                     </p>
                     <p className="text-sm font-medium">{brief.cta}</p>
                   </div>
-                  <div className="p-3 rounded-xl border-2 border-foreground bg-[#89CFF0]/10">
+                  <div className="p-3 rounded-xl border-2 border-black bg-[#A8A6FF]/10">
                     <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1">
                       <Clock className="w-3 h-3" /> Best Time
                     </p>
@@ -180,10 +180,10 @@ export function BriefPanel({ brief, open, onClose, plan, briefIndex }: BriefPane
                       {((brief as Record<string, unknown>).carouselSlides as Array<{ slideNumber: number; textOverlay: string; visualDescription: string }>).map((slide) => (
                         <div
                           key={slide.slideNumber}
-                          className="p-2.5 rounded-lg border bg-[#C9A7EB]/5"
+                          className="p-2.5 rounded-lg border bg-[#918EFA]/5"
                         >
                           <div className="flex items-center gap-1.5 mb-1">
-                            <span className="w-5 h-5 rounded-full bg-[#C9A7EB] text-white text-[10px] font-bold flex items-center justify-center">
+                            <span className="w-5 h-5 rounded-full bg-[#918EFA] text-white text-[10px] font-bold flex items-center justify-center">
                               {slide.slideNumber}
                             </span>
                             <span className="text-[10px] font-bold text-muted-foreground uppercase">Slide {slide.slideNumber}</span>
@@ -200,11 +200,11 @@ export function BriefPanel({ brief, open, onClose, plan, briefIndex }: BriefPane
                 {typeof (brief as Record<string, unknown>).aiMediaPrompt === "string" && (
                   <Section icon={Wand2} title="AI Media Prompt" color="#89CFF0">
                     <div className="relative">
-                      <div className="p-2.5 rounded-lg border-2 border-dashed border-[#89CFF0]/40 bg-[#89CFF0]/5">
+                      <div className="p-2.5 rounded-lg border-2 border-dashed border-[#89CFF0]/40 bg-[#A8A6FF]/5">
                         <p className="text-[10px] text-muted-foreground uppercase font-bold mb-1.5">
                           Generate your visuals with AI tools
                         </p>
-                        <p className="text-xs whitespace-pre-line font-mono text-foreground/80 line-clamp-6">
+                        <p className="text-xs whitespace-pre-line font-mono text-black/80 line-clamp-6">
                           {String((brief as Record<string, unknown>).aiMediaPrompt)}
                         </p>
                       </div>
@@ -237,7 +237,7 @@ export function BriefPanel({ brief, open, onClose, plan, briefIndex }: BriefPane
                 {/* Feedback Section */}
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-7 h-7 rounded-md flex items-center justify-center bg-[#F5C542]">
+                    <div className="w-7 h-7 rounded-md flex items-center justify-center bg-[#FFF066]">
                       <MessageCircle className="w-4 h-4" />
                     </div>
                     <h3 className="text-sm font-bold">Feedback & Notes</h3>
@@ -270,7 +270,7 @@ export function BriefPanel({ brief, open, onClose, plan, briefIndex }: BriefPane
                         size="sm"
                         onClick={handleSuggestChanges}
                         disabled={suggesting}
-                        className="flex-1 bg-[#C9A7EB] text-foreground border-2 border-foreground hover:bg-[#C9A7EB]/80"
+                        className="flex-1 bg-[#918EFA] text-black border-2 border-black hover:bg-[#918EFA]/80"
                       >
                         {suggesting ? (
                           <Loader2 className="w-3 h-3 mr-1 animate-spin" />
@@ -289,7 +289,7 @@ export function BriefPanel({ brief, open, onClose, plan, briefIndex }: BriefPane
                           key={fb.id}
                           className={`p-3 rounded-lg border text-sm ${
                             fb.type === "ai_suggestion"
-                              ? "bg-[#C9A7EB]/10 border-[#C9A7EB]"
+                              ? "bg-[#918EFA]/10 border-[#C9A7EB]"
                               : "bg-muted/50 border-muted"
                           }`}
                         >
@@ -311,7 +311,7 @@ export function BriefPanel({ brief, open, onClose, plan, briefIndex }: BriefPane
               </div>
             ) : (
               <div className="mt-8 text-center space-y-4">
-                <div className="w-16 h-16 bg-muted border-2 border-foreground rounded-2xl flex items-center justify-center mx-auto">
+                <div className="w-16 h-16 bg-muted border-2 border-black rounded-2xl flex items-center justify-center mx-auto">
                   <Lock className="w-8 h-8 text-muted-foreground" />
                 </div>
                 <h3 className="font-display text-xl font-bold">
@@ -321,7 +321,7 @@ export function BriefPanel({ brief, open, onClose, plan, briefIndex }: BriefPane
                   Upgrade to unlock all content briefs.
                 </p>
                 <Link href="/pricing">
-                  <Button className="bg-[#E8614D] text-white border-2 border-foreground">
+                  <Button className="bg-[#FFE500] text-white border-2 border-black">
                     Unlock All Briefs
                   </Button>
                 </Link>

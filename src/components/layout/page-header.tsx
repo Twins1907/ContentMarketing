@@ -21,9 +21,9 @@ export function PageHeader({
       )}
     >
       <div className="space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight font-display">{title}</h1>
+        <h1 className="font-display text-2xl text-black">{title}</h1>
         {description && (
-          <p className="text-sm text-muted-foreground">{description}</p>
+          <p className="text-sm text-[#666]">{description}</p>
         )}
       </div>
       {action && <div className="mt-2 sm:mt-0">{action}</div>}

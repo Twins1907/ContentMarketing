@@ -46,28 +46,28 @@ const PROJECT_COLORS = [
 function getStatusBadge(strategy: StrategyWithBusiness) {
   if (strategy.projectStatus === "paused") {
     return (
-      <Badge className="bg-[#F97316] text-white border-foreground text-xs">
+      <Badge className="bg-[#F97316] text-white border-black text-xs">
         Paused
       </Badge>
     );
   }
   if (strategy.projectStatus === "archived") {
     return (
-      <Badge className="bg-[#89CFF0] text-white border-foreground text-xs">
+      <Badge className="bg-[#A8A6FF] text-white border-black text-xs">
         Archived
       </Badge>
     );
   }
   if (strategy.status === "ready") {
     return (
-      <Badge className="bg-[#34D399] text-white border-foreground text-xs">
+      <Badge className="bg-[#34D399] text-white border-black text-xs">
         Active
       </Badge>
     );
   }
   if (strategy.status === "generating") {
     return (
-      <Badge className="bg-[#F5C542] text-foreground border-foreground text-xs">
+      <Badge className="bg-[#FFF066] text-black border-black text-xs">
         Generating
       </Badge>
     );
@@ -92,7 +92,7 @@ function ProjectCard({
   return (
     <StaggeredItem>
       <Card
-        className={`h-full min-h-[240px] hover:shadow-[6px_6px_0px_#272727] transition-all ${
+        className={`h-full min-h-[240px] hover:shadow-[6px_6px_0px_#000000] transition-all ${
           isPaused ? "opacity-70" : ""
         }`}
       >
@@ -103,7 +103,7 @@ function ProjectCard({
               <Popover>
                 <PopoverTrigger asChild>
                   <button
-                    className="w-4 h-10 rounded-md border-2 border-foreground shadow-[2px_2px_0px_#272727] flex-shrink-0 hover:scale-110 transition-transform cursor-pointer"
+                    className="w-4 h-10 rounded-md border-2 border-black shadow-[2px_2px_0px_#000000] flex-shrink-0 hover:scale-110 transition-transform cursor-pointer"
                     style={{ backgroundColor: projectColor }}
                     onClick={(e) => e.stopPropagation()}
                     title="Change project color"
@@ -119,8 +119,8 @@ function ProjectCard({
                         key={c}
                         className={`w-7 h-7 rounded-full border-2 transition-all hover:scale-110 ${
                           projectColor === c
-                            ? "border-foreground shadow-[2px_2px_0px_#272727]"
-                            : "border-foreground/30"
+                            ? "border-black shadow-[2px_2px_0px_#000000]"
+                            : "border-black/30"
                         }`}
                         style={{ backgroundColor: c }}
                         onClick={(e) => {
@@ -172,14 +172,14 @@ function ProjectCard({
 
           <Link
             href={`/dashboard/project/${strategy.id}`}
-            className="block mt-3 pt-3 border-t border-foreground/10"
+            className="block mt-3 pt-3 border-t border-black/10"
           >
             <div className="flex items-center justify-between group">
               <p className="text-xs text-muted-foreground">
                 Created{" "}
                 {new Date(strategy.createdAt).toLocaleDateString()}
               </p>
-              <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+              <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-black transition-colors" />
             </div>
           </Link>
         </CardContent>
@@ -255,7 +255,7 @@ export default function DashboardPage() {
           delay={0.2}
           className="max-w-md mx-auto text-center mt-12"
         >
-          <div className="w-16 h-16 bg-[#89CFF0] border-2 border-foreground rounded-2xl flex items-center justify-center shadow-[4px_4px_0px_#272727] mx-auto mb-6">
+          <div className="w-16 h-16 bg-[#A8A6FF] border-2 border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0px_#000000] mx-auto mb-6">
             <Rocket className="w-8 h-8 text-white" />
           </div>
           <h2 className="font-display text-2xl font-bold mb-2">
@@ -285,9 +285,9 @@ export default function DashboardPage() {
             {/* New Project Card */}
             <StaggeredItem>
               <Link href="/onboarding" className="block group">
-                <Card className="h-full border-dashed hover:border-solid hover:shadow-[4px_4px_0px_#272727] transition-all flex items-center justify-center min-h-[240px]">
+                <Card className="h-full border-dashed hover:border-solid hover:shadow-[4px_4px_0px_#000000] transition-all flex items-center justify-center min-h-[240px]">
                   <CardContent className="text-center py-8">
-                    <div className="w-12 h-12 bg-[#89CFF0] border-2 border-foreground rounded-xl flex items-center justify-center shadow-[2px_2px_0px_#272727] mx-auto mb-3 group-hover:scale-105 transition-transform">
+                    <div className="w-12 h-12 bg-[#A8A6FF] border-2 border-black rounded-xl flex items-center justify-center shadow-[2px_2px_0px_#000000] mx-auto mb-3 group-hover:scale-105 transition-transform">
                       <Plus className="w-6 h-6 text-white" />
                     </div>
                     <p className="font-bold">New Project</p>

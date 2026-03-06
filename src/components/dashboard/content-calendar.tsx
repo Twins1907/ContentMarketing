@@ -69,7 +69,7 @@ export function ContentCalendar({
               <Sparkles className="w-4 h-4 text-[#C9A7EB]" />
               <span className="text-sm font-bold">Week {week.weekNum}</span>
               {week.theme && (
-                <span className="text-xs text-muted-foreground bg-[#C9A7EB]/10 px-2 py-0.5 rounded-full border border-[#C9A7EB]/30">
+                <span className="text-xs text-muted-foreground bg-[#918EFA]/10 px-2 py-0.5 rounded-full border border-[#C9A7EB]/30">
                   {week.theme}
                 </span>
               )}
@@ -86,10 +86,10 @@ export function ContentCalendar({
       )}
 
       {lockedDays > 0 && (
-        <Card className="mt-6 border-[#C9A7EB] bg-[#C9A7EB]/10">
+        <Card className="mt-6 border-[#C9A7EB] bg-[#918EFA]/10">
           <CardContent className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#C9A7EB] border-2 border-foreground rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#272727]">
+              <div className="w-10 h-10 bg-[#918EFA] border-2 border-black rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#000000]">
                 <Lock className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -102,7 +102,7 @@ export function ContentCalendar({
               </div>
             </div>
             <Link href="/pricing">
-              <Button className="bg-[#C9A7EB] text-white border-2 border-foreground hover:bg-[#C9A7EB]/90 shadow-[2px_2px_0px_#272727]">
+              <Button className="bg-[#918EFA] text-white border-2 border-black hover:bg-[#918EFA]/90 shadow-[2px_2px_0px_#000000]">
                 Unlock Full Calendar
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>

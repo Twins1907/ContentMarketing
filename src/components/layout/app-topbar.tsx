@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,69 +9,59 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Rocket, User, LogOut, CreditCard, Sparkles } from "lucide-react";
+import { User, LogOut, CreditCard, ChevronDown } from "lucide-react";
 
 export function AppTopbar() {
   const { data: session } = useSession();
 
-  const initials = session?.user?.name
-    ?.split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase() || "U";
-
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b-2 border-foreground">
+    <header className="sticky top-0 z-50 bg-[#FFF8F0] border-b-2 border-black">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-[#89CFF0] border-2 border-foreground rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#272727]">
-            <Rocket className="w-3.5 h-3.5 text-white" />
-          </div>
-          <span className="font-display text-xl font-bold">Orbyt</span>
+        <Link href="/dashboard" className="font-display text-2xl text-black">
+          ORBYT
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/new-strategy"
+            className="hidden sm:inline-flex items-center justify-center bg-[#FFE500] text-black border-2 border-black shadow-[3px_3px_0px_#000000] rounded-lg px-4 py-1.5 text-sm font-bold hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_#000000] transition-all"
+          >
+            + New Strategy
+          </Link>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="h-9 rounded-full border-2 border-foreground px-3 gap-2 shadow-[2px_2px_0px_#272727] hover:shadow-[1px_1px_0px_#272727] hover:translate-x-[1px] hover:translate-y-[1px] transition-all bg-[#C9A7EB]/20"
-              >
-                <div className="w-6 h-6 rounded-full bg-[#C9A7EB] flex items-center justify-center border border-foreground">
-                  <span className="text-[10px] font-bold text-white">{initials}</span>
+              <button className="flex items-center gap-2 bg-white border-2 border-black shadow-[3px_3px_0px_#000000] rounded-lg px-3 py-1.5 text-sm font-bold hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_#000000] transition-all">
+                <div className="w-6 h-6 bg-[#A8A6FF] rounded-md flex items-center justify-center border border-black">
+                  <span className="text-xs font-bold text-black">
+                    {session?.user?.name?.[0]?.toUpperCase() || session?.user?.email?.[0]?.toUpperCase() || "U"}
+                  </span>
                 </div>
-                <span className="text-sm font-medium hidden sm:inline">
-                  {session?.user?.name || "Account"}
+                <span className="hidden sm:inline text-black">
+                  {session?.user?.name || session?.user?.email?.split("@")[0] || "Account"}
                 </span>
-                <Sparkles className="w-3.5 h-3.5 text-[#F5C542]" />
-              </Button>
+                <ChevronDown className="w-3.5 h-3.5 text-black" />
+              </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-52">
-              <div className="px-3 py-2">
-                <p className="text-sm font-bold">{session?.user?.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  {session?.user?.email}
-                </p>
-              </div>
-              <DropdownMenuSeparator />
+            <DropdownMenuContent align="end" className="w-48 border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg bg-white">
               <DropdownMenuItem asChild>
-                <Link href="/account" className="cursor-pointer">
-                  <User className="mr-2 h-4 w-4" />
+                <Link href="/account" className="flex items-center gap-2 cursor-pointer">
+                  <User className="w-4 h-4" />
                   Account Settings
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/pricing" className="cursor-pointer">
-                  <CreditCard className="mr-2 h-4 w-4" />
+                <Link href="/pricing" className="flex items-center gap-2 cursor-pointer">
+                  <CreditCard className="w-4 h-4" />
                   Upgrade Plan
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="border-black/10" />
               <DropdownMenuItem
-                className="cursor-pointer text-[#E8614D]"
                 onClick={() => signOut({ callbackUrl: "/" })}
+                className="flex items-center gap-2 cursor-pointer text-[#F76363]"
               >
-                <LogOut className="mr-2 h-4 w-4" />
+                <LogOut className="w-4 h-4" />
                 Sign Out
               </DropdownMenuItem>
             </DropdownMenuContent>

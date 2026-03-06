@@ -160,14 +160,14 @@ export default function OnboardingPage() {
 
   // Reusable pill-button style for all toggle selections
   const pillClass = (isSelected: boolean, disabled = false) =>
-    `px-4 py-2 rounded-full border-2 border-foreground text-sm font-medium transition-all ${
+    `px-4 py-2 rounded-full border-2 border-black text-sm font-medium transition-all ${
       disabled
         ? "cursor-not-allowed opacity-40"
         : "cursor-pointer"
     } ${
       isSelected
-        ? "bg-[#C9A7EB] text-foreground shadow-[3px_3px_0px_#272727]"
-        : "bg-background shadow-none hover:shadow-[2px_2px_0px_#272727]"
+        ? "bg-[#918EFA] text-black shadow-[3px_3px_0px_#000000]"
+        : "bg-background shadow-none hover:shadow-[2px_2px_0px_#000000]"
     }`;
 
   const steps = [
@@ -191,8 +191,8 @@ export default function OnboardingPage() {
               className="flex items-center gap-2"
             >
               <div
-                className={`w-10 h-10 rounded-full border-2 border-foreground flex items-center justify-center shadow-[2px_2px_0px_#272727] transition-colors ${
-                  step >= num ? "bg-[#C9A7EB]" : "bg-background"
+                className={`w-10 h-10 rounded-full border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_#000000] transition-colors ${
+                  step >= num ? "bg-[#918EFA]" : "bg-background"
                 }`}
               >
                 {step > num ? (
@@ -203,7 +203,7 @@ export default function OnboardingPage() {
               </div>
               <span
                 className={`text-sm font-medium hidden sm:inline ${
-                  step >= num ? "text-foreground" : "text-muted-foreground"
+                  step >= num ? "text-black" : "text-muted-foreground"
                 }`}
               >
                 {label}
@@ -534,7 +534,7 @@ export default function OnboardingPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-4">
-              <div className="p-4 rounded-xl border-2 border-foreground bg-[#C9A7EB]/10">
+              <div className="p-4 rounded-xl border-2 border-black bg-[#918EFA]/10">
                 <h3 className="font-bold mb-2 flex items-center gap-2">
                   <Building2 className="w-4 h-4" /> Business
                 </h3>
@@ -548,7 +548,7 @@ export default function OnboardingPage() {
                 )}
               </div>
 
-              <div className="p-4 rounded-xl border-2 border-foreground bg-[#89CFF0]/10">
+              <div className="p-4 rounded-xl border-2 border-black bg-[#A8A6FF]/10">
                 <h3 className="font-bold mb-2 flex items-center gap-2">
                   <Users className="w-4 h-4" /> Audience & Goals
                 </h3>
@@ -559,7 +559,7 @@ export default function OnboardingPage() {
                     return (
                       <Badge
                         key={p}
-                        className="bg-[#C9A7EB] text-foreground"
+                        className="bg-[#918EFA] text-black"
                       >
                         {platform?.name}
                       </Badge>
@@ -574,7 +574,7 @@ export default function OnboardingPage() {
                   ))}
                 </div>
                 {form.pastPerformance && (
-                  <div className="mt-3 pt-3 border-t border-foreground/10">
+                  <div className="mt-3 pt-3 border-t border-black/10">
                     <p className="text-xs font-bold text-muted-foreground uppercase mb-1">
                       Past Performance
                     </p>
@@ -583,7 +583,7 @@ export default function OnboardingPage() {
                 )}
               </div>
 
-              <div className="p-4 rounded-xl border-2 border-foreground bg-[#FFF8F0]">
+              <div className="p-4 rounded-xl border-2 border-black bg-[#FFF8F0]">
                 <h3 className="font-bold mb-2 flex items-center gap-2">
                   <Settings className="w-4 h-4" /> Preferences
                 </h3>
@@ -644,7 +644,7 @@ export default function OnboardingPage() {
               <Button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="bg-[#C9A7EB] text-foreground border-2 border-foreground hover:bg-[#C9A7EB]/90 shadow-[3px_3px_0px_#272727] hover:shadow-[1px_1px_0px_#272727] hover:translate-x-[2px] hover:translate-y-[2px]"
+                className="bg-[#918EFA] text-black border-2 border-black hover:bg-[#918EFA]/90 shadow-[3px_3px_0px_#000000] hover:shadow-[1px_1px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px]"
               >
                 {loading ? (
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />

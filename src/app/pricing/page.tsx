@@ -2,58 +2,48 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { CheckCircle2, ArrowRight, Rocket, Sparkles } from "lucide-react";
+import { Check, ArrowRight, Rocket, Sparkles, ChevronDown } from "lucide-react";
 import { PLAN_TIERS } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 
 type PlanKey = "free" | "starter" | "pro";
 
 const PLAN_CARDS: {
   key: PlanKey;
-  accent: string;
-  checkColor: string;
+  bg: string;
   subtitle: string;
   priceLabel: string;
   priceSuffix: string;
   cta: string;
+  ctaBg: string;
   popular?: boolean;
 }[] = [
   {
     key: "free",
-    accent: "#89CFF0",
-    checkColor: "#89CFF0",
+    bg: "#A6FAFF",
     subtitle: "No credit card required",
     priceLabel: "$0",
     priceSuffix: "",
     cta: "Get Started Free",
+    ctaBg: "bg-white",
   },
   {
     key: "starter",
-    accent: "#C9A7EB",
-    checkColor: "#C9A7EB",
+    bg: "#FFA6F6",
     subtitle: "Cancel anytime",
     priceLabel: `$${PLAN_TIERS.starter.price}`,
     priceSuffix: "/month",
     cta: "Start Starter Plan",
+    ctaBg: "bg-[#FFE500]",
     popular: true,
   },
   {
     key: "pro",
-    accent: "#F5C542",
-    checkColor: "#F5C542",
+    bg: "#FFF066",
     subtitle: "Cancel anytime",
     priceLabel: `$${PLAN_TIERS.pro.price}`,
     priceSuffix: "/month",
     cta: "Start Pro Plan",
+    ctaBg: "bg-white",
   },
 ];
 
@@ -120,22 +110,49 @@ const FAQS = [
   },
 ];
 
-export default function PricingPage() {
-  const [selectedPlan, setSelectedPlan] = useState<PlanKey>("starter");
+function FAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
 
+  return (
+    <div className="border-b-2 border-black last:border-b-0">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between py-5 text-left font-semibold text-[15px] hover:opacity-80 transition-opacity"
+      >
+        <span>{q}</span>
+        <ChevronDown
+          className={`w-5 h-5 shrink-0 ml-4 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-200 ${
+          open ? "max-h-96 pb-5" : "max-h-0"
+        }`}
+      >
+        <p className="text-[#333333] text-sm leading-relaxed">{a}</p>
+      </div>
+    </div>
+  );
+}
+
+export default function PricingPage() {
   return (
     <div className="min-h-screen bg-[#FFF8F0]">
       {/* Header */}
-      <header className="bg-background border-b-2 border-foreground">
+      <header className="sticky top-0 z-50 bg-[#FFF8F0] border-b-2 border-black">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#89CFF0] border-2 border-foreground rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#272727]">
+            <div className="w-8 h-8 bg-[#A8A6FF] border-2 border-black rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#000000]">
               <Rocket className="w-4 h-4 text-white" />
             </div>
-            <span className="font-display text-2xl font-bold">Orbyt</span>
+            <span className="font-display text-2xl">ORBYT</span>
           </Link>
           <Link href="/auth">
-            <Button size="sm">Get Started</Button>
+            <button className="bg-[#918EFA] text-white font-semibold text-sm px-5 py-2 border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all">
+              Get Started
+            </button>
           </Link>
         </div>
       </header>
@@ -143,14 +160,14 @@ export default function PricingPage() {
       <div className="max-w-5xl mx-auto px-4 py-16">
         {/* Heading */}
         <div className="text-center mb-16">
-          <Badge className="mb-4 text-sm px-4 py-1.5 bg-white text-foreground border-foreground shadow-[2px_2px_0px_#272727]">
-            <Sparkles className="w-3.5 h-3.5 mr-1.5 text-[#C9A7EB]" />
+          <span className="inline-flex items-center gap-1.5 mb-4 text-sm font-semibold px-4 py-1.5 bg-[#A8A6FF] text-black border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000]">
+            <Sparkles className="w-3.5 h-3.5" />
             Simple Pricing
-          </Badge>
-          <h1 className="font-display text-5xl md:text-6xl font-bold mb-4">
-            Simple, Transparent Pricing
+          </span>
+          <h1 className="font-display text-5xl md:text-6xl mt-4">
+            SIMPLE, TRANSPARENT PRICING
           </h1>
-          <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+          <p className="text-[#333333] text-lg max-w-xl mx-auto mt-4">
             Start with a free strategy. Upgrade when you want the full plan.
           </p>
         </div>
@@ -158,121 +175,60 @@ export default function PricingPage() {
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-3 gap-6">
           {PLAN_CARDS.map(
-            ({
-              key,
-              accent,
-              checkColor,
-              subtitle,
-              priceLabel,
-              priceSuffix,
-              cta,
-              popular,
-            }) => {
+            ({ key, bg, subtitle, priceLabel, priceSuffix, cta, ctaBg, popular }) => {
               const tier = PLAN_TIERS[key];
-              const isSelected = selectedPlan === key;
 
               return (
-                <Card
+                <div
                   key={key}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setSelectedPlan(key)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setSelectedPlan(key);
-                    }
-                  }}
-                  className={cn(
-                    "relative cursor-pointer transition-all duration-200 flex flex-col",
-                    isSelected
-                      ? "ring-2 shadow-[4px_4px_0px_#272727] translate-x-0 translate-y-0"
-                      : "shadow-[3px_3px_0px_#272727] hover:shadow-[4px_4px_0px_#272727] hover:-translate-x-[1px] hover:-translate-y-[1px]"
-                  )}
-                  style={{
-                    borderColor: isSelected ? accent : undefined,
-                    ...(isSelected
-                      ? ({ "--tw-ring-color": accent } as React.CSSProperties)
-                      : {}),
-                  }}
+                  className="relative border-2 border-black rounded-xl shadow-[4px_4px_0px_#000000] flex flex-col overflow-hidden"
+                  style={{ backgroundColor: bg }}
                 >
-                  {/* Accent bar */}
-                  <div
-                    className="h-1.5 w-full rounded-t-xl"
-                    style={{ backgroundColor: accent }}
-                  />
-
                   {popular && (
-                    <Badge
-                      className="absolute -top-3 left-1/2 -translate-x-1/2 text-white border-foreground shadow-[2px_2px_0px_#272727]"
-                      style={{ backgroundColor: accent }}
-                    >
+                    <span className="absolute -top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs font-bold px-3 py-1 bg-black text-white rounded-full border-2 border-black whitespace-nowrap">
                       Most Popular
-                    </Badge>
+                    </span>
                   )}
 
-                  <CardContent className="pt-8 pb-6 flex flex-col flex-1">
-                    {/* Plan name */}
-                    <p className="font-display text-xl font-bold mb-3">
-                      {tier.name}
+                  <div className="p-6 pt-8 flex flex-col flex-1">
+                    <p className="font-display text-2xl mb-3">
+                      {tier.name.toUpperCase()}
                     </p>
 
-                    {/* Price */}
                     <div className="flex items-baseline gap-1 mb-1">
-                      <span className="text-5xl font-bold tracking-tight">
+                      <span className="text-5xl font-bold tracking-tight text-black">
                         {priceLabel}
                       </span>
                       {priceSuffix && (
-                        <span className="text-base font-normal text-muted-foreground">
+                        <span className="text-base font-normal text-[#333333]">
                           {priceSuffix}
                         </span>
                       )}
                     </div>
 
-                    {/* Subtitle */}
-                    <p className="text-sm text-muted-foreground mb-6">
-                      {subtitle}
-                    </p>
+                    <p className="text-sm text-[#333333] mb-6">{subtitle}</p>
 
-                    {/* Divider */}
-                    <div className="w-full h-px bg-border mb-6" />
+                    <div className="w-full h-0.5 bg-black/20 mb-6" />
 
-                    {/* Features */}
                     <ul className="space-y-3 flex-1">
                       {tier.features.map((f) => (
                         <li key={f} className="flex items-start gap-2.5 text-sm">
-                          <CheckCircle2
-                            className="w-4.5 h-4.5 mt-0.5 shrink-0"
-                            style={{ color: checkColor }}
-                          />
-                          <span>{f}</span>
+                          <Check className="w-4 h-4 mt-0.5 shrink-0 text-black" strokeWidth={3} />
+                          <span className="text-black">{f}</span>
                         </li>
                       ))}
                     </ul>
 
-                    {/* CTA Button */}
                     <Link href="/auth" className="block mt-8">
-                      <Button
-                        className={cn(
-                          "w-full text-sm font-semibold py-5 transition-all",
-                          isSelected
-                            ? "text-white border-2 border-foreground shadow-[3px_3px_0px_#272727] hover:shadow-[1px_1px_0px_#272727] hover:translate-x-[2px] hover:translate-y-[2px]"
-                            : "border-2 border-foreground bg-white text-foreground hover:bg-gray-50"
-                        )}
-                        style={
-                          isSelected
-                            ? { backgroundColor: accent }
-                            : undefined
-                        }
+                      <button
+                        className={`w-full text-sm font-semibold py-3 px-4 border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all text-black ${ctaBg}`}
                       >
                         {cta}
-                        {isSelected && (
-                          <ArrowRight className="ml-2 w-4 h-4" />
-                        )}
-                      </Button>
+                        <ArrowRight className="inline-block ml-2 w-4 h-4" />
+                      </button>
                     </Link>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               );
             }
           )}
@@ -281,45 +237,37 @@ export default function PricingPage() {
         {/* FAQ */}
         <div id="faq" className="mt-24 max-w-2xl mx-auto scroll-mt-24">
           <div className="text-center mb-10">
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3">
-              Frequently Asked Questions
+            <span className="inline-flex items-center gap-1.5 mb-4 text-sm font-semibold px-4 py-1.5 bg-[#B8FF9F] text-black border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000]">
+              FAQ
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl mt-4">
+              FREQUENTLY ASKED QUESTIONS
             </h2>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-[#333333] text-sm mt-2">
               Everything you need to know about Orbyt
             </p>
           </div>
 
-          <Card className="shadow-[3px_3px_0px_#272727]">
-            <CardContent className="pt-2 pb-2 px-6">
-              <Accordion type="single" collapsible className="w-full">
-                {FAQS.map(({ q, a }, i) => (
-                  <AccordionItem key={i} value={`faq-${i}`} className="border-border">
-                    <AccordionTrigger className="text-left font-semibold text-[15px] hover:no-underline py-5">
-                      {q}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground text-sm leading-relaxed pb-5">
-                      {a}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </CardContent>
-          </Card>
+          <div className="bg-white border-2 border-black rounded-xl shadow-[4px_4px_0px_#000000] px-6">
+            {FAQS.map(({ q, a }, i) => (
+              <FAQItem key={i} q={q} a={a} />
+            ))}
+          </div>
         </div>
 
         {/* Bottom CTA */}
         <div className="mt-20 text-center">
-          <p className="text-muted-foreground mb-4">
-            Ready to launch your content strategy?
+          <h3 className="font-display text-3xl md:text-4xl mb-2">
+            READY TO LAUNCH?
+          </h3>
+          <p className="text-[#333333] mb-6">
+            Start building your content strategy today.
           </p>
           <Link href="/auth">
-            <Button
-              size="lg"
-              className="text-lg px-10 py-6 shadow-[4px_4px_0px_#272727] hover:shadow-[2px_2px_0px_#272727] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
-            >
+            <button className="bg-[#FFE500] text-black font-semibold text-lg px-10 py-4 border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all">
               Get Started Free
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
+              <ArrowRight className="inline-block ml-2 w-5 h-5" />
+            </button>
           </Link>
         </div>
       </div>
