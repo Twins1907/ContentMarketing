@@ -25,7 +25,7 @@ export async function createCheckoutSession({
     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?upgraded=true`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing`,
     customer_email: customerEmail,
-    metadata: { userId },
+    metadata: { userId, priceId },
   });
 
   return session;

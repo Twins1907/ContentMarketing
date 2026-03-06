@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, ArrowRight, ChevronDown } from "lucide-react";
+import { Check, ArrowRight, ChevronDown, Loader2 } from "lucide-react";
 import { PLAN_TIERS } from "@/lib/constants";
+import { useSession } from "next-auth/react";
 
 type PlanKey = "free" | "starter" | "pro";
 
@@ -157,6 +158,34 @@ function PricingJsonLd() {
 }
 
 export default function PricingPage() {
+  const { data: session } = useSession();
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  async function handleUpgrade(plan: "starter" | "pro") {
+    if (!session) {
+      window.location.href = "/auth";
+      return;
+    }
+    setLoadingPlan(plan);
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Something went wrong. Please try again.");
+        setLoadingPlan(null);
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+      setLoadingPlan(null);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#FFF8F0]">
       <PricingJsonLd />
@@ -232,14 +261,29 @@ export default function PricingPage() {
                       ))}
                     </ul>
 
-                    <Link href="/auth" className="block mt-8">
-                      <button
-                        className={`w-full text-sm font-semibold py-3 px-4 border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all text-black ${ctaBg}`}
-                      >
-                        {cta}
-                        <ArrowRight className="inline-block ml-2 w-4 h-4" />
-                      </button>
-                    </Link>
+                    <div className="block mt-8">
+                      {key === "free" ? (
+                        <Link href="/auth">
+                          <button className={`w-full text-sm font-semibold py-3 px-4 border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all text-black ${ctaBg}`}>
+                            {cta}
+                            <ArrowRight className="inline-block ml-2 w-4 h-4" />
+                          </button>
+                        </Link>
+                      ) : (
+                        <button
+                          onClick={() => handleUpgrade(key as "starter" | "pro")}
+                          disabled={loadingPlan === key}
+                          className={`w-full text-sm font-semibold py-3 px-4 border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all text-black disabled:opacity-70 disabled:cursor-not-allowed disabled:translate-x-0 disabled:translate-y-0 ${ctaBg}`}
+                        >
+                          {loadingPlan === key ? (
+                            <Loader2 className="inline-block mr-2 w-4 h-4 animate-spin" />
+                          ) : (
+                            <ArrowRight className="inline-block ml-2 w-4 h-4 float-right mt-0.5" />
+                          )}
+                          {loadingPlan === key ? "Redirecting..." : cta}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
