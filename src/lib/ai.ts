@@ -20,12 +20,15 @@ export interface BusinessInput {
   plannedStartDate?: string;
 }
 
-async function callClaude(label: string, systemPrompt: string, userPrompt: string, maxTokens = 4096): Promise<string> {
+const MODEL_FAST = "claude-3-5-haiku-20241022";  // Fast analysis steps
+const MODEL_QUALITY = "claude-sonnet-4-20250514"; // Quality content generation
+
+async function callClaude(label: string, systemPrompt: string, userPrompt: string, maxTokens = 4096, model = MODEL_QUALITY): Promise<string> {
   const start = Date.now();
-  console.log(`[AI] Starting: ${label}`);
+  console.log(`[AI] Starting: ${label} (${model})`);
   try {
     const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-20250514",
+      model,
       max_tokens: maxTokens,
       system: systemPrompt,
       messages: [{ role: "user", content: userPrompt }],
@@ -83,6 +86,7 @@ Platforms: ${business.platforms.join(", ")}${business.contentTone?.length ? `\nT
 
     console.log(`[AI] Starting generation for strategy ${strategyId}, duration: ${days} days`);
 
+    // Steps 1-4 use fast model (Haiku 3.5) — they run in parallel and are analysis, not deliverables
     const [overviewRaw, personaRaw, platformRaw, pillarsRaw] = await Promise.all([
       callClaude(
         "overview",
@@ -104,7 +108,9 @@ Return JSON with this exact structure:
   }
 }
 
-${bizContext}`
+${bizContext}`,
+        4096,
+        MODEL_FAST
       ),
       callClaude(
         "persona",
@@ -125,7 +131,9 @@ Return JSON:
   "contentThatConverts": "What specific content approaches would move this persona from follower to customer"
 }
 
-${bizContext}`
+${bizContext}`,
+        4096,
+        MODEL_FAST
       ),
       callClaude(
         "platform-strategy",
@@ -143,7 +151,9 @@ Return JSON array:
 
 Only include strategies for these platforms: ${business.platforms.join(", ")}
 
-${bizContext}`
+${bizContext}`,
+        4096,
+        MODEL_FAST
       ),
       callClaude(
         "pillars",
@@ -164,7 +174,9 @@ Rules:
 - Pillar names should be memorable and could work as hashtags or series names
 - Example topics should be specific enough that someone could immediately create the content
 
-${bizContext}`
+${bizContext}`,
+        4096,
+        MODEL_FAST
       ),
     ]);
 
