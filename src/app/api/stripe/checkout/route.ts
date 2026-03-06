@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
   if (plan === "starter") {
     priceId = process.env.STRIPE_STARTER_PRICE_ID || "";
-    mode = "payment";
+    mode = "subscription";
   } else if (plan === "pro") {
     priceId = process.env.STRIPE_PRO_PRICE_ID || "";
     mode = "subscription";
