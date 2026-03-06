@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
+import { sendWelcomeEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   try {
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
 
     const hashed = await bcrypt.hash(password, 12);
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         name: name || null,
         email,
@@ -46,6 +47,11 @@ export async function POST(req: NextRequest) {
         emailVerified: new Date(),
       },
     });
+
+    // Send welcome email — fire and forget (don't block signup if email fails)
+    sendWelcomeEmail({ to: email, name: user.name }).catch((err) =>
+      console.error("Welcome email failed:", err)
+    );
 
     return NextResponse.json({ success: true });
   } catch (err) {
