@@ -237,7 +237,8 @@ Content pillars: ${JSON.stringify(pillars)}
 Business goals: ${business.goals.join(", ")}
 ${business.contentTone?.length ? `Content tone: ${business.contentTone.join(", ")}` : ""}
 ${business.availableAssets?.length ? `Available assets: ${business.availableAssets.join(", ")}` : ""}`,
-      days > 30 ? 8192 : 4096
+      days > 30 ? 8192 : 4096,
+      MODEL_FAST
     );
     const calendar = parseJSON(calendarRaw);
 
