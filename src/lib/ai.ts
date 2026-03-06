@@ -20,10 +20,10 @@ export interface BusinessInput {
   plannedStartDate?: string;
 }
 
-async function callClaude(systemPrompt: string, userPrompt: string): Promise<string> {
+async function callClaude(systemPrompt: string, userPrompt: string, maxTokens = 4096): Promise<string> {
   const message = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 4096,
+    model: "claude-3-5-haiku-20241022",
+    max_tokens: maxTokens,
     system: systemPrompt,
     messages: [{ role: "user", content: userPrompt }],
   });
@@ -34,7 +34,6 @@ async function callClaude(systemPrompt: string, userPrompt: string): Promise<str
 }
 
 function parseJSON(text: string): unknown {
-  // Extract JSON from markdown code blocks if present
   const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   const jsonStr = jsonMatch ? jsonMatch[1].trim() : text.trim();
   return JSON.parse(jsonStr);
@@ -44,102 +43,87 @@ export async function generateStrategy(
   strategyId: string,
   business: BusinessInput
 ) {
-  // Route to mock generator if no real API key
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey || apiKey === "placeholder" || apiKey.trim() === "") {
     const { generateMockStrategy } = await import("./mock-generator");
     return generateMockStrategy(strategyId, business);
   }
 
+  const days = business.duration || 7;
   const systemPrompt = `You are an expert social media strategist. You create data-driven content strategies for businesses. Always respond with valid JSON only — no markdown, no explanation outside the JSON.`;
 
+  const bizContext = `Business: ${business.businessName}
+Industry: ${business.industry}
+Description: ${business.description}
+Target Audience: ${business.targetAudience}
+Goals: ${business.goals.join(", ")}
+Platforms: ${business.platforms.join(", ")}${business.contentTone?.length ? `\nTone: ${business.contentTone.join(", ")}` : ""}${business.availableAssets?.length ? `\nAssets: ${business.availableAssets.join(", ")}` : ""}${business.budget ? `\nBudget: ${business.budget}` : ""}`;
+
   try {
-    // Step 1: Business Analysis
+    // Steps 1-4 in parallel — they're independent of each other
     await prisma.strategy.update({
       where: { id: strategyId },
       data: { generationStep: 1 },
     });
 
-    const overviewRaw = await callClaude(
-      systemPrompt,
-      `Analyze this business and create a strategic overview. Return JSON with this exact structure:
+    const [overviewRaw, personaRaw, platformRaw, pillarsRaw] = await Promise.all([
+      callClaude(
+        systemPrompt,
+        `Analyze this business and create a strategic overview. Return JSON with this exact structure:
 {"businessSummary":"...","valueProposition":"...","toneAndVoice":"...","differentiators":["...",".."]}
 
-Business: ${business.businessName}
-Industry: ${business.industry}
-Description: ${business.description}
-Target Audience: ${business.targetAudience}
-Goals: ${business.goals.join(", ")}
-Platforms: ${business.platforms.join(", ")}`
-    );
-    const overview = parseJSON(overviewRaw);
-
-    await prisma.strategy.update({
-      where: { id: strategyId },
-      data: { overview: overview as object, generationStep: 2 },
-    });
-
-    // Step 2: Audience Persona
-    const personaRaw = await callClaude(
-      systemPrompt,
-      `Based on this business, create a detailed audience persona. Return JSON:
+${bizContext}`
+      ),
+      callClaude(
+        systemPrompt,
+        `Based on this business, create a detailed audience persona. Return JSON:
 {"name":"...","age":"...","occupation":"...","interests":["..."],"painPoints":["..."],"platforms":["..."],"contentPreferences":["..."],"buyingBehavior":"..."}
 
-Business: ${business.businessName} — ${business.description}
-Target: ${business.targetAudience}`
-    );
-    const persona = parseJSON(personaRaw);
-
-    await prisma.strategy.update({
-      where: { id: strategyId },
-      data: { audiencePersona: persona as object, generationStep: 3 },
-    });
-
-    // Step 3: Platform Strategy
-    const platformRaw = await callClaude(
-      systemPrompt,
-      `Create platform-specific strategies. Return JSON array:
+${bizContext}`
+      ),
+      callClaude(
+        systemPrompt,
+        `Create platform-specific strategies. Return JSON array:
 [{"platform":"...","postingFrequency":"...","bestTimes":["..."],"contentFormats":["..."],"keyTactics":["..."]}]
 
-Business: ${business.businessName} — ${business.description}
-Platforms: ${business.platforms.join(", ")}
-Goals: ${business.goals.join(", ")}
-Audience: ${business.targetAudience}`
-    );
-    const platformStrategy = parseJSON(platformRaw);
-
-    await prisma.strategy.update({
-      where: { id: strategyId },
-      data: { platformStrategy: platformStrategy as object, generationStep: 4 },
-    });
-
-    // Step 4: Content Pillars
-    const pillarsRaw = await callClaude(
-      systemPrompt,
-      `Create 4-5 content pillars. Return JSON array:
+${bizContext}`
+      ),
+      callClaude(
+        systemPrompt,
+        `Create 4-5 content pillars. Return JSON array:
 [{"name":"...","description":"...","percentage":40,"exampleTopics":["...","...","..."]}]
 Percentages must total 100.
 
-Business: ${business.businessName} — ${business.description}
-Goals: ${business.goals.join(", ")}
-Audience: ${business.targetAudience}`
-    );
+${bizContext}`
+      ),
+    ]);
+
+    const overview = parseJSON(overviewRaw);
+    const persona = parseJSON(personaRaw);
+    const platformStrategy = parseJSON(platformRaw);
     const pillars = parseJSON(pillarsRaw);
 
     await prisma.strategy.update({
       where: { id: strategyId },
-      data: { contentPillars: pillars as object, generationStep: 5 },
+      data: {
+        overview: overview as object,
+        audiencePersona: persona as object,
+        platformStrategy: platformStrategy as object,
+        contentPillars: pillars as object,
+        generationStep: 5,
+      },
     });
 
-    // Step 5: 30-Day Calendar
+    // Step 5: Calendar — depends on pillars
     const calendarRaw = await callClaude(
       systemPrompt,
-      `Create a 30-day content calendar. Return JSON array of 30 items:
+      `Create a ${days}-day content calendar. Return JSON array of exactly ${days} items:
 [{"day":1,"platform":"tiktok","pillar":"Education","briefHook":"..."}]
 
 Use these platforms: ${business.platforms.join(", ")}
 Content pillars: ${JSON.stringify(pillars)}
-Rotate platforms and pillars strategically.`
+Rotate platforms and pillars strategically.`,
+      days > 30 ? 8192 : 4096
     );
     const calendar = parseJSON(calendarRaw);
 
@@ -148,24 +132,31 @@ Rotate platforms and pillars strategically.`
       data: { calendar: calendar as object, generationStep: 6 },
     });
 
-    // Step 6: Content Briefs (generate in batches of 10)
+    // Step 6: Content briefs — parallel batches of 10
     const calendarDays = calendar as Array<{ day: number; platform: string; pillar: string; briefHook: string }>;
+    const batchSize = 10;
+    const batches: Array<{ day: number; platform: string; pillar: string; briefHook: string }>[] = [];
+    for (let i = 0; i < calendarDays.length; i += batchSize) {
+      batches.push(calendarDays.slice(i, i + batchSize));
+    }
 
-    for (let batch = 0; batch < 3; batch++) {
-      const batchDays = calendarDays.slice(batch * 10, (batch + 1) * 10);
-
-      const briefsRaw = await callClaude(
-        systemPrompt,
-        `Create detailed content briefs for these days. Return JSON array:
+    const briefResults = await Promise.all(
+      batches.map((batchDays) =>
+        callClaude(
+          systemPrompt,
+          `Create detailed content briefs for these days. Return JSON array:
 [{"dayNumber":1,"platform":"...","pillar":"...","goal":"...","hook":"...","script":"...","visualDirection":"...","caption":"...","hashtags":["..."],"cta":"...","postingTime":"...","strategicReasoning":"..."}]
 
-Business: ${business.businessName} — ${business.description}
-Audience: ${business.targetAudience}
+${bizContext}
 
 Days to create briefs for:
-${JSON.stringify(batchDays)}`
-      );
+${JSON.stringify(batchDays)}`,
+          8192
+        )
+      )
+    );
 
+    for (const briefsRaw of briefResults) {
       const briefs = parseJSON(briefsRaw) as Array<{
         dayNumber: number;
         platform: string;
@@ -200,7 +191,6 @@ ${JSON.stringify(batchDays)}`
       });
     }
 
-    // Mark as ready
     await prisma.strategy.update({
       where: { id: strategyId },
       data: { status: "ready" },
