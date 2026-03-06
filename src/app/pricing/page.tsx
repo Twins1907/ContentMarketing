@@ -181,11 +181,11 @@ export default function PricingPage() {
               return (
                 <div
                   key={key}
-                  className="relative border-2 border-black rounded-xl shadow-[4px_4px_0px_#000000] flex flex-col overflow-hidden"
+                  className="relative border-2 border-black rounded-xl shadow-[4px_4px_0px_#000000] flex flex-col"
                   style={{ backgroundColor: bg }}
                 >
                   {popular && (
-                    <span className="absolute -top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs font-bold px-3 py-1 bg-black text-white rounded-full border-2 border-black whitespace-nowrap">
+                    <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10 text-xs font-bold px-3 py-1 bg-black text-white rounded-full border-2 border-black whitespace-nowrap">
                       Most Popular
                     </span>
                   )}
