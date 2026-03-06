@@ -3,6 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { generateStrategy } from "@/lib/ai";
+import { waitUntil } from "@vercel/functions";
+
+export const maxDuration = 120;
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,7 +23,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Verify business belongs to user
     const business = await prisma.business.findFirst({
       where: { id: businessId, userId: session.user.id },
     });
@@ -32,7 +34,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Parse start date safely
     let startDate = new Date();
     if (business.plannedStartDate && business.plannedStartDate.trim() !== "") {
       const parsed = new Date(business.plannedStartDate + "T00:00:00");
@@ -41,7 +42,6 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Create strategy record
     const strategy = await prisma.strategy.create({
       data: {
         userId: session.user.id,
@@ -52,8 +52,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Start generation in background (non-blocking)
-    generateStrategy(strategy.id, {
+    const generationPromise = generateStrategy(strategy.id, {
       businessName: business.businessName,
       industry: business.industry,
       description: business.description,
@@ -61,7 +60,7 @@ export async function POST(req: NextRequest) {
       targetAudience: business.targetAudience,
       platforms: business.platforms,
       goals: business.goals,
-      duration: business.duration || 30,
+      duration: business.duration || 7,
       contentTone: business.contentTone || [],
       availableAssets: business.availableAssets || [],
       budget: business.budget || undefined,
@@ -69,6 +68,8 @@ export async function POST(req: NextRequest) {
     }).catch((err) => {
       console.error("Background generation failed:", err);
     });
+
+    waitUntil(generationPromise);
 
     return NextResponse.json({ strategyId: strategy.id });
   } catch (error) {
