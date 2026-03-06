@@ -59,7 +59,10 @@ interface FormData {
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { update } = useSession();
+  const { data: session, update } = useSession();
+  const plan = (session?.user as { plan?: string })?.plan ?? "free";
+  const isPaid = plan === "starter" || plan === "pro";
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<FormData>({
@@ -70,7 +73,7 @@ export default function OnboardingPage() {
     targetAudience: "",
     platforms: [],
     goals: [],
-    duration: 30,
+    duration: isPaid ? 30 : 7, // free users locked to 7 days
     contentTone: [],
     availableAssets: [],
     budget: "",
@@ -402,21 +405,38 @@ export default function OnboardingPage() {
           <CardContent className="space-y-6">
             <div>
               <Label htmlFor="duration">Strategy Duration</Label>
-              <Select
-                value={String(form.duration)}
-                onValueChange={(v) => updateField("duration", Number(v))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select duration" />
-                </SelectTrigger>
-                <SelectContent>
-                  {STRATEGY_DURATIONS.map(({ value, label }) => (
-                    <SelectItem key={value} value={String(value)}>
-                      {label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              {isPaid ? (
+                <Select
+                  value={String(form.duration)}
+                  onValueChange={(v) => updateField("duration", Number(v))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select duration" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {STRATEGY_DURATIONS.map(({ value, label }) => (
+                      <SelectItem key={value} value={String(value)}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <div className="mt-1.5">
+                  <div className="flex items-center justify-between border-2 border-black rounded-lg px-4 py-3 bg-[#FFF8F0] shadow-[2px_2px_0px_#000000]">
+                    <span className="text-sm font-medium text-black">7 days</span>
+                    <span className="text-xs font-bold bg-[#A8A6FF] text-black border border-black rounded-full px-2.5 py-0.5">
+                      Free Plan
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1.5">
+                    Upgrade to Starter or Pro to unlock 30, 60, or 90-day strategies.{" "}
+                    <a href="/pricing" className="underline font-medium text-[#918EFA]" target="_blank">
+                      View plans →
+                    </a>
+                  </p>
+                </div>
+              )}
             </div>
 
             <div>
