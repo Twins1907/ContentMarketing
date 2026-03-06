@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db";
 import { generateStrategy } from "@/lib/ai";
 import { waitUntil } from "@vercel/functions";
 
-export const maxDuration = 120;
+export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {

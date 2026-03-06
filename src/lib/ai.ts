@@ -20,17 +20,24 @@ export interface BusinessInput {
   plannedStartDate?: string;
 }
 
-async function callClaude(systemPrompt: string, userPrompt: string, maxTokens = 4096): Promise<string> {
-  const message = await anthropic.messages.create({
-    model: "claude-3-5-haiku-20241022",
-    max_tokens: maxTokens,
-    system: systemPrompt,
-    messages: [{ role: "user", content: userPrompt }],
-  });
-
-  const block = message.content[0];
-  if (block.type === "text") return block.text;
-  return "";
+async function callClaude(label: string, systemPrompt: string, userPrompt: string, maxTokens = 4096): Promise<string> {
+  const start = Date.now();
+  console.log(`[AI] Starting: ${label}`);
+  try {
+    const message = await anthropic.messages.create({
+      model: "claude-3-5-haiku-20241022",
+      max_tokens: maxTokens,
+      system: systemPrompt,
+      messages: [{ role: "user", content: userPrompt }],
+    });
+    console.log(`[AI] Completed: ${label} in ${Date.now() - start}ms`);
+    const block = message.content[0];
+    if (block.type === "text") return block.text;
+    return "";
+  } catch (err) {
+    console.error(`[AI] FAILED: ${label} after ${Date.now() - start}ms`, err);
+    throw err;
+  }
 }
 
 function parseJSON(text: string): unknown {
@@ -66,8 +73,11 @@ Platforms: ${business.platforms.join(", ")}${business.contentTone?.length ? `\nT
       data: { generationStep: 1 },
     });
 
+    console.log(`[AI] Starting generation for strategy ${strategyId}, duration: ${days} days`);
+
     const [overviewRaw, personaRaw, platformRaw, pillarsRaw] = await Promise.all([
       callClaude(
+        "overview",
         systemPrompt,
         `Analyze this business and create a strategic overview. Return JSON with this exact structure:
 {"businessSummary":"...","valueProposition":"...","toneAndVoice":"...","differentiators":["...",".."]}
@@ -75,6 +85,7 @@ Platforms: ${business.platforms.join(", ")}${business.contentTone?.length ? `\nT
 ${bizContext}`
       ),
       callClaude(
+        "persona",
         systemPrompt,
         `Based on this business, create a detailed audience persona. Return JSON:
 {"name":"...","age":"...","occupation":"...","interests":["..."],"painPoints":["..."],"platforms":["..."],"contentPreferences":["..."],"buyingBehavior":"..."}
@@ -82,6 +93,7 @@ ${bizContext}`
 ${bizContext}`
       ),
       callClaude(
+        "platform-strategy",
         systemPrompt,
         `Create platform-specific strategies. Return JSON array:
 [{"platform":"...","postingFrequency":"...","bestTimes":["..."],"contentFormats":["..."],"keyTactics":["..."]}]
@@ -89,6 +101,7 @@ ${bizContext}`
 ${bizContext}`
       ),
       callClaude(
+        "pillars",
         systemPrompt,
         `Create 4-5 content pillars. Return JSON array:
 [{"name":"...","description":"...","percentage":40,"exampleTopics":["...","...","..."]}]
@@ -116,6 +129,7 @@ ${bizContext}`
 
     // Step 5: Calendar — depends on pillars
     const calendarRaw = await callClaude(
+      `calendar-${days}d`,
       systemPrompt,
       `Create a ${days}-day content calendar. Return JSON array of exactly ${days} items:
 [{"day":1,"platform":"tiktok","pillar":"Education","briefHook":"..."}]
@@ -140,9 +154,12 @@ Rotate platforms and pillars strategically.`,
       batches.push(calendarDays.slice(i, i + batchSize));
     }
 
+    console.log(`[AI] Generating briefs in ${batches.length} parallel batches`);
+
     const briefResults = await Promise.all(
-      batches.map((batchDays) =>
+      batches.map((batchDays, i) =>
         callClaude(
+          `briefs-batch-${i + 1}`,
           systemPrompt,
           `Create detailed content briefs for these days. Return JSON array:
 [{"dayNumber":1,"platform":"...","pillar":"...","goal":"...","hook":"...","script":"...","visualDirection":"...","caption":"...","hashtags":["..."],"cta":"...","postingTime":"...","strategicReasoning":"..."}]
@@ -191,12 +208,13 @@ ${JSON.stringify(batchDays)}`,
       });
     }
 
+    console.log(`[AI] Strategy ${strategyId} completed successfully`);
     await prisma.strategy.update({
       where: { id: strategyId },
       data: { status: "ready" },
     });
   } catch (error) {
-    console.error("Strategy generation failed:", error);
+    console.error(`[AI] Strategy ${strategyId} FAILED:`, error);
     await prisma.strategy.update({
       where: { id: strategyId },
       data: { status: "failed" },
