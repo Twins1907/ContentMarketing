@@ -4,7 +4,7 @@ import { CalendarDayCell } from "./calendar-day-cell";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Lock, ArrowRight, Sparkles } from "lucide-react";
-import { canViewCalendarDay } from "@/lib/access";
+import { canViewCalendarDay, getCalendarDayLimit } from "@/lib/access";
 import type { CalendarDay } from "@/types";
 import type { ContentBrief } from "@prisma/client";
 import Link from "next/link";
@@ -24,8 +24,9 @@ export function ContentCalendar({
   onDayClick,
   onPostStatusChange,
 }: ContentCalendarProps) {
-  const dayLimit = canViewCalendarDay(plan, 30) ? 30 : 7;
-  const lockedDays = 30 - dayLimit;
+  const planLimit = getCalendarDayLimit(plan);
+  const totalDays = calendar.length;
+  const lockedDays = Math.max(0, totalDays - planLimit);
 
   // Group days by week for theme headers
   const weeks: Array<{ weekNum: number; theme?: string; days: CalendarDay[] }> = [];

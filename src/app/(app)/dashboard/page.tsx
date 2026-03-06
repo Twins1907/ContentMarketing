@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { getStrategies, updateProjectColor } from "@/actions/strategy";
+import { canCreateStrategy } from "@/lib/access";
 import {
   Loader2,
   ArrowRight,
@@ -193,6 +194,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const [strategies, setStrategies] = useState<StrategyWithBusiness[]>([]);
   const [loading, setLoading] = useState(true);
+  const plan = (session?.user as { plan?: string })?.plan || "free";
 
   useEffect(() => {
     if (session && !session.user.onboardingComplete) {
@@ -283,21 +285,39 @@ export default function DashboardPage() {
             ))}
 
             {/* New Project Card */}
-            <StaggeredItem>
-              <Link href="/onboarding" className="block group">
-                <Card className="h-full border-dashed hover:border-solid hover:shadow-[4px_4px_0px_#000000] transition-all flex items-center justify-center min-h-[240px]">
-                  <CardContent className="text-center py-8">
-                    <div className="w-12 h-12 bg-[#A8A6FF] border-2 border-black rounded-xl flex items-center justify-center shadow-[2px_2px_0px_#000000] mx-auto mb-3 group-hover:scale-105 transition-transform">
-                      <Plus className="w-6 h-6 text-white" />
-                    </div>
-                    <p className="font-bold">New Project</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Create another strategy
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            </StaggeredItem>
+            {canCreateStrategy(plan, activeStrategies.length) ? (
+              <StaggeredItem>
+                <Link href="/onboarding" className="block group">
+                  <Card className="h-full border-dashed hover:border-solid hover:shadow-[4px_4px_0px_#000000] transition-all flex items-center justify-center min-h-[240px]">
+                    <CardContent className="text-center py-8">
+                      <div className="w-12 h-12 bg-[#A8A6FF] border-2 border-black rounded-xl flex items-center justify-center shadow-[2px_2px_0px_#000000] mx-auto mb-3 group-hover:scale-105 transition-transform">
+                        <Plus className="w-6 h-6 text-white" />
+                      </div>
+                      <p className="font-bold">New Project</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Create another strategy
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </StaggeredItem>
+            ) : (
+              <StaggeredItem>
+                <Link href="/pricing" className="block group">
+                  <Card className="h-full border-dashed border-[#918EFA] hover:border-solid hover:shadow-[4px_4px_0px_#000000] transition-all flex items-center justify-center min-h-[240px]">
+                    <CardContent className="text-center py-8">
+                      <div className="w-12 h-12 bg-[#918EFA] border-2 border-black rounded-xl flex items-center justify-center shadow-[2px_2px_0px_#000000] mx-auto mb-3 group-hover:scale-105 transition-transform">
+                        <Plus className="w-6 h-6 text-white" />
+                      </div>
+                      <p className="font-bold">Upgrade to Create More</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {plan === "free" ? "Free plan: 1 strategy" : "Starter plan: 5 strategies"}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </StaggeredItem>
+            )}
           </StaggeredContainer>
 
           {/* Archived Projects Section */}

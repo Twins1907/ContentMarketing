@@ -50,14 +50,28 @@ export async function getStrategyStatus(id: string) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return null;
 
-  return prisma.strategy.findFirst({
+  const strategy = await prisma.strategy.findFirst({
     where: { id, userId: session.user.id },
     select: {
       id: true,
       status: true,
       generationStep: true,
+      _count: { select: { briefs: true } },
     },
   });
+
+  if (!strategy) return null;
+
+  // Auto-recover: if all 6 steps completed but status is "failed", fix it
+  if (strategy.status === "failed" && strategy.generationStep >= 6 && strategy._count.briefs > 0) {
+    await prisma.strategy.update({
+      where: { id },
+      data: { status: "ready" },
+    });
+    return { id: strategy.id, status: "ready", generationStep: strategy.generationStep };
+  }
+
+  return { id: strategy.id, status: strategy.status, generationStep: strategy.generationStep };
 }
 
 export async function getBrief(id: string) {

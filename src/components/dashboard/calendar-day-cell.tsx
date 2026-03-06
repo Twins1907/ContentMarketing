@@ -89,30 +89,28 @@ export function CalendarDayCell({
   }
 
   return (
-    <div
-      className={`p-3 rounded-xl border-2 border-black bg-background text-left h-full min-h-[120px] flex flex-col gap-2 hover:shadow-[3px_3px_0px_#000000] transition-all ${
+    <button
+      onClick={onClick}
+      className={`p-3 rounded-xl border-2 border-black bg-background text-left w-full h-full min-h-[120px] flex flex-col gap-2 hover:shadow-[3px_3px_0px_#000000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all cursor-pointer ${
         postStatus === "completed" ? "bg-[#34D399]/5" : ""
       }`}
     >
       {/* Header: date + status toggle */}
       <div className="flex items-center justify-between">
-        <button
-          onClick={onClick}
-          className="flex items-center gap-1.5 cursor-pointer"
-        >
+        <div className="flex items-center gap-1.5">
           {dateLabel.secondary && (
             <span className="text-[10px] text-muted-foreground uppercase font-medium">
               {dateLabel.secondary}
             </span>
           )}
           <span className="text-sm font-bold">{dateLabel.primary}</span>
-        </button>
+        </div>
 
         {/* Status dropdown */}
         {onStatusChange ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button
+              <div
                 className="flex items-center justify-center w-5 h-5 rounded-full hover:scale-110 transition-transform"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -120,7 +118,7 @@ export function CalendarDayCell({
                   className="w-4 h-4"
                   style={{ color: statusConfig.color }}
                 />
-              </button>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-36">
               <DropdownMenuItem
@@ -166,14 +164,14 @@ export function CalendarDayCell({
           </DropdownMenu>
         ) : (
           <div
-            className="w-2 h-2 rounded-full"
+            className="w-2 h-2 rounded-full flex-shrink-0"
             style={{ backgroundColor: PLATFORM_COLORS[day.platform] || "#666" }}
           />
         )}
       </div>
 
-      {/* Platform badge + format + hook — clickable to open brief */}
-      <button onClick={onClick} className="cursor-pointer text-left flex-1 flex flex-col gap-1.5">
+      {/* Platform badge + format + hook */}
+      <div className="flex-1 flex flex-col gap-1.5">
         <div className="flex items-center gap-1 flex-wrap">
           <Badge
             className="text-[10px] px-1.5 py-0 w-fit text-white border-0"
@@ -190,7 +188,7 @@ export function CalendarDayCell({
         <p className="text-xs text-muted-foreground line-clamp-2 mt-auto">
           {day.briefHook}
         </p>
-      </button>
-    </div>
+      </div>
+    </button>
   );
 }

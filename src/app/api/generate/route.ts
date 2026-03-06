@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { generateStrategy } from "@/lib/ai";
 import { waitUntil } from "@vercel/functions";
+import { canCreateStrategy } from "@/lib/access";
 
 export const maxDuration = 60;
 
@@ -31,6 +32,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { error: "Business not found" },
         { status: 404 }
+      );
+    }
+
+    // Check plan limits
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { plan: true },
+    });
+    const plan = user?.plan || "free";
+    const existingCount = await prisma.strategy.count({
+      where: { userId: session.user.id, deletedAt: null },
+    });
+    if (!canCreateStrategy(plan, existingCount)) {
+      return NextResponse.json(
+        { error: plan === "free" ? "Free plan allows 1 strategy. Upgrade to create more." : "Upgrade to Pro for unlimited strategies." },
+        { status: 403 }
       );
     }
 

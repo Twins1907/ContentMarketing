@@ -62,6 +62,7 @@ export default function OnboardingPage() {
   const { data: session, update } = useSession();
   const plan = (session?.user as { plan?: string })?.plan ?? "free";
   const maxDuration = plan === "pro" ? 90 : plan === "starter" ? 30 : 7;
+  const strategyLimit = plan === "pro" ? Infinity : plan === "starter" ? 5 : 1;
   const allowedDurations = STRATEGY_DURATIONS.filter((d) => d.value <= maxDuration);
 
   const [step, setStep] = useState(1);
@@ -143,6 +144,11 @@ export default function OnboardingPage() {
 
       if (!genRes.ok) {
         const errorData = await genRes.json().catch(() => ({}));
+        if (genRes.status === 403) {
+          toast.error(errorData.error || "Plan limit reached.");
+          router.push("/pricing");
+          return;
+        }
         toast.error(errorData.error || `Generation failed (${genRes.status})`);
         setLoading(false);
         return;
