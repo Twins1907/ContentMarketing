@@ -98,8 +98,9 @@ export default function ProjectDetailPage() {
   // Navigate directly to full brief page instead of side panel
   const handleDayClick = (dayNumber: number, briefId?: string) => {
     if (!strategy) return;
+    // Use Number() to handle type mismatches from JSON parsing (string vs number)
     const brief = strategy.briefs.find(
-      (b) => b.dayNumber === dayNumber || b.id === briefId
+      (b) => Number(b.dayNumber) === Number(dayNumber) || (briefId && b.id === briefId)
     );
     if (brief) {
       router.push(`/dashboard/brief/${brief.id}`);

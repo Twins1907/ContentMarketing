@@ -190,10 +190,10 @@ ${JSON.stringify(batchDays)}`,
         }>;
 
         await prisma.contentBrief.createMany({
-          data: briefs.map((b) => ({
+          data: briefs.map((b, idx) => ({
             strategyId,
-            dayNumber: b.dayNumber ?? batchDays[briefs.indexOf(b)]?.day,
-            platform: b.platform ?? batchDays[briefs.indexOf(b)]?.platform ?? "unknown",
+            dayNumber: Number(b.dayNumber) || batchDays[idx]?.day || (i * batchSize + idx + 1),
+            platform: b.platform ?? batchDays[idx]?.platform ?? "unknown",
             pillar: b.pillar ?? "",
             goal: b.goal ?? "",
             hook: b.hook ?? "",

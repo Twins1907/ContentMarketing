@@ -44,7 +44,7 @@ export function ContentCalendar({
 
   const renderDay = (day: CalendarDay) => {
     const isLocked = !canViewCalendarDay(plan, day.day);
-    const brief = briefs.find((b) => b.dayNumber === day.day);
+    const brief = briefs.find((b) => Number(b.dayNumber) === Number(day.day));
     return (
       <CalendarDayCell
         key={day.day}
