@@ -6,7 +6,7 @@ function getResend() {
   return new Resend(key);
 }
 
-const FROM_EMAIL = "Orbyt <hello@getorbyt.io>";
+const FROM_EMAIL = "Orbyt <no-reply@getorbyt.io>";
 
 export async function sendWelcomeEmail({
   to,
