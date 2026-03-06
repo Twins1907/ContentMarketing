@@ -8,44 +8,11 @@ import { useSession } from "next-auth/react";
 
 type PlanKey = "free" | "starter" | "pro";
 
-const PLAN_CARDS: {
-  key: PlanKey;
-  bg: string;
-  subtitle: string;
-  priceLabel: string;
-  priceSuffix: string;
-  cta: string;
-  ctaBg: string;
-  popular?: boolean;
-}[] = [
-  {
-    key: "free",
-    bg: "#A6FAFF",
-    subtitle: "No credit card required",
-    priceLabel: "$0",
-    priceSuffix: "",
-    cta: "Get Started Free",
-    ctaBg: "bg-white",
-  },
-  {
-    key: "starter",
-    bg: "#FFA6F6",
-    subtitle: "Cancel anytime",
-    priceLabel: `$${PLAN_TIERS.starter.price}`,
-    priceSuffix: "/month",
-    cta: "Start Starter Plan",
-    ctaBg: "bg-[#FFE500]",
-    popular: true,
-  },
-  {
-    key: "pro",
-    bg: "#FFF066",
-    subtitle: "Cancel anytime",
-    priceLabel: `$${PLAN_TIERS.pro.price}`,
-    priceSuffix: "/month",
-    cta: "Start Pro Plan",
-    ctaBg: "bg-white",
-  },
+const PRO_EXTRA_FEATURES = [
+  "PDF & branded report export",
+  "Team member access (up to 3)",
+  "Extended calendars (up to 90 days)",
+  "Priority email support",
 ];
 
 const FAQS = [
@@ -160,6 +127,7 @@ function PricingJsonLd() {
 export default function PricingPage() {
   const { data: session } = useSession();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [isAnnual, setIsAnnual] = useState(false);
 
   async function handleUpgrade(plan: "starter" | "pro") {
     if (!session) {
@@ -188,22 +156,54 @@ export default function PricingPage() {
     }
   }
 
+  const planCards: {
+    key: PlanKey;
+    bg: string;
+    subtitle: string;
+    billingNote?: string;
+    priceLabel: string;
+    priceSuffix: string;
+    cta: string;
+    ctaBg: string;
+    popular?: boolean;
+    extraFeatures?: string[];
+  }[] = [
+    {
+      key: "free",
+      bg: "#A6FAFF",
+      subtitle: "No credit card required",
+      priceLabel: "$0",
+      priceSuffix: "",
+      cta: "Get Started Free",
+      ctaBg: "bg-white",
+    },
+    {
+      key: "starter",
+      bg: "#FFA6F6",
+      subtitle: "Cancel anytime",
+      billingNote: isAnnual ? "billed annually" : undefined,
+      priceLabel: isAnnual ? "$15" : `$${PLAN_TIERS.starter.price}`,
+      priceSuffix: "/month",
+      cta: "Start Starter Plan",
+      ctaBg: "bg-[#FFE500]",
+      popular: true,
+    },
+    {
+      key: "pro",
+      bg: "#FFF066",
+      subtitle: "Cancel anytime",
+      billingNote: isAnnual ? "billed annually" : undefined,
+      priceLabel: isAnnual ? "$31" : `$${PLAN_TIERS.pro.price}`,
+      priceSuffix: "/month",
+      cta: "Start Pro Plan",
+      ctaBg: "bg-[#FFE500]",
+      extraFeatures: PRO_EXTRA_FEATURES,
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#FFF8F0]">
+    <>
       <PricingJsonLd />
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#FFF8F0] border-b-2 border-black">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="font-display text-3xl tracking-tight text-black">
-            ORBYT
-          </Link>
-          <Link href="/auth">
-            <button className="bg-[#918EFA] text-white font-semibold text-sm px-5 py-2 border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all">
-              Get Started
-            </button>
-          </Link>
-        </div>
-      </header>
 
       <main className="max-w-5xl mx-auto px-4 py-16">
         {/* Heading */}
@@ -216,10 +216,24 @@ export default function PricingPage() {
           </p>
         </div>
 
+        {/* Billing Toggle */}
+        <div className="flex items-center justify-center gap-4 mb-12">
+          <span className={`font-medium ${!isAnnual ? 'text-black' : 'text-gray-400'}`}>Monthly</span>
+          <button
+            onClick={() => setIsAnnual(!isAnnual)}
+            className="relative w-14 h-8 bg-[#918EFA] border-2 border-black rounded-full shadow-[2px_2px_0px_#000] transition-all"
+          >
+            <span className={`absolute top-0.5 w-5 h-5 bg-white border-2 border-black rounded-full transition-transform ${isAnnual ? 'translate-x-7' : 'translate-x-1'}`} />
+          </button>
+          <span className={`font-medium ${isAnnual ? 'text-black' : 'text-gray-400'}`}>
+            Annual <span className="bg-[#B8FF9F] text-black text-xs border-2 border-black rounded-full px-2 py-0.5 ml-1 font-bold">Save 20%</span>
+          </span>
+        </div>
+
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-3 gap-6">
-          {PLAN_CARDS.map(
-            ({ key, bg, subtitle, priceLabel, priceSuffix, cta, ctaBg, popular }) => {
+          {planCards.map(
+            ({ key, bg, subtitle, billingNote, priceLabel, priceSuffix, cta, ctaBg, popular, extraFeatures }) => {
               const tier = PLAN_TIERS[key];
 
               return (
@@ -250,12 +264,22 @@ export default function PricingPage() {
                       )}
                     </div>
 
-                    <p className="text-sm text-[#333333] mb-6">{subtitle}</p>
+                    <p className="text-sm text-[#333333]">{subtitle}</p>
+                    {billingNote && (
+                      <p className="text-xs text-[#666666] mt-0.5">{billingNote}</p>
+                    )}
+                    <div className="mb-6" />
 
                     <div className="w-full h-0.5 bg-black/20 mb-6" />
 
                     <ul className="space-y-3 flex-1">
                       {tier.features.map((f) => (
+                        <li key={f} className="flex items-start gap-2.5 text-sm">
+                          <Check className="w-4 h-4 mt-0.5 shrink-0 text-black" strokeWidth={3} />
+                          <span className="text-black">{f}</span>
+                        </li>
+                      ))}
+                      {extraFeatures?.map((f) => (
                         <li key={f} className="flex items-start gap-2.5 text-sm">
                           <Check className="w-4 h-4 mt-0.5 shrink-0 text-black" strokeWidth={3} />
                           <span className="text-black">{f}</span>
@@ -330,6 +354,6 @@ export default function PricingPage() {
           </Link>
         </div>
       </main>
-    </div>
+    </>
   );
 }

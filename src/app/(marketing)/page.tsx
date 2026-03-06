@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   Clock,
@@ -9,6 +10,10 @@ import {
   FileText,
   Users,
   ArrowRight,
+  Store,
+  Video,
+  Briefcase,
+  ShoppingBag,
 } from "lucide-react";
 import {
   AnimatedSection,
@@ -22,12 +27,15 @@ import {
 /* ------------------------------------------------------------------ */
 function Hero() {
   return (
-    <section className="bg-[#FFF8F0] py-20 md:py-28">
+    <section className="bg-[#FFF8F0] py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left — copy */}
           <div>
             <AnimatedSection>
+              <span className="inline-block bg-[#A8A6FF] text-black border-2 border-black shadow-[2px_2px_0px_#000] rounded-full px-4 py-1 text-sm font-medium mb-6">
+                AI-Powered Content Strategy
+              </span>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-black leading-[0.95] mb-6">
                 YOUR $3,000 CONTENT STRATEGIST — FOR FREE.
               </h1>
@@ -44,14 +52,18 @@ function Hero() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/auth"
-                  className="inline-flex items-center justify-center bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-8 py-4 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+                  className="inline-flex items-center justify-center bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000] rounded-lg px-8 py-4 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
                 >
                   Build My Strategy — Free
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Link>
                 <Link
                   href="#preview"
-                  className="inline-flex items-center justify-center bg-white text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-8 py-4 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("preview")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="inline-flex items-center justify-center bg-white text-black border-2 border-black shadow-[4px_4px_0px_#000] rounded-lg px-8 py-4 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
                 >
                   See a Sample Strategy
                 </Link>
@@ -64,7 +76,7 @@ function Hero() {
 
           {/* Right — product mockup */}
           <AnimatedSection delay={0.4}>
-            <div className="border-2 border-black shadow-[8px_8px_0px_#000000] rounded-xl overflow-hidden bg-white">
+            <div className="border-2 border-black shadow-[8px_8px_0px_#000] rounded-xl overflow-hidden bg-white">
               <div className="bg-black px-4 py-2 flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#F76363]" />
                 <div className="w-3 h-3 rounded-full bg-[#FFE500]" />
@@ -73,7 +85,7 @@ function Hero() {
               </div>
               <div className="p-6 space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-[#A8A6FF] border-2 border-black rounded-lg shadow-[2px_2px_0px_#000000]" />
+                  <div className="w-10 h-10 bg-[#A8A6FF] border-2 border-black rounded-lg shadow-[2px_2px_0px_#000]" />
                   <div>
                     <div className="font-bold text-sm">30-Day Content Calendar</div>
                     <div className="text-xs text-[#666]">Fitness coaching business</div>
@@ -148,9 +160,9 @@ function PainPoints() {
   ];
 
   return (
-    <section className="bg-[#FFF8F0] py-20 md:py-28">
+    <section className="bg-[#FFF8F0] py-16">
       <div className="max-w-6xl mx-auto px-4">
-        <AnimatedSection className="text-center mb-16">
+        <AnimatedSection className="text-center mb-12">
           <h2 className="font-display text-4xl md:text-5xl text-black">
             YOU KNOW YOU NEED TO POST. YOU JUST DON&apos;T KNOW WHAT.
           </h2>
@@ -160,12 +172,12 @@ function PainPoints() {
           {cards.map((card) => (
             <StaggeredItem key={card.title}>
               <div
-                className="rounded-xl border-2 border-black shadow-[4px_4px_0px_#000000] p-8 h-full"
+                className="rounded-xl border-2 border-black shadow-[4px_4px_0px_#000] p-8 h-full"
                 style={{ backgroundColor: card.bg }}
               >
                 <card.icon className="w-8 h-8 text-black mb-4" />
                 <h3 className="font-display text-xl text-black mb-3">{card.title}</h3>
-                <p className="text-[#333] text-sm leading-relaxed">{card.body}</p>
+                <p className="text-black text-sm leading-relaxed">{card.body}</p>
               </div>
             </StaggeredItem>
           ))}
@@ -201,9 +213,9 @@ function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="bg-[#FFF8F0] py-20 md:py-28">
+    <section id="how-it-works" className="bg-[#FFF8F0] py-16">
       <div className="max-w-6xl mx-auto px-4">
-        <AnimatedSection className="text-center mb-16">
+        <AnimatedSection className="text-center mb-12">
           <h2 className="font-display text-4xl md:text-5xl text-black max-w-4xl mx-auto">
             FROM &ldquo;I DON&apos;T KNOW WHAT TO POST&rdquo; TO A FULL CONTENT PLAN. IN 2 MINUTES.
           </h2>
@@ -213,12 +225,71 @@ function HowItWorks() {
           {steps.map((step) => (
             <StaggeredItem key={step.num}>
               <div
-                className="rounded-xl border-2 border-black shadow-[4px_4px_0px_#000000] p-8 h-full"
+                className="rounded-xl border-2 border-black shadow-[4px_4px_0px_#000] p-8 h-full"
                 style={{ backgroundColor: step.bg }}
               >
                 <span className="font-display text-6xl text-black leading-none">{step.num}</span>
                 <h3 className="font-display text-xl text-black mt-4 mb-3">{step.title}</h3>
-                <p className="text-[#333] text-sm leading-relaxed">{step.body}</p>
+                <p className="text-black text-sm leading-relaxed">{step.body}</p>
+              </div>
+            </StaggeredItem>
+          ))}
+        </StaggeredContainer>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section: Who Is This For?                                          */
+/* ------------------------------------------------------------------ */
+function WhoIsThisFor() {
+  const cards = [
+    {
+      icon: Store,
+      bg: "#FFF066",
+      title: "SMALL BUSINESSES",
+      body: "Restaurants, salons, gyms — get a content plan without hiring an agency.",
+    },
+    {
+      icon: Video,
+      bg: "#A6FAFF",
+      title: "CREATORS & INFLUENCERS",
+      body: "Stop guessing. Get a strategic plan that grows your audience.",
+    },
+    {
+      icon: Briefcase,
+      bg: "#FFA6F6",
+      title: "FREELANCERS & AGENCIES",
+      body: "Generate strategies for clients in minutes. Scale your services.",
+    },
+    {
+      icon: ShoppingBag,
+      bg: "#B8FF9F",
+      title: "E-COMMERCE BRANDS",
+      body: "Platform-specific content plans that drive traffic and sales.",
+    },
+  ];
+
+  return (
+    <section className="bg-[#FFF8F0] py-16">
+      <div className="max-w-6xl mx-auto px-4">
+        <AnimatedSection className="text-center mb-12">
+          <h2 className="font-display text-4xl md:text-5xl text-black">
+            BUILT FOR ANYONE WHO NEEDS TO POST.
+          </h2>
+        </AnimatedSection>
+
+        <StaggeredContainer className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {cards.map((card) => (
+            <StaggeredItem key={card.title}>
+              <div
+                className="rounded-xl border-2 border-black shadow-[4px_4px_0px_#000] p-6 text-center h-full"
+                style={{ backgroundColor: card.bg }}
+              >
+                <card.icon className="w-8 h-8 text-black mx-auto mb-3" />
+                <h3 className="font-display text-lg text-black mb-2">{card.title}</h3>
+                <p className="text-black text-sm leading-relaxed">{card.body}</p>
               </div>
             </StaggeredItem>
           ))}
@@ -261,9 +332,9 @@ function Features() {
   ];
 
   return (
-    <section id="features" className="bg-[#FFF8F0] py-20 md:py-28">
+    <section id="features" className="bg-[#FFF8F0] py-16">
       <div className="max-w-6xl mx-auto px-4">
-        <AnimatedSection className="text-center mb-16">
+        <AnimatedSection className="text-center mb-12">
           <h2 className="font-display text-4xl md:text-5xl text-black">
             HERE&apos;S WHAT YOU GET. SERIOUSLY, ALL OF THIS.
           </h2>
@@ -273,12 +344,12 @@ function Features() {
           {topCards.map((card) => (
             <StaggeredItem key={card.title}>
               <div
-                className="rounded-xl border-2 border-black shadow-[4px_4px_0px_#000000] p-8 h-full"
+                className="rounded-xl border-2 border-black shadow-[4px_4px_0px_#000] p-8 h-full"
                 style={{ backgroundColor: card.bg }}
               >
                 <card.icon className="w-8 h-8 text-black mb-4" />
                 <h3 className="font-display text-xl text-black mb-3">{card.title}</h3>
-                <p className="text-[#333] text-sm leading-relaxed">{card.body}</p>
+                <p className="text-black text-sm leading-relaxed">{card.body}</p>
               </div>
             </StaggeredItem>
           ))}
@@ -287,7 +358,7 @@ function Features() {
         <StaggeredContainer className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {pills.map((pill) => (
             <StaggeredItem key={pill}>
-              <div className="bg-white rounded-xl border-2 border-black shadow-[2px_2px_0px_#000000] p-4 text-center text-sm font-medium text-black">
+              <div className="bg-white rounded-xl border-2 border-black shadow-[2px_2px_0px_#000] p-4 text-center text-sm font-medium text-black">
                 {pill}
               </div>
             </StaggeredItem>
@@ -309,7 +380,7 @@ function ValueStats() {
   ];
 
   return (
-    <section className="bg-[#FFF8F0] py-16 md:py-20">
+    <section className="bg-[#FFF8F0] py-12">
       <div className="max-w-5xl mx-auto px-4">
         <AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3">
@@ -336,7 +407,7 @@ function ValueStats() {
 /* ------------------------------------------------------------------ */
 function SamplePreview() {
   return (
-    <section id="preview" className="bg-[#FFF8F0] py-20 md:py-28">
+    <section id="preview" className="bg-[#FFF8F0] py-16">
       <div className="max-w-4xl mx-auto px-4">
         <AnimatedSection className="text-center mb-12">
           <h2 className="font-display text-4xl md:text-5xl text-black mb-4">
@@ -356,8 +427,8 @@ function SamplePreview() {
 }
 
 function PreviewTabs() {
-  const tabs = ["Audience Persona", "Content Calendar", "Content Brief"] as const;
-  const [active, setActive] = useState<(typeof tabs)[number]>("Audience Persona");
+  const tabs = ["Content Brief", "Audience Persona", "Content Calendar"] as const;
+  const [active, setActive] = useState<(typeof tabs)[number]>("Content Brief");
 
   return (
     <div>
@@ -367,10 +438,10 @@ function PreviewTabs() {
           <button
             key={tab}
             onClick={() => setActive(tab)}
-            className={`border-2 border-black rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+            className={`border-2 border-black rounded-lg px-4 py-2 text-sm font-bold transition-all ${
               active === tab
-                ? "bg-[#918EFA] shadow-[2px_2px_0px_#000000]"
-                : "bg-white hover:bg-gray-50"
+                ? "bg-[#918EFA] text-black shadow-[2px_2px_0px_#000]"
+                : "bg-white text-black hover:bg-gray-50"
             }`}
           >
             {tab}
@@ -379,7 +450,7 @@ function PreviewTabs() {
       </div>
 
       {/* Tab content */}
-      <div className="bg-white border-2 border-black shadow-[4px_4px_0px_#000000] rounded-xl p-6 md:p-8">
+      <div className="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-6 md:p-8">
         {active === "Audience Persona" && <PersonaTab />}
         {active === "Content Calendar" && <CalendarTab />}
         {active === "Content Brief" && <BriefTab />}
@@ -389,7 +460,7 @@ function PreviewTabs() {
       <div className="text-center mt-8">
         <Link
           href="/auth"
-          className="inline-flex items-center justify-center bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-8 py-4 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+          className="inline-flex items-center justify-center bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000] rounded-lg px-8 py-4 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
         >
           Generate Your Own — Free
           <ArrowRight className="ml-2 w-5 h-5" />
@@ -403,11 +474,11 @@ function PersonaTab() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4 mb-4">
-        <div className="w-14 h-14 bg-[#FFA6F6] border-2 border-black rounded-xl shadow-[2px_2px_0px_#000000] flex items-center justify-center font-display text-2xl">
+        <div className="w-14 h-14 bg-[#FFA6F6] border-2 border-black rounded-xl shadow-[2px_2px_0px_#000] flex items-center justify-center font-display text-2xl">
           DD
         </div>
         <div>
-          <h3 className="font-display text-xl text-black">DRIVEN DANA</h3>
+          <h3 className="font-display text-2xl text-black">DRIVEN DANA</h3>
           <p className="text-sm text-[#666]">Age 28–35 · Busy Professional</p>
         </div>
       </div>
@@ -423,11 +494,11 @@ function PersonaTab() {
 
 function Field({ label, items }: { label: string; items: string[] }) {
   return (
-    <div className="bg-[#FFF8F0] border border-black/10 rounded-lg p-4">
+    <div className="border-2 border-black rounded-lg p-4 bg-[#FFF8F0]">
       <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">{label}</h4>
       <ul className="space-y-1">
         {items.map((item) => (
-          <li key={item} className="text-sm text-[#333]">• {item}</li>
+          <li key={item} className="text-sm text-black">• {item}</li>
         ))}
       </ul>
     </div>
@@ -457,7 +528,7 @@ function CalendarTab() {
           >
             {d.platform}
           </span>
-          <span className="text-sm text-[#333] flex-1 truncate">{d.title}</span>
+          <span className="text-sm text-black flex-1 truncate">{d.title}</span>
           <span className="hidden sm:inline text-[10px] font-medium px-2 py-0.5 bg-white border border-black/10 rounded-full text-[#666]">
             {d.pillar}
           </span>
@@ -477,7 +548,7 @@ function BriefTab() {
 
       <div>
         <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">Script</h4>
-        <div className="bg-[#FFF8F0] border border-black/10 rounded-lg p-4 text-sm text-[#333] space-y-2">
+        <div className="bg-[#FFF8F0] border-2 border-black rounded-lg p-4 text-sm text-black space-y-2">
           <p><strong>Hook (0–3s):</strong> &ldquo;If you&apos;re doing 45 min of cardio and not losing weight, stop. Here&apos;s why.&rdquo;</p>
           <p><strong>Body (3–25s):</strong> Explain the science of EPOC and why strength training burns more calories over 24 hours. Use a split-screen comparison showing cardio vs. weights calorie burn timeline.</p>
           <p><strong>Close (25–35s):</strong> &ldquo;Swap 2 cardio sessions for strength this week. Follow for more fat-loss science.&rdquo;</p>
@@ -487,11 +558,11 @@ function BriefTab() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">Caption</h4>
-          <p className="text-sm text-[#333]">Cardio isn&apos;t the enemy — but it&apos;s not the whole answer either. Here&apos;s the science your gym bro won&apos;t tell you.</p>
+          <p className="text-sm text-black">Cardio isn&apos;t the enemy — but it&apos;s not the whole answer either. Here&apos;s the science your gym bro won&apos;t tell you.</p>
         </div>
         <div>
           <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">Visual Direction</h4>
-          <p className="text-sm text-[#333]">Talking head in gym setting, split-screen calorie comparison graphic, text overlay for key stats.</p>
+          <p className="text-sm text-black">Talking head in gym setting, split-screen calorie comparison graphic, text overlay for key stats.</p>
         </div>
       </div>
 
@@ -499,7 +570,7 @@ function BriefTab() {
         <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">Hashtags</h4>
         <div className="flex flex-wrap gap-2">
           {["#FatLoss", "#FitnessScience", "#StrengthTraining", "#CardioMyths", "#FitTok"].map((tag) => (
-            <span key={tag} className="bg-[#FFF8F0] border border-black/10 rounded-full px-3 py-1 text-xs font-medium text-[#333]">
+            <span key={tag} className="bg-[#FFF8F0] border-2 border-black rounded-full px-3 py-1 text-xs font-medium text-black">
               {tag}
             </span>
           ))}
@@ -508,7 +579,7 @@ function BriefTab() {
 
       <div>
         <h4 className="text-xs font-bold text-black uppercase tracking-wide mb-2">CTA</h4>
-        <p className="text-sm text-[#333]">Follow for more fat-loss science that actually works.</p>
+        <p className="text-sm text-black">Follow for more fat-loss science that actually works.</p>
       </div>
     </div>
   );
@@ -519,7 +590,7 @@ function BriefTab() {
 /* ------------------------------------------------------------------ */
 function FinalCTA() {
   return (
-    <section className="bg-[#A8A6FF] py-20 md:py-28">
+    <section className="bg-[#A8A6FF] py-16">
       <div className="max-w-3xl mx-auto px-4 text-center">
         <AnimatedSection>
           <h2 className="font-display text-4xl md:text-5xl text-black mb-6">
@@ -527,14 +598,14 @@ function FinalCTA() {
           </h2>
         </AnimatedSection>
         <AnimatedSection delay={0.1}>
-          <p className="text-lg text-[#333] max-w-xl mx-auto mb-8">
+          <p className="text-lg text-black max-w-xl mx-auto mb-8">
             No credit card. No catch. A complete content plan built for your business in 2 minutes.
           </p>
         </AnimatedSection>
         <AnimatedSection delay={0.2}>
           <Link
             href="/auth"
-            className="inline-flex items-center justify-center bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-10 py-5 text-lg font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+            className="inline-flex items-center justify-center bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000] rounded-lg px-10 py-5 text-lg font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
           >
             Build My Free Strategy
             <ArrowRight className="ml-2 w-5 h-5" />
@@ -599,9 +670,6 @@ function JsonLd() {
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
-
-import { useState } from "react";
-
 export default function LandingPage() {
   return (
     <div className="flex flex-col">
@@ -609,6 +677,7 @@ export default function LandingPage() {
       <Hero />
       <PainPoints />
       <HowItWorks />
+      <WhoIsThisFor />
       <Features />
       <ValueStats />
       <SamplePreview />

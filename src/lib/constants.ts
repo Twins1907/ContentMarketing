@@ -131,8 +131,8 @@ export const PLAN_TIERS = {
     name: "Pro",
     price: 39,
     priceLabel: "$39/month",
-    calendarDays: 30,
-    briefLimit: 30,
+    calendarDays: 90,
+    briefLimit: 90,
     strategies: -1, // unlimited
     features: [
       "Unlimited strategies",
@@ -140,6 +140,10 @@ export const PLAN_TIERS = {
       "Priority AI generation",
       "Full 30-day content calendar",
       "All content briefs",
+      "PDF & branded report export",
+      "Team member access (up to 3)",
+      "Extended calendars (up to 90 days)",
+      "Priority email support",
     ],
   },
 } as const;
