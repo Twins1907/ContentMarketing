@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripeWebhookEvent } from "@/lib/stripe";
 import { prisma } from "@/lib/db";
+import { sendSubscriptionEmail } from "@/lib/email";
 import type Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
       if (session.mode === "subscription") {
         const priceId = session.metadata?.priceId;
         const plan = priceId === process.env.STRIPE_PRO_PRICE_ID ? "pro" : "starter";
-        await prisma.user.update({
+        const updatedUser = await prisma.user.update({
           where: { id: userId },
           data: {
             plan,
@@ -34,6 +35,14 @@ export async function POST(req: NextRequest) {
             stripeSubId: session.subscription as string,
           },
         });
+
+        if (updatedUser.email) {
+          sendSubscriptionEmail({
+            to: updatedUser.email,
+            name: updatedUser.name,
+            plan: plan as "starter" | "pro",
+          }).catch((err) => console.error("Failed to send subscription email:", err));
+        }
       }
       break;
     }
