@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  motion,
+  m,
   useInView,
   type Variants,
 } from "framer-motion";
@@ -25,7 +25,7 @@ function AnimatedSection({
   delay = 0,
 }: AnimatedSectionProps) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -33,7 +33,7 @@ function AnimatedSection({
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -57,7 +57,7 @@ const staggeredContainerVariants: Variants = {
 
 function StaggeredContainer({ children, className }: StaggeredContainerProps) {
   return (
-    <motion.div
+    <m.div
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
@@ -65,7 +65,7 @@ function StaggeredContainer({ children, className }: StaggeredContainerProps) {
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -89,9 +89,9 @@ const staggeredItemVariants: Variants = {
 
 function StaggeredItem({ children, className }: StaggeredItemProps) {
   return (
-    <motion.div variants={staggeredItemVariants} className={className}>
+    <m.div variants={staggeredItemVariants} className={className}>
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -119,14 +119,13 @@ function AnimatedCounter({
   useEffect(() => {
     if (!isInView) return;
 
-    const duration = 1500; // ms
+    const duration = 1500;
     const startTime = performance.now();
 
     function step(currentTime: number) {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      // Ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.floor(eased * target));
 
@@ -167,7 +166,7 @@ function FloatingElement({
   duration = 3,
 }: FloatingElementProps) {
   return (
-    <motion.div
+    <m.div
       animate={{ y: [0, -amplitude, 0] }}
       transition={{
         duration,
@@ -177,7 +176,7 @@ function FloatingElement({
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -249,7 +248,7 @@ function FloatingShape({
   };
 
   return (
-    <motion.div
+    <m.div
       className={cn("absolute pointer-events-none", className)}
       style={shapeStyles[shape]}
       initial={{ opacity: 0, scale: 0 }}
@@ -290,7 +289,7 @@ function GradientOrb({
   delay = 0,
 }: GradientOrbProps) {
   return (
-    <motion.div
+    <m.div
       className={cn("absolute rounded-full pointer-events-none blur-3xl", className)}
       style={{
         width: size,
@@ -341,7 +340,7 @@ function SparkleField({
   return (
     <div className={cn("absolute inset-0 overflow-hidden pointer-events-none", className)}>
       {sparkles.map((s) => (
-        <motion.div
+        <m.div
           key={s.id}
           className="absolute rounded-full"
           style={{
@@ -389,7 +388,7 @@ function WordReveal({
   return (
     <span className={className}>
       {words.map((word, i) => (
-        <motion.span
+        <m.span
           key={i}
           className="inline-block mr-[0.3em]"
           initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
@@ -401,7 +400,7 @@ function WordReveal({
           }}
         >
           {word}
-        </motion.span>
+        </m.span>
       ))}
     </span>
   );
@@ -420,7 +419,7 @@ interface PulseRingProps {
 function PulseRing({ children, color = "#C9A7EB", className }: PulseRingProps) {
   return (
     <div className={cn("relative inline-block", className)}>
-      <motion.div
+      <m.div
         className="absolute inset-0 rounded-xl"
         style={{ border: `2px solid ${color}` }}
         animate={{

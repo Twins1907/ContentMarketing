@@ -1,0 +1,13 @@
+{
+  "name": "Orbyt",
+  "short_name": "Orbyt",
+  "description": "AI-powered social media content strategy generator",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8F0",
+  "theme_color": "#FFE500",
+  "icons": [
+    { "src": "/icon", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-icon", "sizes": "180x180", "type": "image/png" }
+  ]
+}

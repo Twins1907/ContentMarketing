@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   Clock,
   Shuffle,
@@ -550,7 +549,7 @@ function FinalCTA() {
 /*  JSON-LD Structured Data                                            */
 /* ------------------------------------------------------------------ */
 function JsonLd() {
-  const schema = {
+  const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "Orbyt",
@@ -566,11 +565,34 @@ function JsonLd() {
     ],
   };
 
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Orbyt",
+    url: "https://getorbyt.io",
+    logo: "https://getorbyt.io/icon.png",
+    description:
+      "AI-powered social media content strategy platform by E2 Partners LLC.",
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "hello@e2partners.co",
+      contactType: "customer service",
+    },
+    foundingDate: "2026",
+    founder: { "@type": "Organization", name: "E2 Partners LLC" },
+  };
+
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
+    </>
   );
 }
 

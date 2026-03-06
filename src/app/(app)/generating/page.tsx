@@ -8,7 +8,7 @@ import { Loader2, CheckCircle2, Rocket, Sparkles, ArrowLeft, RotateCcw } from "l
 import Link from "next/link";
 import { GENERATION_STEPS } from "@/lib/constants";
 import { getStrategyStatus } from "@/actions/strategy";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 const FUN_MESSAGES = [
   "Brewing your strategy... ☕",
@@ -21,7 +21,7 @@ const FUN_MESSAGES = [
 
 function FloatingDot({ delay, color, size, x, y }: { delay: number; color: string; size: number; x: string; y: string }) {
   return (
-    <motion.div
+    <m.div
       className="absolute rounded-full"
       style={{ width: size, height: size, backgroundColor: color, left: x, top: y }}
       animate={{
@@ -81,7 +81,7 @@ function GeneratingContent() {
   const stepColors = ["#C9A7EB", "#89CFF0", "#F5C542", "#C9A7EB", "#89CFF0", "#F5C542"];
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -97,7 +97,7 @@ function GeneratingContent() {
 
       {/* Header with animated icon */}
       <div className="text-center mb-6">
-        <motion.div
+        <m.div
           animate={
             status === "generating"
               ? { y: [0, -12, 0], rotate: [0, 5, -5, 0] }
@@ -113,7 +113,7 @@ function GeneratingContent() {
           ) : (
             <Rocket className="w-10 h-10 text-white" />
           )}
-        </motion.div>
+        </m.div>
 
         <h1 className="font-display text-4xl font-bold mb-2">
           {status === "ready"
@@ -125,7 +125,7 @@ function GeneratingContent() {
 
         {/* Animated fun message */}
         <AnimatePresence mode="wait">
-          <motion.p
+          <m.p
             key={status === "generating" ? messageIndex : status}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -138,12 +138,12 @@ function GeneratingContent() {
               : status === "failed"
               ? "Something went wrong during generation."
               : FUN_MESSAGES[messageIndex]}
-          </motion.p>
+          </m.p>
         </AnimatePresence>
 
         {/* Action buttons when failed */}
         {status === "failed" && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -161,7 +161,7 @@ function GeneratingContent() {
                 Try Again
               </Button>
             </Link>
-          </motion.div>
+          </m.div>
         )}
       </div>
 
@@ -170,7 +170,7 @@ function GeneratingContent() {
         <CardContent className="pt-6 pb-6">
           {/* Custom progress bar */}
           <div className="h-3 bg-muted rounded-full overflow-hidden mb-6 border border-black/10">
-            <motion.div
+            <m.div
               className="h-full rounded-full bg-gradient-to-r from-[#C9A7EB] via-[#89CFF0] to-[#F5C542]"
               initial={{ width: "0%" }}
               animate={{ width: `${progress}%` }}
@@ -186,7 +186,7 @@ function GeneratingContent() {
                 const stepColor = stepColors[index % stepColors.length];
 
                 return (
-                  <motion.div
+                  <m.div
                     key={step}
                     initial={{ opacity: 0, x: -15 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -201,7 +201,7 @@ function GeneratingContent() {
                   >
                     <div className="flex-shrink-0">
                       {isComplete ? (
-                        <motion.div
+                        <m.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ type: "spring", bounce: 0.5 }}
@@ -209,7 +209,7 @@ function GeneratingContent() {
                           style={{ backgroundColor: stepColor }}
                         >
                           <CheckCircle2 className="w-4 h-4 text-white" />
-                        </motion.div>
+                        </m.div>
                       ) : isCurrent ? (
                         <div
                           className="w-7 h-7 rounded-full flex items-center justify-center border-2 border-black"
@@ -229,7 +229,7 @@ function GeneratingContent() {
                         {description}
                       </p>
                     </div>
-                  </motion.div>
+                  </m.div>
                 );
               })}
             </AnimatePresence>
@@ -243,7 +243,7 @@ function GeneratingContent() {
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </m.div>
   );
 }
 

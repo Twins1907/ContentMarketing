@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://getorbyt.io/auth",
   },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function AuthLayout({
