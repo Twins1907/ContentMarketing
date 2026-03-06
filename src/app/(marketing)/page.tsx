@@ -29,12 +29,6 @@ function Hero() {
           {/* Left — copy */}
           <div>
             <AnimatedSection>
-              <span className="inline-block bg-[#A8A6FF] text-black border-2 border-black shadow-[2px_2px_0px_#000000] rounded-full px-4 py-1 text-sm font-medium mb-6">
-                AI-Powered Content Strategy
-              </span>
-            </AnimatedSection>
-
-            <AnimatedSection delay={0.1}>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-black leading-[0.95] mb-6">
                 YOUR $3,000 CONTENT STRATEGIST — FOR FREE.
               </h1>
