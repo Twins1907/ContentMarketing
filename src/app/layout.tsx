@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inria_Sans, Bebas_Neue } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
@@ -89,6 +90,7 @@ export default function RootLayout({
         className={`${inriaSans.variable} ${bebasNeue.variable} font-sans antialiased`}
       >
         <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   );
