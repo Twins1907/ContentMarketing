@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -38,6 +38,8 @@ import {
   BUDGET_OPTIONS,
 } from "@/lib/constants";
 import { createBusiness } from "@/actions/business";
+import { getTotalStrategyCount } from "@/actions/strategy";
+import { canCreateStrategy } from "@/lib/access";
 import { toast } from "sonner";
 
 interface FormData {
@@ -62,11 +64,29 @@ export default function OnboardingPage() {
   const { data: session, update } = useSession();
   const plan = (session?.user as { plan?: string })?.plan ?? "free";
   const maxDuration = plan === "pro" ? 90 : plan === "starter" ? 30 : 7;
-  const strategyLimit = plan === "pro" ? Infinity : plan === "starter" ? 5 : 1;
   const allowedDurations = STRATEGY_DURATIONS.filter((d) => d.value <= maxDuration);
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [limitChecked, setLimitChecked] = useState(false);
+
+  // Guard: check strategy limit before allowing access to the form
+  useEffect(() => {
+    async function checkLimit() {
+      const count = await getTotalStrategyCount();
+      if (!canCreateStrategy(plan, count)) {
+        toast.error(
+          plan === "free"
+            ? "Free plan allows 1 strategy. Upgrade to create more."
+            : "You've reached your plan limit. Upgrade to Pro for unlimited strategies."
+        );
+        router.replace("/pricing");
+        return;
+      }
+      setLimitChecked(true);
+    }
+    if (session) checkLimit();
+  }, [session, plan, router]);
   const [form, setForm] = useState<FormData>({
     businessName: "",
     industry: "",
@@ -189,6 +209,14 @@ export default function OnboardingPage() {
 
   // Get today's date formatted as YYYY-MM-DD for the date picker
   const today = new Date().toISOString().split("T")[0];
+
+  if (!limitChecked) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto">
