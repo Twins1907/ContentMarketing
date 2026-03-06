@@ -289,7 +289,7 @@ export default function ProjectDetailPage() {
           {/* Strategy Direction — full width */}
           <StaggeredContainer>
             <StaggeredItem>
-              <Card className="border-2 border-black shadow-[3px_3px_0px_#000000]">
+              <Card className="border-2 border-black shadow-[3px_3px_0px_#000000] overflow-hidden">
                 <CardContent className="pt-5 pb-5">
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-7 h-7 bg-[#A8A6FF] rounded-lg flex items-center justify-center border-2 border-black">
@@ -309,8 +309,8 @@ export default function ProjectDetailPage() {
                   {/* Platform posting cadence */}
                   <div className="flex flex-wrap gap-1.5 mt-3">
                     {platformStrategies.map((ps) => (
-                      <Badge key={ps.platform} variant="outline" className="text-xs">
-                        {ps.platform}: {ps.postingFrequency}
+                      <Badge key={ps.platform} variant="outline" className="text-xs max-w-full truncate" title={`${ps.platform}: ${ps.postingFrequency}`}>
+                        {ps.platform}: {ps.postingFrequency?.split("—")[0]?.split("–")[0]?.trim() || ps.postingFrequency}
                       </Badge>
                     ))}
                   </div>
