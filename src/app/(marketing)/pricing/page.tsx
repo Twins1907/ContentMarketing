@@ -8,13 +8,6 @@ import { useSession } from "next-auth/react";
 
 type PlanKey = "free" | "starter" | "pro";
 
-const PRO_EXTRA_FEATURES = [
-  "PDF & branded report export",
-  "Team member access (up to 3)",
-  "Extended calendars (up to 90 days)",
-  "Priority email support",
-];
-
 const FAQS = [
   {
     q: "What do I get with the free plan?",
@@ -127,7 +120,6 @@ function PricingJsonLd() {
 export default function PricingPage() {
   const { data: session } = useSession();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
-  const [isAnnual, setIsAnnual] = useState(false);
 
   async function handleUpgrade(plan: "starter" | "pro") {
     if (!session) {
@@ -160,13 +152,11 @@ export default function PricingPage() {
     key: PlanKey;
     bg: string;
     subtitle: string;
-    billingNote?: string;
     priceLabel: string;
     priceSuffix: string;
     cta: string;
     ctaBg: string;
     popular?: boolean;
-    extraFeatures?: string[];
   }[] = [
     {
       key: "free",
@@ -181,8 +171,7 @@ export default function PricingPage() {
       key: "starter",
       bg: "#FFA6F6",
       subtitle: "Cancel anytime",
-      billingNote: isAnnual ? "billed annually" : undefined,
-      priceLabel: isAnnual ? "$15" : `$${PLAN_TIERS.starter.price}`,
+      priceLabel: `$${PLAN_TIERS.starter.price}`,
       priceSuffix: "/month",
       cta: "Start Starter Plan",
       ctaBg: "bg-[#FFE500]",
@@ -192,12 +181,10 @@ export default function PricingPage() {
       key: "pro",
       bg: "#FFF066",
       subtitle: "Cancel anytime",
-      billingNote: isAnnual ? "billed annually" : undefined,
-      priceLabel: isAnnual ? "$31" : `$${PLAN_TIERS.pro.price}`,
+      priceLabel: `$${PLAN_TIERS.pro.price}`,
       priceSuffix: "/month",
       cta: "Start Pro Plan",
       ctaBg: "bg-[#FFE500]",
-      extraFeatures: PRO_EXTRA_FEATURES,
     },
   ];
 
@@ -216,24 +203,10 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* Billing Toggle */}
-        <div className="flex items-center justify-center gap-4 mb-12">
-          <span className={`text-sm font-bold ${!isAnnual ? 'text-black' : 'text-gray-400'}`}>Monthly</span>
-          <button
-            onClick={() => setIsAnnual(!isAnnual)}
-            className="relative w-16 h-9 bg-[#918EFA] border-2 border-black rounded-full shadow-[2px_2px_0px_#000] transition-all flex-shrink-0"
-          >
-            <span className={`absolute top-1 left-1 w-5 h-5 bg-white border-2 border-black rounded-full transition-all duration-200 ${isAnnual ? 'translate-x-7' : 'translate-x-0'}`} />
-          </button>
-          <span className={`text-sm font-bold ${isAnnual ? 'text-black' : 'text-gray-400'}`}>
-            Annual <span className="bg-[#B8FF9F] text-black text-xs border-2 border-black rounded-full px-2.5 py-0.5 ml-1.5 font-bold">Save 20%</span>
-          </span>
-        </div>
-
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-3 gap-6">
           {planCards.map(
-            ({ key, bg, subtitle, billingNote, priceLabel, priceSuffix, cta, ctaBg, popular, extraFeatures }) => {
+            ({ key, bg, subtitle, priceLabel, priceSuffix, cta, ctaBg, popular }) => {
               const tier = PLAN_TIERS[key];
 
               return (
@@ -264,31 +237,12 @@ export default function PricingPage() {
                       )}
                     </div>
 
-                    <p className="text-sm text-[#333333]">{subtitle}</p>
-                    {isAnnual && key === "starter" && (
-                      <p className="text-xs text-[#666666] mt-1">$15/mo × 12 = <strong className="text-black">$180/year</strong> <span className="line-through text-[#999]">$228</span></p>
-                    )}
-                    {isAnnual && key === "pro" && (
-                      <p className="text-xs text-[#666666] mt-1">$31/mo × 12 = <strong className="text-black">$372/year</strong> <span className="line-through text-[#999]">$468</span></p>
-                    )}
-                    {!isAnnual && key === "starter" && (
-                      <p className="text-xs text-[#666666] mt-1">$19/mo — switch to annual for <strong className="text-black">$15/mo</strong></p>
-                    )}
-                    {!isAnnual && key === "pro" && (
-                      <p className="text-xs text-[#666666] mt-1">$39/mo — switch to annual for <strong className="text-black">$31/mo</strong></p>
-                    )}
-                    <div className="mb-4" />
+                    <p className="text-sm text-[#333333] mb-6">{subtitle}</p>
 
                     <div className="w-full h-0.5 bg-black/20 mb-6" />
 
                     <ul className="space-y-3 flex-1">
                       {tier.features.map((f) => (
-                        <li key={f} className="flex items-start gap-2.5 text-sm">
-                          <Check className="w-4 h-4 mt-0.5 shrink-0 text-black" strokeWidth={3} />
-                          <span className="text-black">{f}</span>
-                        </li>
-                      ))}
-                      {extraFeatures?.map((f) => (
                         <li key={f} className="flex items-start gap-2.5 text-sm">
                           <Check className="w-4 h-4 mt-0.5 shrink-0 text-black" strokeWidth={3} />
                           <span className="text-black">{f}</span>
