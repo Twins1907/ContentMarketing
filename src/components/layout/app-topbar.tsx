@@ -28,7 +28,7 @@ export function AppTopbar() {
           <div className="w-7 h-7 bg-[#89CFF0] border-2 border-foreground rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#272727]">
             <Rocket className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="font-display text-xl font-bold">LaunchMap</span>
+          <span className="font-display text-xl font-bold">Orbyt</span>
         </Link>
 
         <div className="flex items-center gap-2">

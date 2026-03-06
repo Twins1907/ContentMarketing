@@ -17,7 +17,7 @@ export default function TermsPage() {
             <section>
               <h2 className="font-display text-xl font-bold mb-3">1. Agreement to Terms</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                By accessing or using the LaunchMap platform (the &quot;Service&quot;), operated by E2 Partners LLC (&quot;Company,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), you agree to be bound by these Terms and Conditions (&quot;Terms&quot;). If you do not agree to these Terms, you may not use the Service.
+                By accessing or using the Orbyt platform (the &quot;Service&quot;), operated by E2 Partners LLC (&quot;Company,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), you agree to be bound by these Terms and Conditions (&quot;Terms&quot;). If you do not agree to these Terms, you may not use the Service.
               </p>
             </section>
 
@@ -25,7 +25,7 @@ export default function TermsPage() {
             <section>
               <h2 className="font-display text-xl font-bold mb-3">2. Description of Service</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                LaunchMap is an AI-powered content strategy platform that generates social media strategies, content calendars, and per-post content briefs based on information you provide about your business. The Service uses artificial intelligence to create recommendations and content suggestions.
+                Orbyt is an AI-powered content strategy platform that generates social media strategies, content calendars, and per-post content briefs based on information you provide about your business. The Service uses artificial intelligence to create recommendations and content suggestions.
               </p>
             </section>
 
@@ -125,7 +125,7 @@ export default function TermsPage() {
                 <li>Impersonate any person or entity</li>
                 <li>Interfere with or disrupt the Service or its infrastructure</li>
                 <li>Attempt to gain unauthorized access to any part of the Service</li>
-                <li>Use the Service to compete directly with LaunchMap</li>
+                <li>Use the Service to compete directly with Orbyt</li>
               </ul>
             </section>
 

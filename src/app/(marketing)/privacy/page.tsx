@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
             <section>
               <h2 className="font-display text-xl font-bold mb-3">1. Introduction</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                E2 Partners LLC (&quot;Company,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) operates the LaunchMap platform (the &quot;Service&quot;). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Service. By accessing or using LaunchMap, you agree to the terms of this Privacy Policy.
+                E2 Partners LLC (&quot;Company,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) operates the Orbyt platform (the &quot;Service&quot;). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Service. By accessing or using Orbyt, you agree to the terms of this Privacy Policy.
               </p>
             </section>
 

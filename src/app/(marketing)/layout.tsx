@@ -21,7 +21,7 @@ export default function MarketingLayout({
             <div className="w-8 h-8 bg-[#89CFF0] border-2 border-foreground rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#272727]">
               <Rocket className="w-4 h-4 text-white" />
             </div>
-            <span className="font-display text-2xl font-bold">LaunchMap</span>
+            <span className="font-display text-2xl font-bold">Orbyt</span>
           </Link>
 
           <nav className="flex items-center gap-3">
@@ -56,10 +56,10 @@ export default function MarketingLayout({
                 <div className="w-5 h-5 bg-[#89CFF0] border border-foreground rounded-md flex items-center justify-center">
                   <Rocket className="w-2.5 h-2.5 text-white" />
                 </div>
-                <span className="font-display text-sm font-bold">LaunchMap</span>
+                <span className="font-display text-sm font-bold">Orbyt</span>
               </Link>
               <span className="text-[11px] text-muted-foreground hidden sm:inline">
-                &copy; {new Date().getFullYear()} LaunchMap
+                &copy; {new Date().getFullYear()} Orbyt
               </span>
             </div>
 

@@ -16,7 +16,7 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "LaunchMap - AI-Powered Content Strategy",
+  title: "Orbyt - AI-Powered Content Strategy",
   description:
     "Get a complete, customized content strategy with per-post briefs in minutes. AI-powered content strategy platform for any business.",
 };

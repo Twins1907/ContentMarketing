@@ -67,7 +67,7 @@ const FAQS = [
     a: "Every brief includes the post hook, full script/outline, visual direction, caption, hashtags, CTA, optimal posting time, and strategic reasoning for why this content matters to your audience. It's essentially a production-ready blueprint for each post.",
   },
   {
-    q: "Can I use LaunchMap for multiple businesses?",
+    q: "Can I use Orbyt for multiple businesses?",
     a: "The Pro plan supports multiple business profiles and unlimited strategy generation. The Starter plan gives you up to 5 strategies per month for a single business.",
   },
   {
@@ -79,12 +79,12 @@ const FAQS = [
     a: "Starter gives you 5 strategies/month for one business at $19/month. Pro gives you unlimited strategies, multiple business profiles, and priority AI generation for $39/month — ideal for agencies or power users managing more than one brand.",
   },
   {
-    q: "What platforms does LaunchMap support?",
+    q: "What platforms does Orbyt support?",
     a: "We support TikTok, Instagram, YouTube, X/Twitter, LinkedIn, Reddit, Facebook, Pinterest, and Threads. You can select multiple platforms and get tailored strategies for each one.",
   },
   {
     q: "How is this different from hiring a marketing agency?",
-    a: "Traditional agencies charge thousands per month for content strategy. LaunchMap delivers a comparable strategic plan in minutes using AI — with audience personas, content pillars, platform tactics, and production-ready briefs at a fraction of the cost. It's built for founders and small teams who want agency-quality strategy without the agency price tag.",
+    a: "Traditional agencies charge thousands per month for content strategy. Orbyt delivers a comparable strategic plan in minutes using AI — with audience personas, content pillars, platform tactics, and production-ready briefs at a fraction of the cost. It's built for founders and small teams who want agency-quality strategy without the agency price tag.",
   },
   {
     q: "Can I regenerate or update my strategy?",
@@ -115,8 +115,8 @@ const FAQS = [
     a: "Yes! The content calendar includes post status tracking. You can mark each brief as Posted, Pending, or Skipped to keep track of what you've published. Your dashboard shows your overall completion progress at a glance.",
   },
   {
-    q: "Who is behind LaunchMap?",
-    a: "LaunchMap is built and operated by E2 Partners LLC. If you have any questions, feedback, or need support, you can reach us at hello@e2partners.co.",
+    q: "Who is behind Orbyt?",
+    a: "Orbyt is built and operated by E2 Partners LLC. If you have any questions, feedback, or need support, you can reach us at hello@e2partners.co.",
   },
 ];
 
@@ -132,7 +132,7 @@ export default function PricingPage() {
             <div className="w-8 h-8 bg-[#89CFF0] border-2 border-foreground rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#272727]">
               <Rocket className="w-4 h-4 text-white" />
             </div>
-            <span className="font-display text-2xl font-bold">LaunchMap</span>
+            <span className="font-display text-2xl font-bold">Orbyt</span>
           </Link>
           <Link href="/auth">
             <Button size="sm">Get Started</Button>
@@ -285,7 +285,7 @@ export default function PricingPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-muted-foreground text-sm">
-              Everything you need to know about LaunchMap
+              Everything you need to know about Orbyt
             </p>
           </div>
 

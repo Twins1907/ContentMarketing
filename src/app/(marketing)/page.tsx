@@ -72,7 +72,7 @@ export default function LandingPage() {
 
           <AnimatedSection delay={0.9}>
             <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 text-white/90 leading-relaxed">
-              Stop guessing what to post. LaunchMap uses AI to create a tailored
+              Stop guessing what to post. Orbyt uses AI to create a tailored
               content strategy with detailed briefs — for any timeline, any platform,
               any business.
             </p>
@@ -288,7 +288,7 @@ export default function LandingPage() {
             Content Strategy?
           </h2>
           <p className="text-muted-foreground text-lg mb-8">
-            Join thousands of businesses using LaunchMap to create strategic,
+            Join thousands of businesses using Orbyt to create strategic,
             consistent content — on any platform, for any timeline.
           </p>
           <Link href="/auth">

@@ -1,4 +1,4 @@
-export const SITE_NAME = "LaunchMap";
+export const SITE_NAME = "Orbyt";
 export const SITE_DESCRIPTION =
   "AI-powered social media strategy platform. Get a complete content strategy with per-post briefs in minutes.";
 

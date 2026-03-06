@@ -21,11 +21,11 @@ async function seedDemoData(userId: string) {
   const business = await prisma.business.create({
     data: {
       userId,
-      businessName: "LaunchMap Demo",
+      businessName: "Orbyt Demo",
       industry: "Technology & SaaS",
       description:
         "AI-powered social media strategy platform that helps businesses create data-driven content plans.",
-      website: "https://launchmap.app",
+      website: "https://orbyt.app",
       targetAudience:
         "Small business owners and marketing managers aged 25-45 who struggle with consistent social media content creation.",
       platforms: ["tiktok", "instagram", "youtube"],
@@ -43,7 +43,7 @@ async function seedDemoData(userId: string) {
       startDate: new Date(),
       overview: {
         businessSummary:
-          "LaunchMap is a SaaS platform that uses AI to generate complete social media strategies, helping businesses maintain consistent and effective online presence.",
+          "Orbyt is a SaaS platform that uses AI to generate complete social media strategies, helping businesses maintain consistent and effective online presence.",
         valueProposition:
           "Turn your business goals into a ready-to-execute content plan in minutes, not weeks.",
         toneAndVoice:
@@ -273,13 +273,13 @@ const providers: any[] = [
       credentials: {},
       async authorize() {
         let user = await prisma.user.findUnique({
-          where: { email: "demo@launchmap.app" },
+          where: { email: "demo@orbyt.app" },
         });
 
         if (!user) {
           user = await prisma.user.create({
             data: {
-              email: "demo@launchmap.app",
+              email: "demo@orbyt.app",
               name: "Demo User",
               emailVerified: new Date(),
             },

@@ -93,7 +93,7 @@ function AuthContent() {
             <div className="w-10 h-10 bg-[#89CFF0] border-2 border-foreground rounded-lg flex items-center justify-center shadow-[3px_3px_0px_#272727]">
               <Rocket className="w-5 h-5 text-white" />
             </div>
-            <span className="font-display text-3xl font-bold">LaunchMap</span>
+            <span className="font-display text-3xl font-bold">Orbyt</span>
           </Link>
         </div>
 
