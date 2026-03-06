@@ -24,12 +24,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
   }
 
-  const checkoutSession = await createCheckoutSession({
-    priceId,
-    userId: session.user.id,
-    customerEmail: session.user.email,
-    mode,
-  });
-
-  return NextResponse.json({ url: checkoutSession.url });
+  try {
+    const checkoutSession = await createCheckoutSession({
+      priceId,
+      userId: session.user.id,
+      customerEmail: session.user.email,
+      mode,
+    });
+    return NextResponse.json({ url: checkoutSession.url });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Stripe error";
+    console.error("Stripe checkout error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

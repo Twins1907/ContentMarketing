@@ -177,10 +177,12 @@ export default function PricingPage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert(data.error || "Something went wrong. Please try again.");
+        console.error("Checkout error:", data.error);
+        alert("Checkout failed: " + (data.error || "Unknown error"));
         setLoadingPlan(null);
       }
-    } catch {
+    } catch (err) {
+      console.error("Checkout fetch error:", err);
       alert("Something went wrong. Please try again.");
       setLoadingPlan(null);
     }
