@@ -218,15 +218,15 @@ export default function PricingPage() {
 
         {/* Billing Toggle */}
         <div className="flex items-center justify-center gap-4 mb-12">
-          <span className={`font-medium ${!isAnnual ? 'text-black' : 'text-gray-400'}`}>Monthly</span>
+          <span className={`text-sm font-bold ${!isAnnual ? 'text-black' : 'text-gray-400'}`}>Monthly</span>
           <button
             onClick={() => setIsAnnual(!isAnnual)}
-            className="relative w-14 h-8 bg-[#918EFA] border-2 border-black rounded-full shadow-[2px_2px_0px_#000] transition-all"
+            className="relative w-16 h-9 bg-[#918EFA] border-2 border-black rounded-full shadow-[2px_2px_0px_#000] transition-all flex-shrink-0"
           >
-            <span className={`absolute top-0.5 w-5 h-5 bg-white border-2 border-black rounded-full transition-transform ${isAnnual ? 'translate-x-7' : 'translate-x-1'}`} />
+            <span className={`absolute top-1 left-1 w-5 h-5 bg-white border-2 border-black rounded-full transition-all duration-200 ${isAnnual ? 'translate-x-7' : 'translate-x-0'}`} />
           </button>
-          <span className={`font-medium ${isAnnual ? 'text-black' : 'text-gray-400'}`}>
-            Annual <span className="bg-[#B8FF9F] text-black text-xs border-2 border-black rounded-full px-2 py-0.5 ml-1 font-bold">Save 20%</span>
+          <span className={`text-sm font-bold ${isAnnual ? 'text-black' : 'text-gray-400'}`}>
+            Annual <span className="bg-[#B8FF9F] text-black text-xs border-2 border-black rounded-full px-2.5 py-0.5 ml-1.5 font-bold">Save 20%</span>
           </span>
         </div>
 
@@ -265,10 +265,19 @@ export default function PricingPage() {
                     </div>
 
                     <p className="text-sm text-[#333333]">{subtitle}</p>
-                    {billingNote && (
-                      <p className="text-xs text-[#666666] mt-0.5">{billingNote}</p>
+                    {isAnnual && key === "starter" && (
+                      <p className="text-xs text-[#666666] mt-1">$15/mo × 12 = <strong className="text-black">$180/year</strong> <span className="line-through text-[#999]">$228</span></p>
                     )}
-                    <div className="mb-6" />
+                    {isAnnual && key === "pro" && (
+                      <p className="text-xs text-[#666666] mt-1">$31/mo × 12 = <strong className="text-black">$372/year</strong> <span className="line-through text-[#999]">$468</span></p>
+                    )}
+                    {!isAnnual && key === "starter" && (
+                      <p className="text-xs text-[#666666] mt-1">$19/mo — switch to annual for <strong className="text-black">$15/mo</strong></p>
+                    )}
+                    {!isAnnual && key === "pro" && (
+                      <p className="text-xs text-[#666666] mt-1">$39/mo — switch to annual for <strong className="text-black">$31/mo</strong></p>
+                    )}
+                    <div className="mb-4" />
 
                     <div className="w-full h-0.5 bg-black/20 mb-6" />
 
