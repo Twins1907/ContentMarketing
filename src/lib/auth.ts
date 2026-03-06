@@ -292,8 +292,8 @@ const providers: any[] = [
     },
   }),
 
-  // Demo account
-  CredentialsProvider({
+  // Demo account — only available when explicitly enabled via env var
+  ...(process.env.ENABLE_DEMO_ACCOUNT === "true" ? [CredentialsProvider({
       id: "demo",
       name: "Demo Account",
       credentials: {},
@@ -321,7 +321,7 @@ const providers: any[] = [
           image: user.image,
         };
       },
-    }),
+    })] : []),
 ];
 
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
@@ -344,6 +344,7 @@ if (process.env.EMAIL_SERVER && process.env.EMAIL_FROM) {
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as NextAuthOptions["adapter"],
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },

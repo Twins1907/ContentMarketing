@@ -42,10 +42,8 @@ export async function createPortalSession(customerId: string) {
 }
 
 export function getStripeWebhookEvent(body: string, sig: string) {
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!webhookSecret) throw new Error("STRIPE_WEBHOOK_SECRET is not set");
   const stripe = getStripe();
-  return stripe.webhooks.constructEvent(
-    body,
-    sig,
-    process.env.STRIPE_WEBHOOK_SECRET || ""
-  );
+  return stripe.webhooks.constructEvent(body, sig, webhookSecret);
 }
