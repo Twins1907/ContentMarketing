@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { signIn, getProviders } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Play, Loader2, CheckCircle, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { Loader2, CheckCircle, ArrowRight, Eye, EyeOff } from "lucide-react";
 
 function AuthContent() {
   const searchParams = useSearchParams();
@@ -25,11 +25,6 @@ function AuthContent() {
     getProviders().then(setProviders);
   }
   const showGoogle = providers?.google;
-
-  const handleDemo = async () => {
-    setLoading("demo");
-    await signIn("demo", { callbackUrl: "/dashboard" });
-  };
 
   const handleGoogle = async () => {
     setLoading("google");
@@ -265,15 +260,6 @@ function AuthContent() {
               </button>
             )}
 
-            {/* Demo */}
-            <button
-              onClick={handleDemo}
-              disabled={!!loading}
-              className="w-full flex items-center justify-center gap-2 bg-[#FFE500] text-black border-2 border-black shadow-[4px_4px_0px_#000000] rounded-lg px-6 py-3.5 font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all disabled:opacity-50"
-            >
-              {loading === "demo" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-              Try Demo Account
-            </button>
           </div>
 
           <p className="text-xs text-center text-[#999] mt-6">
