@@ -1,4 +1,4 @@
-import { NextAuthOptions, Provider } from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
@@ -265,7 +265,8 @@ async function seedDemoData(userId: string) {
   await prisma.contentBrief.createMany({ data: briefsData });
 }
 
-const providers: Provider[] = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const providers: any[] = [
   CredentialsProvider({
       id: "demo",
       name: "Demo Account",
