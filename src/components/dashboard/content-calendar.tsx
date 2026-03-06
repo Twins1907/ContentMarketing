@@ -50,6 +50,7 @@ export function ContentCalendar({
         key={day.day}
         day={day}
         isLocked={isLocked}
+        hasBrief={!!brief}
         postStatus={(brief?.postStatus as "pending" | "completed" | "skipped") || "pending"}
         onClick={() => onDayClick(day.day, brief?.id)}
         onStatusChange={

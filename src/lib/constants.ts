@@ -106,6 +106,7 @@ export const PLAN_TIERS = {
     calendarDays: 7,
     briefLimit: 3,
     strategies: 1,
+    platformLimit: 1,
     features: [
       "1 AI-generated strategy",
       "7-day calendar preview",
@@ -120,6 +121,7 @@ export const PLAN_TIERS = {
     calendarDays: 30,
     briefLimit: 30,
     strategies: 5,
+    platformLimit: 5,
     features: [
       "5 strategies per month",
       "Full 30-day content calendar",
@@ -135,6 +137,7 @@ export const PLAN_TIERS = {
     calendarDays: 90,
     briefLimit: 90,
     strategies: -1, // unlimited
+    platformLimit: 9,
     features: [
       "Unlimited strategies",
       "Multiple business profiles",

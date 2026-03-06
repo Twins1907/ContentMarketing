@@ -24,6 +24,12 @@ export function canViewBrief(plan: string, briefIndex: number): boolean {
   return briefIndex < getBriefLimit(plan);
 }
 
+export function getPlatformLimit(plan: string): number {
+  if (plan === "pro") return PLAN_TIERS.pro.platformLimit;
+  if (plan === "starter") return PLAN_TIERS.starter.platformLimit;
+  return PLAN_TIERS.free.platformLimit; // 1
+}
+
 export function canCreateStrategy(plan: string, existingCount: number): boolean {
   if (plan === "pro") return true; // unlimited
   if (plan === "starter") return existingCount < PLAN_TIERS.starter.strategies;

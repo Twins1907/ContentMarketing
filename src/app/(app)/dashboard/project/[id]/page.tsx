@@ -104,6 +104,8 @@ export default function ProjectDetailPage() {
     );
     if (brief) {
       router.push(`/dashboard/brief/${brief.id}`);
+    } else {
+      toast.error("Brief not available for this day. It may have failed to generate.");
     }
   };
 

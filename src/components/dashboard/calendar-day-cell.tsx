@@ -15,6 +15,7 @@ import { format, parseISO } from "date-fns";
 interface CalendarDayCellProps {
   day: CalendarDay;
   isLocked: boolean;
+  hasBrief?: boolean;
   postStatus?: "pending" | "completed" | "skipped";
   onClick: () => void;
   onStatusChange?: (status: "pending" | "completed" | "skipped") => void;
@@ -68,6 +69,7 @@ function getFormatEmoji(format: string): string {
 export function CalendarDayCell({
   day,
   isLocked,
+  hasBrief = true,
   postStatus = "pending",
   onClick,
   onStatusChange,
@@ -111,8 +113,9 @@ export function CalendarDayCell({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div
-                className="flex items-center justify-center w-5 h-5 rounded-full hover:scale-110 transition-transform"
+                className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-muted/50 hover:scale-110 transition-all cursor-pointer"
                 onClick={(e) => e.stopPropagation()}
+                title={`Status: ${statusConfig.label} (click to change)`}
               >
                 <StatusIcon
                   className="w-4 h-4"
@@ -162,6 +165,13 @@ export function CalendarDayCell({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+        ) : hasBrief === false ? (
+          <div
+            className="w-4 h-4 rounded-full border-2 border-dashed border-muted-foreground/40 flex items-center justify-center"
+            title="Brief unavailable"
+          >
+            <span className="text-[8px] text-muted-foreground">!</span>
+          </div>
         ) : (
           <div
             className="w-2 h-2 rounded-full flex-shrink-0"

@@ -39,7 +39,7 @@ import {
 } from "@/lib/constants";
 import { createBusiness } from "@/actions/business";
 import { getTotalStrategyCount } from "@/actions/strategy";
-import { canCreateStrategy } from "@/lib/access";
+import { canCreateStrategy, getPlatformLimit } from "@/lib/access";
 import { toast } from "sonner";
 
 interface FormData {
@@ -119,6 +119,10 @@ export default function OnboardingPage() {
       }
       // Enforce max 3 for goals
       if (field === "goals" && current.length >= 3) {
+        return prev;
+      }
+      // Enforce platform limit based on plan
+      if (field === "platforms" && current.length >= getPlatformLimit(plan)) {
         return prev;
       }
       return { ...prev, [field]: [...current, item] };
@@ -358,19 +362,37 @@ export default function OnboardingPage() {
             <div>
               <Label className="mb-3 block">
                 Which platforms do you want to focus on?
+                {getPlatformLimit(plan) === 1 && (
+                  <span className="text-xs text-muted-foreground ml-2 font-normal">
+                    (Free plan: 1 platform)
+                  </span>
+                )}
               </Label>
               <div className="flex flex-wrap gap-3">
-                {PLATFORMS.map(({ id, name }) => (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => toggleArrayItem("platforms", id)}
-                    className={pillClass(form.platforms.includes(id))}
-                  >
-                    {name}
-                  </button>
-                ))}
+                {PLATFORMS.map(({ id, name }) => {
+                  const isSelected = form.platforms.includes(id);
+                  const isDisabled = !isSelected && form.platforms.length >= getPlatformLimit(plan);
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      disabled={isDisabled}
+                      onClick={() => toggleArrayItem("platforms", id)}
+                      className={pillClass(isSelected, isDisabled)}
+                    >
+                      {name}
+                    </button>
+                  );
+                })}
               </div>
+              {getPlatformLimit(plan) === 1 && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  Upgrade to Starter or Pro to select multiple platforms.{" "}
+                  <a href="/pricing" className="underline font-medium text-[#918EFA]">
+                    View plans
+                  </a>
+                </p>
+              )}
             </div>
 
             <div>
