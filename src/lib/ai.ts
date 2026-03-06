@@ -20,10 +20,9 @@ export interface BusinessInput {
   plannedStartDate?: string;
 }
 
-const MODEL_FAST = "claude-3-haiku-20240307";    // Fast analysis steps
-const MODEL_QUALITY = "claude-sonnet-4-20250514"; // Quality content generation
+const MODEL = "claude-sonnet-4-20250514";
 
-async function callClaude(label: string, systemPrompt: string, userPrompt: string, maxTokens = 4096, model = MODEL_QUALITY): Promise<string> {
+async function callClaude(label: string, systemPrompt: string, userPrompt: string, maxTokens = 4096, model = MODEL): Promise<string> {
   const start = Date.now();
   console.log(`[AI] Starting: ${label} (${model})`);
   try {
@@ -110,7 +109,7 @@ Return JSON with this exact structure:
 
 ${bizContext}`,
         4096,
-        MODEL_FAST
+        MODEL
       ),
       callClaude(
         "persona",
@@ -133,7 +132,7 @@ Return JSON:
 
 ${bizContext}`,
         4096,
-        MODEL_FAST
+        MODEL
       ),
       callClaude(
         "platform-strategy",
@@ -153,7 +152,7 @@ Only include strategies for these platforms: ${business.platforms.join(", ")}
 
 ${bizContext}`,
         4096,
-        MODEL_FAST
+        MODEL
       ),
       callClaude(
         "pillars",
@@ -176,7 +175,7 @@ Rules:
 
 ${bizContext}`,
         4096,
-        MODEL_FAST
+        MODEL
       ),
     ]);
 
@@ -238,7 +237,7 @@ Business goals: ${business.goals.join(", ")}
 ${business.contentTone?.length ? `Content tone: ${business.contentTone.join(", ")}` : ""}
 ${business.availableAssets?.length ? `Available assets: ${business.availableAssets.join(", ")}` : ""}`,
       days > 30 ? 8192 : 4096,
-      MODEL_FAST
+      MODEL
     );
     const calendar = parseJSON(calendarRaw);
 
