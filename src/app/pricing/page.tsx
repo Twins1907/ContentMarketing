@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, ArrowRight, Rocket, Sparkles, ChevronDown } from "lucide-react";
+import { Check, ArrowRight, Rocket, ChevronDown } from "lucide-react";
 import { PLAN_TIERS } from "@/lib/constants";
 
 type PlanKey = "free" | "starter" | "pro";
@@ -160,11 +160,7 @@ export default function PricingPage() {
       <div className="max-w-5xl mx-auto px-4 py-16">
         {/* Heading */}
         <div className="text-center mb-16">
-          <span className="inline-flex items-center gap-1.5 mb-4 text-sm font-semibold px-4 py-1.5 bg-[#A8A6FF] text-black border-2 border-black rounded-lg shadow-[4px_4px_0px_#000000]">
-            <Sparkles className="w-3.5 h-3.5" />
-            Simple Pricing
-          </span>
-          <h1 className="font-display text-5xl md:text-6xl mt-4">
+          <h1 className="font-display text-5xl md:text-6xl">
             SIMPLE, TRANSPARENT PRICING
           </h1>
           <p className="text-[#333333] text-lg max-w-xl mx-auto mt-4">
