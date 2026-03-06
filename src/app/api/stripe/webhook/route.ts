@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripeWebhookEvent } from "@/lib/stripe";
 import { prisma } from "@/lib/db";
-import { sendSubscriptionEmail } from "@/lib/email";
+import { sendSubscriptionEmail, sendCancellationEmail } from "@/lib/email";
 import type Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
@@ -51,11 +51,24 @@ export async function POST(req: NextRequest) {
       const sub = event.data.object as Stripe.Subscription;
       const customerId = sub.customer as string;
 
+      // Find user before downgrading (for email)
+      const cancelledUser = await prisma.user.findFirst({
+        where: { stripeCustomerId: customerId },
+        select: { email: true, name: true },
+      });
+
       // Downgrade to free
       await prisma.user.updateMany({
         where: { stripeCustomerId: customerId },
         data: { plan: "free", stripeSubId: null },
       });
+
+      if (cancelledUser?.email) {
+        sendCancellationEmail({
+          to: cancelledUser.email,
+          name: cancelledUser.name,
+        }).catch((err) => console.error("Failed to send cancellation email:", err));
+      }
       break;
     }
   }
