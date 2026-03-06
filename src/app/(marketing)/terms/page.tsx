@@ -42,21 +42,21 @@ export default function TermsPage() {
               <h2 className="font-display text-xl font-bold mb-3">4. Plans and Pricing</h2>
               <div className="space-y-3">
                 <div>
-                  <h3 className="text-sm font-bold mb-1">Free Plan</h3>
+                  <h3 className="text-sm font-bold mb-1">Free Plan — $0</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    The free plan provides one AI-generated content strategy with a limited calendar preview and content briefs. No payment is required.
+                    The free plan provides one AI-generated content strategy with a 7-day calendar preview and a limited number of content briefs. No payment is required.
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold mb-1">Starter Plan</h3>
+                  <h3 className="text-sm font-bold mb-1">Starter Plan — $19/month</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    The Starter plan is a one-time purchase that unlocks the full calendar and all content briefs for a single strategy. Access is perpetual once purchased.
+                    The Starter plan is a monthly subscription that provides up to 5 AI-generated strategies per month, each with a full 30-day content calendar and all content briefs. You may cancel at any time; access continues until the end of the current billing period.
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold mb-1">Pro Plan</h3>
+                  <h3 className="text-sm font-bold mb-1">Pro Plan — $39/month</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    The Pro plan is a monthly subscription that provides unlimited strategy generation, multiple business profiles, and priority features. You may cancel your subscription at any time; access continues until the end of the current billing period.
+                    The Pro plan is a monthly subscription that provides unlimited strategy generation, multiple business profiles, and priority AI generation features. You may cancel at any time; access continues until the end of the current billing period.
                   </p>
                 </div>
               </div>
@@ -66,11 +66,11 @@ export default function TermsPage() {
             <section>
               <h2 className="font-display text-xl font-bold mb-3">5. Payments and Refunds</h2>
               <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                All payments are processed securely through Stripe. By making a purchase, you authorize us to charge the applicable fees to your payment method.
+                All payments are processed securely through Stripe. By subscribing, you authorize us to charge the applicable monthly fee to your payment method on a recurring basis until you cancel.
               </p>
               <ul className="list-disc list-inside text-sm text-muted-foreground space-y-2 leading-relaxed">
-                <li><span className="font-semibold text-foreground">Starter Plan:</span> One-time payment. We offer a 7-day money-back guarantee — if you are not satisfied, contact us within 7 days of purchase for a full refund.</li>
-                <li><span className="font-semibold text-foreground">Pro Plan:</span> Billed monthly. You may cancel at any time. Refunds for the current billing period are not provided upon cancellation, but you retain access until the period ends.</li>
+                <li><span className="font-semibold text-foreground">Starter Plan ($19/month):</span> Billed monthly. You may cancel at any time. We offer a 7-day money-back guarantee on your first payment — if you are not satisfied, contact us within 7 days for a full refund.</li>
+                <li><span className="font-semibold text-foreground">Pro Plan ($39/month):</span> Billed monthly. You may cancel at any time. We offer a 7-day money-back guarantee on your first payment — if you are not satisfied, contact us within 7 days for a full refund. After the initial period, refunds for the current billing cycle are not provided upon cancellation, but you retain access until the period ends.</li>
               </ul>
             </section>
 

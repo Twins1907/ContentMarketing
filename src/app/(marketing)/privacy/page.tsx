@@ -31,7 +31,7 @@ export default function PrivacyPolicyPage() {
                 <div>
                   <h3 className="text-sm font-bold mb-1">Personal Information</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    When you create an account, we collect your name, email address, and authentication details (e.g., Google OAuth). If you upgrade to a paid plan, payment processing is handled by Stripe — we do not store your full credit card number.
+                    When you create an account, we collect your name, email address, and authentication details (e.g., Google OAuth). If you subscribe to the Starter ($19/month) or Pro ($39/month) plan, payment processing is handled by Stripe — we do not store your full credit card number. We store your Stripe customer ID and subscription status to manage your plan access.
                   </p>
                 </div>
                 <div>

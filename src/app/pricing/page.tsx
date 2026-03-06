@@ -40,10 +40,10 @@ const PLAN_CARDS: {
     key: "starter",
     accent: "#C9A7EB",
     checkColor: "#C9A7EB",
-    subtitle: "Pay once, keep forever",
+    subtitle: "Cancel anytime",
     priceLabel: `$${PLAN_TIERS.starter.price}`,
-    priceSuffix: "one-time",
-    cta: "Get Full Strategy",
+    priceSuffix: "/month",
+    cta: "Start Starter Plan",
     popular: true,
   },
   {
@@ -60,7 +60,7 @@ const PLAN_CARDS: {
 const FAQS = [
   {
     q: "What do I get with the free plan?",
-    a: "You get one complete AI-generated content strategy with a 7-day calendar preview and up to 3 content briefs. It's a great way to experience the quality of our strategies before upgrading.",
+    a: "You get one complete AI-generated content strategy with a 7-day calendar preview and a limited number of content briefs. It's a great way to experience the quality of our strategies before upgrading.",
   },
   {
     q: "What's included in each content brief?",
@@ -68,11 +68,15 @@ const FAQS = [
   },
   {
     q: "Can I use LaunchMap for multiple businesses?",
-    a: "The Pro plan supports multiple businesses and unlimited strategy regeneration. Free and Starter plans are limited to one strategy per account.",
+    a: "The Pro plan supports multiple business profiles and unlimited strategy generation. The Starter plan gives you up to 5 strategies per month for a single business.",
   },
   {
-    q: "How does the one-time Starter payment work?",
-    a: "Pay $39 once to unlock the full 30-day calendar and all content briefs for your strategy. There's no subscription — you keep access to your strategy forever.",
+    q: "How does the Starter plan work?",
+    a: "For $19/month you can generate up to 5 strategies per month, each with a full 30-day calendar and all content briefs. Cancel anytime — your access continues until the end of the billing period.",
+  },
+  {
+    q: "What's the difference between Starter and Pro?",
+    a: "Starter gives you 5 strategies/month for one business at $19/month. Pro gives you unlimited strategies, multiple business profiles, and priority AI generation for $39/month — ideal for agencies or power users managing more than one brand.",
   },
   {
     q: "What platforms does LaunchMap support?",
@@ -84,7 +88,7 @@ const FAQS = [
   },
   {
     q: "Can I regenerate or update my strategy?",
-    a: "Pro plan users get unlimited strategy regeneration. If your business goals or target audience change, you can generate a fresh strategy at any time. Starter and Free users keep their original strategy.",
+    a: "Yes. Starter users can generate up to 5 new strategies each month. Pro users get unlimited regeneration at any time. If your goals or audience change, simply generate a fresh strategy.",
   },
   {
     q: "How long does it take to generate a strategy?",
@@ -92,19 +96,19 @@ const FAQS = [
   },
   {
     q: "Can I edit the content briefs after they're generated?",
-    a: "Yes! Every content brief has a feedback and notes section where you can add your own thoughts. You can also use the AI Suggest feature to get alternative ideas for any brief. The briefs are starting points — you should always tailor them to your brand voice.",
+    a: "Yes! Every content brief has a feedback and notes section where you can add your own thoughts. The briefs are starting points — you should always tailor them to your brand voice.",
   },
   {
     q: "What information do I need to provide?",
-    a: "You'll need your business name, industry, a description of what you do, your target audience, which platforms you want to focus on, and your main goals. The more detail you provide, the more tailored and accurate your strategy will be. You can also share your budget, content tone preferences, and past performance to get even better results.",
+    a: "You'll need your business name, industry, a description of what you do, your target audience, which platforms you want to focus on, and your main goals. The more detail you provide, the more tailored and accurate your strategy will be.",
   },
   {
     q: "Is my business data safe?",
-    a: "Absolutely. We take data security seriously. Your business information is encrypted in transit and at rest, and we never sell your data to third parties. Payment processing is handled securely through Stripe. See our Privacy Policy for full details.",
+    a: "Absolutely. Your business information is encrypted in transit and at rest, and we never sell your data to third parties. Payment processing is handled securely through Stripe. See our Privacy Policy for full details.",
   },
   {
     q: "Do you offer refunds?",
-    a: "Yes. If you're not satisfied with your Starter strategy within 7 days of purchase, we'll issue a full refund — no questions asked. For Pro plan subscribers, you can cancel anytime and your access continues until the end of the billing period.",
+    a: "Yes. If you're not satisfied within 7 days of your first payment on any plan, contact us for a full refund. For ongoing subscriptions, you can cancel anytime and your access continues until the end of the current billing period.",
   },
   {
     q: "Can I track my posting progress?",
