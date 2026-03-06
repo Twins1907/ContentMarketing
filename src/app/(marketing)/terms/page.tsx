@@ -40,10 +40,10 @@ export default function TermsPage() {
                 The free plan provides one AI-generated content strategy with a 7-day calendar preview and a limited number of content briefs. No payment is required.
               </SubSection>
               <SubSection title="Starter Plan — $19/month">
-                The Starter plan is a monthly subscription that provides up to 5 AI-generated strategies per month, each with a full 30-day content calendar and all content briefs. You may cancel at any time; access continues until the end of the current billing period.
+                The Starter plan is a monthly subscription that provides up to 5 AI-generated strategies per month with content calendars of up to 30 days (choose from 7, 14, or 30-day durations) and all content briefs. You may cancel at any time; access continues until the end of the current billing period.
               </SubSection>
               <SubSection title="Pro Plan — $39/month">
-                The Pro plan is a monthly subscription that provides unlimited strategy generation, multiple business profiles, and priority AI generation features. You may cancel at any time; access continues until the end of the current billing period.
+                The Pro plan is a monthly subscription that provides unlimited strategy generation, multiple business profiles, priority AI generation, and extended content calendars of up to 90 days (choose from 7, 14, 30, 45, 60, or 90-day durations). You may cancel at any time; access continues until the end of the current billing period.
               </SubSection>
             </div>
           </Section>

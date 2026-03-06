@@ -61,7 +61,8 @@ export default function OnboardingPage() {
   const router = useRouter();
   const { data: session, update } = useSession();
   const plan = (session?.user as { plan?: string })?.plan ?? "free";
-  const isPaid = plan === "starter" || plan === "pro";
+  const maxDuration = plan === "pro" ? 90 : plan === "starter" ? 30 : 7;
+  const allowedDurations = STRATEGY_DURATIONS.filter((d) => d.value <= maxDuration);
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -73,7 +74,7 @@ export default function OnboardingPage() {
     targetAudience: "",
     platforms: [],
     goals: [],
-    duration: isPaid ? 30 : 7, // free users locked to 7 days
+    duration: maxDuration === 7 ? 7 : 30,
     contentTone: [],
     availableAssets: [],
     budget: "",
@@ -405,7 +406,7 @@ export default function OnboardingPage() {
           <CardContent className="space-y-6">
             <div>
               <Label htmlFor="duration">Strategy Duration</Label>
-              {isPaid ? (
+              {allowedDurations.length > 1 ? (
                 <Select
                   value={String(form.duration)}
                   onValueChange={(v) => updateField("duration", Number(v))}
@@ -414,7 +415,7 @@ export default function OnboardingPage() {
                     <SelectValue placeholder="Select duration" />
                   </SelectTrigger>
                   <SelectContent>
-                    {STRATEGY_DURATIONS.map(({ value, label }) => (
+                    {allowedDurations.map(({ value, label }) => (
                       <SelectItem key={value} value={String(value)}>
                         {label}
                       </SelectItem>
@@ -430,7 +431,7 @@ export default function OnboardingPage() {
                     </span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1.5">
-                    Upgrade to Starter or Pro to unlock 30, 60, or 90-day strategies.{" "}
+                    Upgrade to Starter or Pro to unlock longer strategies.{" "}
                     <a href="/pricing" className="underline font-medium text-[#918EFA]" target="_blank">
                       View plans →
                     </a>

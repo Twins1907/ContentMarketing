@@ -33,7 +33,7 @@ export default function PrivacyPolicyPage() {
                 When you create an account, we collect your name, email address, and authentication details (e.g., Google OAuth). If you subscribe to the Starter ($19/month) or Pro ($39/month) plan, payment processing is handled by Stripe — we do not store your full credit card number. We store your Stripe customer ID and subscription status to manage your plan access.
               </Sub>
               <Sub title="Business Information">
-                To generate your content strategy, we collect information you provide about your business, including business name, industry, description, website, target audience, platforms, goals, content tone, budget, and other preferences.
+                To generate your content strategy, we collect information you provide about your business, including business name, industry, description, website, target audience, platforms, goals, preferred strategy duration, content tone, budget, and other preferences.
               </Sub>
               <Sub title="Usage Data">
                 We automatically collect certain information when you use the Service, including your IP address, browser type, operating system, pages visited, and interactions with the platform.
