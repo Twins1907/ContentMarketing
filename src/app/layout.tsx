@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   creator: "E2 Partners LLC",
   publisher: "E2 Partners LLC",
   openGraph: {
-    title: "Orbyt — Your $30,000 Content Strategist, for Free",
+    title: "Orbyt — Know Exactly What to Post, When to Post, and Why",
     description:
       "AI-generated content strategies with production-ready briefs for every post. Free to start.",
     url: SITE_URL,

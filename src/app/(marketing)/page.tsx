@@ -37,14 +37,14 @@ function Hero() {
                 AI-Powered Content Strategy
               </span>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-black leading-[0.95] mb-6">
-                YOUR $30,000 CONTENT STRATEGIST — FOR FREE.
+                KNOW EXACTLY WHAT TO POST, WHEN TO POST, AND WHY.
               </h1>
             </AnimatedSection>
 
             <AnimatedSection delay={0.2}>
               <p className="text-lg md:text-xl text-[#333] max-w-xl mb-8 leading-relaxed">
-                Tell us about your business. In 2 minutes, Orbyt builds a complete
-                content plan — every post scripted, captioned, and ready to execute.
+                The #1 social media marketing and content creation tool for creators, founders and small teams.
+                Manage Instagram, TikTok, LinkedIn, YouTube and more all in one.
               </p>
             </AnimatedSection>
 

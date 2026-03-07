@@ -108,7 +108,7 @@ export default async function Image() {
               lineHeight: 1.4,
             }}
           >
-            Your $30,000 Content Strategist — For Free
+            Know Exactly What to Post, When to Post, and Why
           </div>
         </div>
 
