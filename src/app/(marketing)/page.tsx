@@ -37,7 +37,7 @@ function Hero() {
                 AI-Powered Content Strategy
               </span>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-black leading-[0.95] mb-6">
-                KNOW EXACTLY WHAT TO POST, WHEN TO POST, AND WHY.
+                PLAN, PUBLISH AND GROW FASTER.
               </h1>
             </AnimatedSection>
 
